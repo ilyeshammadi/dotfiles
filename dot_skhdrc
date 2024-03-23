@@ -1,0 +1,9 @@
+# rotate tree
+alt - r : yabai -m space --rotate 90
+
+# float / unfloat window and center on screen
+alt - t : yabai -m window --toggle float;\
+          yabai -m window --grid 4:4:1:1:2:2
+
+# toggle window split type
+alt - e : yabai -m window --toggle split

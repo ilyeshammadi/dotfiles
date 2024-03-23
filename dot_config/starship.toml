@@ -1,0 +1,25 @@
+format = """
+$character\
+$line_break\
+ """
+
+right_format = '$status'
+
+[character]
+format = '[ \$ ](fg:#54546d)'
+
+[status]
+style = "fg:#E82424"
+format = '[$status]($style)'
+disabled = false
+
+
+# The following modules are customized for tmux status line
+[directory]
+style = "fg:#54546d"
+format = "$path $read_only"
+read_only = "[-]"
+
+[git_branch]
+symbol = ''
+format = '$symbol $branch(:$remote_branch) |'
