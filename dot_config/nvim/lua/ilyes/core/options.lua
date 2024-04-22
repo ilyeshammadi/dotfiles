@@ -50,6 +50,7 @@ vim.opt.hlsearch = true -- Set highlight on search, but clear on pressing <Esc> 
 -- Set default grep to ripgrep
 vim.o.grepprg = 'rg --vimgrep --no-heading --smart-case --hidden'
 vim.o.grepformat = '%f:%l:%c:%m'
+vim.opt.guicursor = "i:block"
 
 vim.opt.shortmess:append 'sIW' -- Disable welcome message
 vim.o.wrap = true -- Wrap line

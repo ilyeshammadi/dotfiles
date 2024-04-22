@@ -33,15 +33,6 @@ local sections = {
     bookmark,
   },
   lualine_x = {
-    -- {
-    -- 	"filetype",
-    -- 	colored = false,
-    -- 	color = { fg = colors.sumiInk4, bg = background_color },
-    -- },
-    -- {
-    -- 	"encoding",
-    -- 	color = { fg = colors.sumiInk4, bg = background_color },
-    -- },
     {
       'progress',
       fmt = function()

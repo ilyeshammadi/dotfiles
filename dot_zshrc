@@ -25,7 +25,7 @@ fi
 # ZVM Configuration -------------------------------------------------------------------------------
 # Always starting with insert mode for each command line
 ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
-export ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BEAM
+export ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
 export ZVM_VI_EDITOR=$EDITOR
 export ZVM_CURSOR_STYLE_ENABLED=true
 
