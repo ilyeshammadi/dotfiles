@@ -1,6 +1,5 @@
 return {
   'chrisgrieser/nvim-various-textobjs',
-  lazy = false,
-  event = 'BufRead',
+  event = 'VeryLazy',
   opts = { useDefaultKeymaps = true },
 }

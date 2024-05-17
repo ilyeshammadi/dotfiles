@@ -39,7 +39,7 @@ return {
     },
     { family = 'Symbols Nerd Font Mono', weight = 'Regular', scale = 0.75 }, -- Provided by default by Wezterm
   },
-  font_size = 19,
+  font_size = 21,
   cell_width = 0.9,
   line_height = 1.1,
   window_background_opacity = 0.90,

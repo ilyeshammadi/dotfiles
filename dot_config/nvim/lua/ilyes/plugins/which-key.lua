@@ -52,6 +52,16 @@ return { -- Useful plugin to show you pending keybinds.
       },
       l = {
         name = 'Lsp',
+        t = {
+          function()
+            if vim.lsp.inlay_hint.is_enabled(0) then
+              vim.lsp.inlay_hint.enable(0, false)
+            else
+              vim.lsp.inlay_hint.enable(0, true)
+            end
+          end,
+          'Toggle inlay hints',
+        },
         a = { '<cmd>lua vim.lsp.buf.code_action()<CR>', 'Code action' },
         f = { "<cmd>lua require('conform').format()<CR>", 'Format' },
         l = { '<cmd>lua vim.lsp.codelens.run()<CR>', 'CodeLens action' },

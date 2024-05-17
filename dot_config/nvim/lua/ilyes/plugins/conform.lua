@@ -24,6 +24,7 @@ return {
         sh = { 'shfmt' },
         zsh = { 'shfmt' },
         bash = { 'shfmt' },
+        go = { 'gofumpt' },
       },
     }
   end,

@@ -32,10 +32,26 @@ return {
     local servers = {
       rust_analyzer = {},
       pyright = {},
+      gopls = {
+        settings = {
+          gopls = {
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+          },
+        },
+      },
 
       lua_ls = {
         settings = {
           Lua = {
+            hint = { enable = true },
             runtime = { version = 'LuaJIT' },
             workspace = {
               checkThirdParty = false,
