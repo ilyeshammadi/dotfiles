@@ -47,7 +47,10 @@ local sections = {
 return {
   'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
+	enabled = false,
   config = function()
+    vim.api.nvim_set_hl(0, 'lualine_c_normal', { background = 'NONE' })
+		vim.api.nvim_set_hl(0, 'lualine_c_inactive', { background = 'NONE' })
     require('lualine').setup {
       options = {
         icons_enabled = true,
@@ -73,7 +76,5 @@ return {
       inactive_winbar = {},
       extensions = {},
     }
-    vim.api.nvim_set_hl(0, 'lualine_c_normal', { background = background_color })
-    vim.api.nvim_set_hl(0, 'lualine_c_inactive', { background = background_color })
   end,
 }

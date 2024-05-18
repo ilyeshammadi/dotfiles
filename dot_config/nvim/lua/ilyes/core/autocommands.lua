@@ -41,3 +41,11 @@ augroup CursorLine
 augroup END
 au FileType TelescopePrompt* setlocal nocursorline
 ]]
+
+vim.api.nvim_create_autocmd('VimEnter', {
+  pattern = '*',
+  callback = function()
+    vim.cmd 'highlight lualine_c_normal guibg=none'
+    vim.cmd 'highlight lualine_c_inactive guibg=none'
+  end,
+})

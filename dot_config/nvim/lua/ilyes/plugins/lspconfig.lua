@@ -31,7 +31,7 @@ return {
 
     local servers = {
       rust_analyzer = {},
-      pyright = {},
+      basedpyright = {},
       gopls = {
         settings = {
           gopls = {
