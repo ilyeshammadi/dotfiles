@@ -4,7 +4,6 @@
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH=/opt/homebrew/bin:$PATH
 export PATH=$HOME/.asdf/shims:$PATH
 export PATH="$HOME/.poetry/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
@@ -15,24 +14,33 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export FZF_TMUX_OPTS="-p"
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=bg+:#363646,gutter:-1'
 
-# Postgres
-export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 
-# =====================================================================
+if [[ "$OSTYPE" == darwin* ]]; then
+	export PATH=/opt/homebrew/bin:$PATH
 
-# OpenJDK Java
-export CPATH=`xcrun --show-sdk-path`/usr/include:/usr/local/include
-export LIBRARY_PATH=/usr/local/opt/openssl/lib/:/usr/local/lib
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
+	# Postgres
+	export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+
+	# =====================================================================
+
+	# OpenJDK Java
+	export CPATH=`xcrun --show-sdk-path`/usr/include:/usr/local/include
+	export LIBRARY_PATH=/usr/local/opt/openssl/lib/:/usr/local/lib
+	export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+	export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+	eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Added by OrbStack: command-line tools and integration
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+	# Added by OrbStack: command-line tools and integration
+	source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
-[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
+	[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
 
-export ASDF_DIR=
-. "$HOME/.asdf/asdf.sh"
+	export ASDF_DIR=
+	. "$HOME/.asdf/asdf.sh"
+fi
+
+if [[ "$OSTYPE" == linux* ]]; then
+
+fi
