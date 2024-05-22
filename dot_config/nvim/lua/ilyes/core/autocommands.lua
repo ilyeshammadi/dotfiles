@@ -49,3 +49,17 @@ vim.api.nvim_create_autocmd('VimEnter', {
     vim.cmd 'highlight lualine_c_inactive guibg=none'
   end,
 })
+
+-- Create an autocommand group and the autocommand
+vim.api.nvim_create_autocmd('BufWritePost', {
+  group = vim.api.nvim_create_augroup('ilyes-format-onsave', { clear = true }),
+  pattern = '*', -- Apply to all files
+  callback = function()
+    local filetypes_to_skip = { 'python' }
+    for _, ft in ipairs   (filetypes_to_skip) do
+      if vim.bo.filetype ~= ft then
+				require('conform').format()
+      end
+    end
+  end,
+})

@@ -54,12 +54,7 @@ return { -- Useful plugin to show you pending keybinds.
         name = 'Lsp',
         t = {
           function()
-						local current_buffer = vim.lsp.inlay_hint.get({ bufnr = 0 })
-            if vim.lsp.inlay_hint.is_enabled(current_buffer) then
-              vim.lsp.inlay_hint.enable(false)
-            else
-              vim.lsp.inlay_hint.enable(true)
-            end
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
           end,
           'Toggle inlay hints',
         },
