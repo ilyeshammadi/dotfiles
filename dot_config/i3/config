@@ -184,13 +184,13 @@ bindsym $mod+r mode "resize"
 #######################################################
 # #################### Theme #########################
 #######################################################
-# set $bg-color											#16161D
-# set $inactive-bg-color						#16161D
-set $bg-color											#000000
-set $inactive-bg-color						#000000
-set $text-color			          		#DCD7BA
-set $inactive-text-color					#676e8d
-set $urgent-bg-color							#E82424
+set $bg-color																#1F1F28
+set $inactive-bg-color											#1F1F28
+set $bg-color-workspace											#050506
+set $inactive-bg-color-workspace						#050506
+set $text-color			          							#DCD7BA
+set $inactive-text-color										#54546d
+set $urgent-bg-color												#E46876
 # Window Colors
 #													border						 background					text 				 	        indicator
 client.focused						$bg-color					 $bg-color					$text-color  					#00ff00
@@ -204,10 +204,10 @@ bar {
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
 				colors {
 							# background $bg-color
-							background $bg-color
+							background $bg-color-workspace
 							separator #757575
-							focused_workspace $bg-color $bg-color $text-color
-							inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+							focused_workspace $bg-color-workspace $bg-color-workspace $text-color
+							inactive_workspace $inactive-bg-color-workspace $inactive-bg-color-workspace $inactive-text-color
 							urgent_workspace $urgent-bg-color $urgent-bg-color $text-color
 				}
 }
