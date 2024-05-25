@@ -55,7 +55,7 @@ tiling_drag modifier titlebar
 bindsym $mod+Return exec wezterm
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id dmenu_run
@@ -190,16 +190,17 @@ set $bg-color-workspace											#050506
 set $inactive-bg-color-workspace						#050506
 set $text-color			          							#DCD7BA
 set $inactive-text-color										#54546d
-set $urgent-bg-color												#E46876
+set $urgent-text-color											#E46876
 # Window Colors
 #													border						 background					text 				 	        indicator
-client.focused						$bg-color					 $bg-color					$text-color  					#00ff00
-client.unfocused					$inactive-bg-color $inactive-bg-color	$inactive-text-color	#00ff00
-client.focused_inactive		$inactive-bg-color $inactive-bg-color	$inactive-text-color	#00ff00
-client.urgent							$urgent-bg-color   $urgent-bg-color 	$text-color          	#00ff00
+client.focused						$bg-color					 $bg-color					$text-color  					#1F1F28
+client.unfocused					$inactive-bg-color $inactive-bg-color	$inactive-text-color	#1F1F28
+client.focused_inactive		$inactive-bg-color $inactive-bg-color	$inactive-text-color	#1F1F28
+client.urgent							$bg-color   $urgent-bg-color 	$text-color          	#1F1F28
 
 hide_edge_borders both
 
+# Status bar colors
 bar {
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
 				colors {
@@ -208,7 +209,7 @@ bar {
 							separator #757575
 							focused_workspace $bg-color-workspace $bg-color-workspace $text-color
 							inactive_workspace $inactive-bg-color-workspace $inactive-bg-color-workspace $inactive-text-color
-							urgent_workspace $urgent-bg-color $urgent-bg-color $text-color
+							urgent_workspace $bg-color-workspace $bg-color-workspace $urgent-text-color
 				}
 }
 
@@ -231,11 +232,20 @@ exec --no-startup-id redshift
 # Set wallpaper
 exec_always feh --bg-scale /home/ilyes/Pictures/wallpaper.jpg --no-fehbg
 
-bindsym $mod+Shift+m exec xrandr --output DP-3 --primary --auto --output eDP-1 --off
-bindsym $mod+Ctrl+Shift+m exec xrandr --output eDP-1 --primary --auto
+bindsym $mod+Shift+m exec xrandr --output DP3 --primary --auto --output eDP1 --off
+bindsym $mod+Ctrl+Shift+m exec xrandr --output eDP1 --primary --auto
 
 
 # Start-up apps
 exec spotify
 exec firefox
 exec discord
+
+
+# Padding
+gaps inner 10
+gaps outer 5
+
+# Hide window top bar
+default_border none
+default_floating_border none
