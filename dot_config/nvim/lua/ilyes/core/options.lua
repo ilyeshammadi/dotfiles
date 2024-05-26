@@ -58,3 +58,5 @@ vim.o.foldmethod = 'expr' -- Use syntax based folding
 vim.o.foldexpr="nvim_treesitter#foldexpr()"
 vim.o.foldlevelstart = 99 -- Open all folds by default
 vim.o.swapfile = false -- Disable swap file
+
+vim.o.errorformat = "%f|%l col %c|%m"
