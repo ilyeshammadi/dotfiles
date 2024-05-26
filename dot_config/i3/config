@@ -108,16 +108,16 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1: Terminal"
-set $ws2 "2: Browser"
+set $ws1 "1"
+set $ws2 "2"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9: Chat"
-set $ws10 "10: Music"
+set $ws9 "9"
+set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -188,7 +188,7 @@ set $bg-color																#1F1F28
 set $inactive-bg-color											#1F1F28
 set $bg-color-workspace											#050506
 set $inactive-bg-color-workspace						#050506
-set $text-color			          							#DCD7BA
+set $text-color			          							#C8C093
 set $inactive-text-color										#54546d
 set $urgent-text-color											#E46876
 # Window Colors
@@ -227,7 +227,6 @@ bindsym XF86AudioPrev exec  --no-startup-id playerctl previous
 
 
 # Start redshift at the startup
-exec --no-startup-id redshift
 
 # Set wallpaper
 exec_always --no-startup-id feh --bg-scale /home/ilyes/Pictures/wallpaper.jpg --no-fehbg
@@ -240,6 +239,8 @@ bindsym $mod+Ctrl+Shift+m exec --no-startup-id xrandr --output eDP1 --primary --
 exec --no-startup-id spotify
 exec --no-startup-id firefox
 exec --no-startup-id discord
+exec --no-startup-id redshift
+exec --no-startup-id picom
 
 
 # Padding
