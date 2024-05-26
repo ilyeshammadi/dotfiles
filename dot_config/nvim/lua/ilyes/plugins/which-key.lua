@@ -54,7 +54,7 @@ return { -- Useful plugin to show you pending keybinds.
         name = 'Lsp',
         t = {
           function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {})
           end,
           'Toggle inlay hints',
         },
@@ -63,6 +63,7 @@ return { -- Useful plugin to show you pending keybinds.
         l = { '<cmd>lua vim.lsp.codelens.run()<CR>', 'CodeLens action' },
         q = { '<cmd>lua vim.diagnostic.setloclist()<CR>', 'Quickfix' },
         r = { '<cmd>lua vim.lsp.buf.rename()<CR>', 'Rename' },
+        R = { '<cmd>LspRestart<CR>', 'Restart LSP' },
         x = {
           name = 'Extra',
           e = {

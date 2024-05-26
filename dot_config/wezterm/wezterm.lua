@@ -17,17 +17,18 @@ local current_os = get_os()
 local font_size
 
 if current_os == 'Linux' then
-  print 'Running on Linux'
   font_size = 16
 elseif current_os == 'Mac' then
   font_size = 21
-  -- relaod configuration to force redrawing
-  wezterm.on('window-resized', function(_, _)
-    wezterm.reload_configuration()
-  end)
 else
   print 'NOPE!'
 end
+
+-- Relaod configuration to force redrawing to prevent
+-- ugly blur effect
+wezterm.on('window-resized', function(_, _)
+  wezterm.reload_configuration()
+end)
 
 -- Color scheme (Kanagwa)
 local colors = {
