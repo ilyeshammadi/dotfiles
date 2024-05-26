@@ -1,8 +1,33 @@
 local wezterm = require 'wezterm'
 
-wezterm.on('window-resized', function(_, _) -- relaod configuration to force redrawing
-  wezterm.reload_configuration()
-end)
+local function get_os()
+  -- Attempt to identify the OS with an environment variable or similar method.
+  local os_name = package.config:sub(1, 1) == '/' and io.popen('uname'):read '*l' or nil
+
+  if os_name == 'Linux' then
+    return 'Linux'
+  elseif os_name == 'Darwin' then
+    return 'Mac'
+  else
+    return 'Unknown'
+  end
+end
+
+local current_os = get_os()
+local font_size
+
+if current_os == 'Linux' then
+  print 'Running on Linux'
+  font_size = 16
+elseif current_os == 'Mac' then
+  font_size = 21
+  -- relaod configuration to force redrawing
+  wezterm.on('window-resized', function(_, _)
+    wezterm.reload_configuration()
+  end)
+else
+  print 'NOPE!'
+end
 
 -- Color scheme (Kanagwa)
 local colors = {
@@ -29,7 +54,6 @@ return {
   font = wezterm.font_with_fallback {
     {
       family = 'JetBrainsMono Nerd Font',
-      -- weight = "DemiLight",
       harfbuzz_features = {
         'zero', -- Zero
         'cv14', -- Dollar sign
@@ -37,9 +61,8 @@ return {
         'cv19', -- 8
       },
     },
-    { family = 'Symbols Nerd Font Mono', weight = 'Regular', scale = 0.75 }, -- Provided by default by Wezterm
   },
-  font_size = 16,
+  font_size = font_size,
   cell_width = 0.9,
   line_height = 1.1,
   window_background_opacity = 0.90,
