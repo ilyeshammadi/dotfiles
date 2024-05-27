@@ -48,7 +48,6 @@ nnoremap('<C-_>', "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_fi
 -- Diagnostic keymaps
 nnoremap('[d', vim.diagnostic.goto_prev, { desc = 'Previous Diagnostic message' })
 nnoremap(']d', vim.diagnostic.goto_next, { desc = 'Next Diagnostic message' })
-nnoremap('<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 
 nnoremap('-', '<cmd>Oil<CR>', { desc = 'Open parent directory' })
 
