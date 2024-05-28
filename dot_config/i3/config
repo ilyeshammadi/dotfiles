@@ -155,22 +155,10 @@ bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'You pressed 
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
@@ -183,6 +171,15 @@ bindsym $mod+r mode "resize"
 #######################################################
 # #################### Theme #########################
 #######################################################
+# default_border pixel
+# for_window [class="^.*"] border pixel 1
+hide_edge_borders both
+default_border none
+default_floating_border none
+gaps inner 10
+gaps outer 5
+
+set $border-color														#957FB8
 set $bg-color																#1F1F28
 set $inactive-bg-color											#1F1F28
 set $bg-color-workspace											#050506
@@ -192,20 +189,21 @@ set $inactive-text-color										#54546d
 set $urgent-text-color											#E46876
 # Window Colors
 #													border						 background					text 				 	        indicator
-client.focused						$bg-color					 $bg-color					$text-color  					#1F1F28
-client.unfocused					$inactive-bg-color $inactive-bg-color	$inactive-text-color	#1F1F28
-client.focused_inactive		$inactive-bg-color $inactive-bg-color	$inactive-text-color	#1F1F28
-client.urgent							$bg-color   $urgent-bg-color 	$text-color          	#1F1F28
+# client.focused						$bg-color					 $border-color			$text-color  					$border-color
+client.focused						$bg-color					 $bg-color			$text-color  					$border-color
+client.unfocused					$inactive-bg-color $inactive-bg-color	$inactive-text-color	$bg-color
+client.focused_inactive		$inactive-bg-color $inactive-bg-color	$inactive-text-color	$bg-color
+client.urgent							$bg-color   			 $urgent-bg-color 	$text-color          	$bg-color
 
-hide_edge_borders both
 
 # Status bar colors
 bar {
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
+				tray_output none # Hide the icons on the right side of the bar like wifi and discord icons
 				colors {
 							# background $bg-color
 							background $bg-color-workspace
-							separator #757575
+							separator #54546d
 							focused_workspace $bg-color-workspace $bg-color-workspace $text-color
 							inactive_workspace $inactive-bg-color-workspace $inactive-bg-color-workspace $inactive-text-color
 							urgent_workspace $bg-color-workspace $bg-color-workspace $urgent-text-color
@@ -241,12 +239,3 @@ exec --no-startup-id discord
 ## Background apps
 exec --no-startup-id redshift
 exec --no-startup-id picom
-
-
-# Padding
-gaps inner 10
-gaps outer 5
-
-# Hide window top bar
-default_border none
-default_floating_border none
