@@ -19,7 +19,7 @@ local font_size
 if current_os == 'Linux' then
   font_size = 16
 elseif current_os == 'Mac' then
-  font_size = 20
+  font_size = 21
 else
   print 'NOPE!'
 end

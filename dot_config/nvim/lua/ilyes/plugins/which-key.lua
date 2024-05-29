@@ -23,6 +23,17 @@ return { -- Useful plugin to show you pending keybinds.
           text_objects = true,
         },
       },
+      triggers_nowait = {
+        -- marks
+        '`',
+        'g`',
+        "g'",
+        -- registers
+        '"',
+        '<c-r>',
+        -- spelling
+        'z=',
+      },
     }
 
     -- Document existing key chains
