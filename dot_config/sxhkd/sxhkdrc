@@ -8,6 +8,9 @@ shift + ctrl + alt + r
 super + space
 		dmenu_run
 
+super + Return
+		wezterm
+
 shift + ctrl + alt + j
 		wezterm
 
