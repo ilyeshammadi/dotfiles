@@ -6,7 +6,7 @@ return { -- Useful plugin to show you pending keybinds.
     local wk = require 'which-key'
 
     vim.o.timeout = true
-    vim.o.timeoutlen = 500
+    vim.o.timeoutlen = 700
 
     wk.setup {
       window = {
