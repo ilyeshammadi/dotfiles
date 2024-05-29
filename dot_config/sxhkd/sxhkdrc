@@ -1,0 +1,109 @@
+
+################################ General ################################
+# Reload sxhkd
+shift + ctrl + alt + r
+		pkill -USR1 -x sxhkd
+
+################################ Applications ################################
+super + space
+		dmenu_run
+
+shift + ctrl + alt + j
+		wezterm
+
+shift + ctrl + alt + k
+		firefox
+
+shift + ctrl + alt + o
+		discord
+
+shift + ctrl + alt + Return 
+		spotify
+
+################################ Volume ################################
+XF86AudioRaiseVolume
+		pactl set-sink-volume @DEFAULT_SINK@ +10%
+
+XF86AudioLowerVolume
+		pactl set-sink-volume @DEFAULT_SINK@ -10%
+
+XF86AudioMute
+		pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+XF86AudioMicMute
+		pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+
+################################ Media ################################
+XF86AudioPlay
+		playerctl play-pause
+
+XF86AudioNext
+		playerctl next
+
+XF86AudioPrev
+		playerctl previous
+
+################################ Brightness ################################
+XF86MonBrightnessUp
+		xbacklight -inc 20
+
+XF86MonBrightnessDown
+		xbacklight -dec 20
+
+
+################################ Monitor ################################
+# Keep external display only
+super + shift + m
+		xrandr --output DP3 --primary --auto --output eDP1 --off
+
+# Both monitors on
+super + ctrl + shift + m
+		xrandr --output eDP1 --primary --auto
+
+
+################################ I3 ###################################
+super + shift + r
+		i3-msg restart
+
+super + q
+		i3-msg kill
+
+super + r
+		i3-msg mode "resize"
+
+super + f
+		i3-msg fullscreen toggle
+
+super + v
+		i3-msg split v
+
+super + shift + v
+		i3-msg split h
+
+super + {1-9,0}
+		i3-msg workspace {1-9,10}
+
+super + shift + {1-9,0}
+		i3-msg move container to workspace {1-9,10}
+
+super + {h,j,k,l}
+		i3-msg focus {left,down,up,right}
+
+super + shift + {h,j,k,l}
+		i3-msg move {left,down,up,right}
+
+super + {s, w, e}
+		i3-msg layout {stacking, tabbed, toggle split}
+
+super + shift + space
+		i3-msg floating toggle
+
+super + space
+		i3-msg focus mode_toggle
+
+super + a
+		i3-msg focus parent
+
+super + d
+		i3-msg focus child
