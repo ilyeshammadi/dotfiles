@@ -20,9 +20,6 @@ shift + ctrl + alt + k
 shift + ctrl + alt + o
 		discord
 
-shift + ctrl + alt + Return 
-		spotify
-
 ################################ Volume ################################
 XF86AudioRaiseVolume
 		pactl set-sink-volume @DEFAULT_SINK@ +10%

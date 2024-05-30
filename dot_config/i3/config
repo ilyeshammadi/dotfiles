@@ -47,7 +47,6 @@ set $ws9 "9"
 set $ws10 "10"
 
 assign [class="discord"] $ws9
-assign [class="Spotify"] $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -108,9 +107,8 @@ exec_always --no-startup-id feh --bg-scale /home/ilyes/wallpapers/wallpaper-1.pn
 
 # Start-up apps
 ## Graphical Apps
-exec --no-startup-id i3-msg 'workspace 1; exec wezterm'
-exec --no-startup-id i3-msg 'workspace 2; exec firefox'
-exec --no-startup-id spotify
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id wezterm'
+exec --no-startup-id i3-msg 'workspace 2; exec  --no-startup-id firefox'
 exec --no-startup-id discord
 
 ## Background apps
