@@ -66,8 +66,8 @@ return {
   font_size = font_size,
   cell_width = 0.9,
   line_height = 1.1,
-  window_background_opacity = 0.90,
-  macos_window_background_blur = 75,
+  window_background_opacity = 0.85,
+  macos_window_background_blur = 50,
   window_background_gradient = {
     orientation = 'Vertical',
     colors = {
