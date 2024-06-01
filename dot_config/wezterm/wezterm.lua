@@ -20,15 +20,12 @@ if current_os == 'Linux' then
   font_size = 16
 elseif current_os == 'Mac' then
   font_size = 21
-else
-  print 'NOPE!'
+  wezterm.on('window-resized', function(_, _)
+    -- Relaod configuration to force redrawing to prevent
+    -- ugly blur effect
+    wezterm.reload_configuration()
+  end)
 end
-
--- Relaod configuration to force redrawing to prevent
--- ugly blur effect
-wezterm.on('window-resized', function(_, _)
-  wezterm.reload_configuration()
-end)
 
 -- Color scheme (Kanagwa)
 local colors = {
@@ -66,8 +63,8 @@ return {
   font_size = font_size,
   cell_width = 0.9,
   line_height = 1.1,
-  window_background_opacity = 0.85,
-  macos_window_background_blur = 50,
+  window_background_opacity = 0.90,
+  macos_window_background_blur = 25,
   window_background_gradient = {
     orientation = 'Vertical',
     colors = {

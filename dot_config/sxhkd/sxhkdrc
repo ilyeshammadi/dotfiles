@@ -55,11 +55,11 @@ XF86MonBrightnessDown
 ################################ Monitor ################################
 # Keep external display only
 super + shift + m
-		xrandr --output DP3 --primary --auto --output eDP1 --off
+		xrandr --output DP2 --primary --mode 2560x1440 -r 60 --output eDP1 --off
 
 # Both monitors on
 super + ctrl + shift + m
-		xrandr --output eDP1 --primary --auto
+		xrandr --output DP2 --primary --mode 2560x1440 -r 60 --output eDP1 --auto
 
 
 ################################ I3 ###################################

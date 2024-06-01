@@ -79,7 +79,8 @@ set $bg-color-workspace											#050506
 set $inactive-bg-color-workspace						#050506
 set $text-color			          							#C8C093
 set $inactive-text-color										#54546d
-set $urgent-text-color											#E46876
+set $urgent-text-color											#DCA561
+
 # Window Colors
 #													border						 background					text 				 	        indicator
 client.focused						$bg-color					 $bg-color			$text-color  					$border-color
@@ -107,8 +108,7 @@ exec_always --no-startup-id feh --bg-scale /home/ilyes/wallpapers/wallpaper-1.pn
 
 # Start-up apps
 ## Graphical Apps
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id wezterm'
-exec --no-startup-id i3-msg 'workspace 2; exec  --no-startup-id firefox'
+exec --no-startup-id i3-msg 'workspace 2; exec --no-startup-id firefox'
 exec --no-startup-id discord
 
 ## Background apps
