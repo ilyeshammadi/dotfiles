@@ -89,4 +89,5 @@ return {
   animation_fps = 75,
   automatically_reload_config = true,
   audible_bell = 'Disabled',
+  window_close_confirmation = 'NeverPrompt',
 }
