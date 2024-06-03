@@ -32,8 +32,9 @@ source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.z
 source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Set up fzf key bindings and fuzzy completion
-source /usr/share/fzf/completion.zsh
-source /usr/share/fzf/key-bindings.zsh
+# source /usr/share/fzf/completion.zsh
+# source /usr/share/fzf/key-bindings.zsh
+source <(fzf --zsh)
 
 if [[ "$OSTYPE" == darwin* ]]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
