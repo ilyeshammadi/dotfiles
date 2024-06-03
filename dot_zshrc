@@ -1,20 +1,45 @@
 #!/bin/zsh
 
-setopt nullglob
+PROMPT=$'\n%F{#54546d} $ %f'
 
-plugins=(
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-)
+# setopt nullglob
+setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
+setopt AUTO_PUSHD           # Push the current directory visited on the stack.
+setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
+setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
 
-source $ZSH/oh-my-zsh.sh
-source "$HOME/.zsh/aliases.zsh"
-source "$HOME/.zsh/functions.zsh"
 
-eval "$(starship init zsh)"
+# Enable completion
+autoload -U compinit; compinit
+
+# Enable vim
+bindkey -v
+export KEYTIMEOUT=1
+
+# Vim Mapping For Completion
+zmodload zsh/complist
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+
+# Editing Command Lines In Vim
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Set up fzf key bindings and fuzzy completion
+source /usr/share/fzf/completion.zsh
+source /usr/share/fzf/key-bindings.zsh
 
 if [[ "$OSTYPE" == darwin* ]]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 	source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 fi
 
+
+source "$HOME/.zsh/aliases.zsh"
+# source "$HOME/.zsh/functions.zsh"

@@ -1,0 +1,29 @@
+{
+    "layer": "top",
+		"position": "bottom",
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": [ "wireplumber", "battery", "cpu", "clock"],
+
+    "sway/window": {
+        "max-length": 50
+    },
+    "battery": {
+        "format": "{icon} {capacity}% ",
+        "format-icons": ["󰁻", "󰁽", "󰁿", "󰂁", "󰁹"]
+    },
+    "clock": {
+        "format-alt": "{:%a, %d. %b  %H:%M}"
+    },
+		"cpu": {
+				"interval": 10,
+				"format": "  {}% ",
+				"max-length": 10
+		},
+		"wireplumber": {
+				"format": "{icon}  {volume}%",
+				"format-muted": "",
+				"on-click": "helvum",
+				"format-icons": ["", "", ""],
+				"max-volume": 100,
+		}
+}

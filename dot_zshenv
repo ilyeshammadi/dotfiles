@@ -1,5 +1,9 @@
 #!/bin/zsh
 
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_STATE_HOME=$HOME/.local/state
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.poetry/bin:$PATH"
@@ -7,11 +11,16 @@ export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 export EDITOR="nvim"
-export ZSH="$HOME/.oh-my-zsh"
+export VISUAL="nvim"
+
+export ZDOTDIR="$HOME"
+
+export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
+export HISTSIZE=10000                   # Maximum events for internal history
+export SAVEHIST=10000                   # Maximum events in history file
 
 export FZF_TMUX_OPTS="-p"
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=bg+:#363646,gutter:-1'
-
 
 # Macos specific
 if [[ "$OSTYPE" == darwin* ]]; then

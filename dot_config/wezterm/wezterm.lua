@@ -1,30 +1,12 @@
 local wezterm = require 'wezterm'
 
-local function get_os()
-  -- Attempt to identify the OS with an environment variable or similar method.
-  local os_name = package.config:sub(1, 1) == '/' and io.popen('uname'):read '*l' or nil
-
-  if os_name == 'Linux' then
-    return 'Linux'
-  elseif os_name == 'Darwin' then
-    return 'Mac'
-  else
-    return 'Unknown'
-  end
-end
-
-local current_os = get_os()
 local font_size
+local os_name = package.config:sub(1, 1) == '/' and io.popen('uname'):read '*l' or nil
 
-if current_os == 'Linux' then
+if os_name == 'Linux' then
   font_size = 16
-elseif current_os == 'Mac' then
+elseif os_name == 'Darwin' then
   font_size = 21
-  wezterm.on('window-resized', function(_, _)
-    -- Relaod configuration to force redrawing to prevent
-    -- ugly blur effect
-    wezterm.reload_configuration()
-  end)
 end
 
 -- Color scheme (Kanagwa)
@@ -64,15 +46,6 @@ return {
   cell_width = 0.9,
   line_height = 1.1,
   window_background_opacity = 0.90,
-  macos_window_background_blur = 25,
-  window_background_gradient = {
-    orientation = 'Vertical',
-    colors = {
-      '#1F1F28',
-      '#1F1F28',
-      '#050506',
-    },
-  },
   enable_tab_bar = false,
   hide_tab_bar_if_only_one_tab = true,
   force_reverse_video_cursor = true,
@@ -90,4 +63,5 @@ return {
   automatically_reload_config = true,
   audible_bell = 'Disabled',
   window_close_confirmation = 'NeverPrompt',
+  enable_wayland = true,
 }
