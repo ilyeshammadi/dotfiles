@@ -1,29 +1,73 @@
 {
-    "layer": "top",
-		"position": "bottom",
-    "modules-left": ["sway/workspaces", "sway/mode"],
-    "modules-right": [ "wireplumber", "battery", "cpu", "clock"],
-
-    "sway/window": {
-        "max-length": 50
+  "layer": "top",
+  "position": "bottom",
+  "separator": true,
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": ["sway/window"],
+  "modules-right": [
+    "wireplumber",
+    "battery",
+    "clock",
+    "bluetooth",
+    "network",
+  ],
+  "sway/window": {
+    "format": "{title}",
+    "max-length": 50,
+    "rewrite": {
+      "vim": "",
+      "nvim": "",
+      "zsh": "",
+      "tmux": "",
+      "wezterm": "",
+      "(.*) - Discord": "$1",
+      "(.*) — Mozilla Firefox": "$1",
     },
-    "battery": {
-        "format": "{icon} {capacity}% ",
-        "format-icons": ["󰁻", "󰁽", "󰁿", "󰂁", "󰁹"]
-    },
-    "clock": {
-        "format-alt": "{:%a, %d. %b  %H:%M}"
-    },
-		"cpu": {
-				"interval": 10,
-				"format": "  {}% ",
-				"max-length": 10
-		},
-		"wireplumber": {
-				"format": "{icon}  {volume}%",
-				"format-muted": "",
-				"on-click": "helvum",
-				"format-icons": ["", "", ""],
-				"max-volume": 100,
-		}
+  },
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10,
+  },
+  "battery": {
+    "format": "{icon} {capacity}% ",
+    "format-icons": ["󰁻", "󰁽", "󰁿", "󰂁", "󰁹"],
+  },
+  "clock": {
+    "format": "{:%H:%M %a %d %b }",
+  },
+  "cpu": {
+    "interval": 10,
+    "format": " {}% ",
+    "max-length": 10,
+    "on-click": "wezterm start -- btop",
+  },
+  "wireplumber": {
+    "format": "{icon}  {volume}%",
+    "format-muted": "",
+    "on-click": "helvum",
+    "format-icons": ["", "", ""],
+    "max-volume": 100,
+  },
+  "network": {
+    "interface": "wlan0",
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰈀",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "format-disconnected": " ",
+    "format-icons": ["󰤟", "󰤢", "󰤥", "󰤨"],
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "",
+    "max-length": 50,
+  },
+  "bluetooth": {
+    "format-on": "",
+    "format-off": "󰂲",
+    "format-connected": " {device_alias}",
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "blueman-manager",
+  },
 }

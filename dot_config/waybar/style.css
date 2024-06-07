@@ -1,5 +1,5 @@
 * {
-  font-size: 16px;
+  font-size: 18px;
   font-family: "JetBrainsMono Nerd Font";
 }
 window#waybar {
@@ -17,7 +17,15 @@ window#waybar {
 }
 
 #wireplumber {
-  padding: 0 10px;
+  padding: 0 10px 0 0;
+}
+
+#network {
+  padding: 0 20px 0 0;
+}
+
+#bluetooth {
+  padding: 0 10px 0 0;
 }
 
 #cpu,
@@ -28,4 +36,8 @@ window#waybar {
 
 #clock {
   padding-right: 10px;
+}
+
+#window {
+  padding-left: 10px;
 }
