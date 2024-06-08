@@ -17,7 +17,7 @@ set $menu dmenu_path | wmenu | xargs swaymsg exec --
 ###################################################################################################
 input "type:touchpad" {
 	 tap enabled
-	 natural_scroll enabled
+	 natural_scroll disabled
 	 pointer_accel 0.3
 }
 
@@ -170,7 +170,7 @@ exec --no-startup-id discord
 assign [class="discord"] 9
 
 ## Background apps
-exec --no-startup-id wlsunset -l 52.4 -L 4.6
+exec --no-startup-id wlsunset -l 52.4 -L 4.6 -t 2500
 exec --no-startup-id autotiling
 
 ###################################################################################################
