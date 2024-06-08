@@ -224,5 +224,5 @@ include /etc/sway/config.d/*
 ###################################### SwayFX Specific settings ###################################
 ###################################################################################################
 # Blur
-blur enable
-blur_xray disabe
+# blur enable
+# blur_xray disabe
