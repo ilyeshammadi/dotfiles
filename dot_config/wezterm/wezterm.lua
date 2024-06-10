@@ -6,7 +6,7 @@ local os_name = package.config:sub(1, 1) == '/' and io.popen('uname'):read '*l' 
 if os_name == 'Linux' then
   font_size = 16
 elseif os_name == 'Darwin' then
-  font_size = 20
+  font_size = 21
 end
 
 -- Color scheme (Kanagwa)
@@ -60,8 +60,6 @@ return {
   },
   use_dead_keys = false,
   scrollback_lines = 5000,
-  animation_fps = 144,
-  max_fps = 144,
   automatically_reload_config = true,
   audible_bell = 'Disabled',
   window_close_confirmation = 'NeverPrompt',

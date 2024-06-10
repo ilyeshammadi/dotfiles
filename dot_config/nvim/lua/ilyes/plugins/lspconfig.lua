@@ -30,8 +30,15 @@ return {
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
     local servers = {
-      rust_analyzer = {},
-      basedpyright = {},
+      basedpyright = {
+        settings = {
+          basedpyright = {
+            analysis = {
+              typeCheckingMode = 'basic',
+            },
+          },
+        },
+      },
       gopls = {
         settings = {
           gopls = {
@@ -74,7 +81,6 @@ return {
     vim.list_extend(ensure_installed, {
       'prettier',
       'stylua',
-      'ruff',
       'sqlfluff',
       'beautysh',
     })

@@ -20,7 +20,7 @@ return {
         markdown = { 'prettier' },
         graphql = { 'prettier' },
         lua = { 'stylua' },
-        python = { 'ruff' },
+        python = {'yapf' },
         sql = { 'sqlfluff' },
         sh = { 'shfmt' },
         zsh = { 'shfmt' },
