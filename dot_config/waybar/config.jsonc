@@ -2,8 +2,8 @@
   "layer": "top",
   "position": "bottom",
   "separator": true,
+  "font": "Monospace 12",
   "modules-left": ["sway/workspaces", "sway/mode"],
-  "modules-center": ["sway/window"],
   "modules-right": [
     "cpu",
     "wireplumber",
