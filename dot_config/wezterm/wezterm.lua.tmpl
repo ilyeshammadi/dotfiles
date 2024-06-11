@@ -1,14 +1,5 @@
 local wezterm = require 'wezterm'
 
-local font_size
-local os_name = package.config:sub(1, 1) == '/' and io.popen('uname'):read '*l' or nil
-
-if os_name == 'Linux' then
-  font_size = 16
-elseif os_name == 'Darwin' then
-  font_size = 21
-end
-
 -- Color scheme (Kanagwa)
 local colors = {
   foreground = '#dcd7ba',
@@ -42,7 +33,7 @@ return {
       },
     },
   },
-  font_size = font_size,
+  font_size = {{ .wezterm.fontSize }},
   cell_width = 0.9,
   line_height = 1.1,
   window_background_opacity = 0.90,

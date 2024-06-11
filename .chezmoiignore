@@ -1,0 +1,19 @@
+others/
+.stylua.toml
+README.md
+
+
+{{ if eq .chezmoi.os "darwin" }}
+
+.config/sway
+.config/i3
+.config/waybar
+
+{{ end }}
+
+{{ if eq .chezmoi.os "linux" }}
+
+.yabairc
+.skhdrc
+
+{{ end }}

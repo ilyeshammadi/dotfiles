@@ -1,6 +1,6 @@
 [user]
-	name = ilyes
-	email = hammadiilyesahmed@gmail.com
+	name = {{ .name | quote }}
+	email = {{ .email | quote }}
 [alias]
     # Shortening aliases
     co = checkout
