@@ -41,11 +41,7 @@ return { -- Useful plugin to show you pending keybinds.
       s = {
         name = 'Search',
         f = { '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<CR>', 'Files' },
-        g = { [[:lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>]], 'Grep' },
-        G = {
-          [[:lua require("telescope-live-grep-args.shortcuts").grep_word_under_cursor({ postfix = " -F --hidden"})<CR>]],
-          'Grep word under cursor',
-        },
+        g = { '<cmd>lua require("telescope.builtin").live_grep()<CR>', 'Grep' },
         r = { '<cmd>lua require("telescope.builtin").oldfiles()<CR>', 'Recent Files' },
         l = { '<cmd>lua require("telescope.builtin").resume()<CR>', 'Resume' },
         n = {
@@ -55,7 +51,7 @@ return { -- Useful plugin to show you pending keybinds.
       },
       g = {
         name = 'Git',
-        g = { "<cmd>Neogit<CR>", 'Neogit' },
+        g = { '<cmd>Neogit<CR>', 'Neogit' },
         l = { "<cmd>lua require 'gitsigns'.blame_line()<CR>", 'Blame' },
         p = { "<cmd>lua require 'gitsigns'.preview_hunk()<CR>", 'Preview hunk' },
         r = { "<cmd>lua require 'gitsigns'.reset_hunk()<CR>", 'Reset hunk' },
