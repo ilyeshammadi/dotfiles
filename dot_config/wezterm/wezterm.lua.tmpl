@@ -34,10 +34,7 @@ return {
     },
   },
   font_size = {{ .wezterm.fontSize }},
-  cell_width = 0.9,
-  line_height = 1.1,
   window_background_opacity = 0.90,
-  macos_window_background_blur = 35,
   enable_tab_bar = false,
   hide_tab_bar_if_only_one_tab = true,
   force_reverse_video_cursor = true,
@@ -54,5 +51,14 @@ return {
   automatically_reload_config = true,
   audible_bell = 'Disabled',
   window_close_confirmation = 'NeverPrompt',
+
+	{{ if eq .chezmoi.os "darwin" -}}
+
+  macos_window_background_blur = 35,
+
+	{{ else if eq .chezmoi.os "linux" -}}
+
   enable_wayland = true,
+
+	{{ end -}}
 }
