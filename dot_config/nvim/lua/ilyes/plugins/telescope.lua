@@ -2,7 +2,8 @@ local icons = require 'ilyes.core.icons'
 
 return {
   'nvim-telescope/telescope.nvim',
-  event = 'VimEnter',
+	lazy = true,
+  event = 'VeryLazy',
   branch = '0.1.x',
   dependencies = {
     'nvim-lua/plenary.nvim',
@@ -15,10 +16,6 @@ return {
       end,
     },
     'nvim-telescope/telescope-ui-select.nvim',
-    {
-      'nvim-telescope/telescope-live-grep-args.nvim',
-      version = '^1.0.0',
-    },
   },
   config = function()
     require('telescope').setup {
@@ -55,6 +52,5 @@ return {
     -- Enable telescope extensions, if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
-    pcall(require('telescope').load_extension, 'live_grep_args')
   end,
 }

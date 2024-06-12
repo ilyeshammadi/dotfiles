@@ -2,7 +2,7 @@ return {
   'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   enabled = true,
-  event = 'VimEnter',
+  lazy = false,
   config = function()
     -- Override theme to force transparent
     local theme = require 'lualine.themes.kanagawa'

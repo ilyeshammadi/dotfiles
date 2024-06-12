@@ -4,6 +4,8 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
   build = ':TSUpdate',
+  lazy = true,
+  event = 'VeryLazy',
   config = function()
     require('nvim-treesitter.configs').setup {
       ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'json', 'yaml', 'python', 'javascript', 'rust' },
