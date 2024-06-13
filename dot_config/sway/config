@@ -164,7 +164,7 @@ bar {
 ###################################### Start-up apps ##############################################
 ###################################################################################################
 ## Graphical Apps
-exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id wezterm start -- tmux'
+exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id wezterm start -- usr_tmux_attach_or_start'
 exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id brave'
 exec --no-startup-id discord
 assign [class="discord"] 9
