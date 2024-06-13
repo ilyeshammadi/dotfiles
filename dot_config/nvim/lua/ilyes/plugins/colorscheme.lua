@@ -27,6 +27,7 @@ return {
           IncSearch = { bg = palette.roninYellow },
         }
 
+				-- Transparent
         hl.Pmenu = { bg = '' }
         hl.PmenuSbar = { bg = '' }
         hl.TreesitterContext = { bg = '' }

@@ -1,0 +1,14 @@
+#!/bin/bash
+# Attach if tmux is running, otherwise start
+
+is_tmux_running() {
+    tmux has-session 2>/dev/null
+}
+
+# Main logic
+if is_tmux_running; then
+    tmux attach
+else
+    tmux new-session
+fi
+
