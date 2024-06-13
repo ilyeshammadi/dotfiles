@@ -34,7 +34,6 @@ return {
     },
   },
   font_size = {{ .wezterm.fontSize }},
-  window_background_opacity = 0.90,
   enable_tab_bar = false,
   hide_tab_bar_if_only_one_tab = true,
   force_reverse_video_cursor = true,
@@ -54,10 +53,12 @@ return {
 
 	{{ if eq .chezmoi.os "darwin" -}}
 
-  macos_window_background_blur = 35,
+  window_background_opacity = 0.90,
+  macos_window_background_blur = 30,
 
 	{{ else if eq .chezmoi.os "linux" -}}
 
+  window_background_opacity = 0.90,
   enable_wayland = true,
 
 	{{ end -}}

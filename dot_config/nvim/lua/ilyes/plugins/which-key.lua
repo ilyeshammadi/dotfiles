@@ -51,7 +51,7 @@ return { -- Useful plugin to show you pending keybinds.
       },
       g = {
         name = 'Git',
-        g = { '<cmd>Neogit<CR>', 'Neogit' },
+        g = { '<cmd>Neogit cwd=%:p:h<CR>', 'Neogit' },
         l = { "<cmd>lua require 'gitsigns'.blame_line()<CR>", 'Blame' },
         p = { "<cmd>lua require 'gitsigns'.preview_hunk()<CR>", 'Preview hunk' },
         r = { "<cmd>lua require 'gitsigns'.reset_hunk()<CR>", 'Reset hunk' },
