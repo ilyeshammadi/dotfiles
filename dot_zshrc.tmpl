@@ -8,7 +8,6 @@ setopt AUTO_PUSHD           # Push the current directory visited on the stack.
 setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
 setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
 
-
 # Enable completion
 autoload -U compinit; compinit
 
@@ -35,10 +34,12 @@ source $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-if [[ "$OSTYPE" == darwin* ]]; then
+{{ if eq .chezmoi.os "darwin" -}}
+
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 	source ~/.orbstack/shell/init.zsh 2>/dev/null || :
-fi
+
+{{ end -}}
 
 
 source "$HOME/.zsh/aliases.zsh"

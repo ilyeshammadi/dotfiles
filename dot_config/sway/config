@@ -15,9 +15,17 @@ set $menu dmenu_path | wmenu | xargs swaymsg exec --
 ###################################################################################################
 ########################################### Input #################################################
 ###################################################################################################
-input "type:touchpad" {
+input * {
+	 # Enable tap-to-click
 	 tap enabled
+	 # Enable natural scrolling
 	 natural_scroll disabled
+	 # Disable while typing
+	 dwt enabled
+	 # Enable horizontal scrolling
+	 scroll_method two_finger
+	 # Adjust sensitivity
+	 accel_profile adaptive
 	 pointer_accel 0.3
 }
 
@@ -164,14 +172,14 @@ bar {
 ###################################### Start-up apps ##############################################
 ###################################################################################################
 ## Graphical Apps
-exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id wezterm start -- usr_tmux_attach_or_start'
+exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id wezterm start -- ~/.scripts/usr_tmux_attach_or_start'
 exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id brave'
 exec --no-startup-id discord
 assign [class="discord"] 9
 
 ## Background apps
-exec --no-startup-id wlsunset -l 52.4 -L 4.6 -t 3500
-exec --no-startup-id autotiling
+exec wlsunset -l 52.4 -L 4.6 -t 3500
+exec autotiling
 
 ###################################################################################################
 ###################################### Styling ####################################################
