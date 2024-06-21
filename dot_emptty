@@ -1,0 +1,5 @@
+#!/bin/sh
+
+Name=Sway The Way
+Exec=/usr/bin/sway
+Environment=wayland
