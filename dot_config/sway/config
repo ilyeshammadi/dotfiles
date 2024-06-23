@@ -62,7 +62,7 @@ bindsym $mod+d exec $menu
 
 floating_modifier $mod normal
 
-bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 bindsym $mod+$left focus left
@@ -136,7 +136,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 
-
 # Volume
 bindsym XF86AudioRaiseVolume exec "pactl set-sink-volume @DEFAULT_SINK@ +5%"
 bindsym XF86AudioLowerVolume exec "pactl set-sink-volume @DEFAULT_SINK@ -5%"
@@ -149,8 +148,8 @@ bindsym XF86AudioNext exec "playerctl next"
 bindsym XF86AudioPrev exec "playerctl previous"
 
 # Brightness
-bindsym XF86MonBrightnessUp exec brightnessctl set +10%
-bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+bindsym XF86MonBrightnessUp exec "brightnessctl set +5%"
+bindsym XF86MonBrightnessDown exec "brightnessctl set 5%-"
 
 # Apps
 bindsym Shift+Ctrl+Alt+j exec wezterm
