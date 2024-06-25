@@ -98,13 +98,14 @@ end, { silent = true, desc = 'Previous context' })
 -- Neotest
 nnoremap('tt', ":lua require('neotest').run.run()<CR>", { desc = 'Run current test', silent = true })
 
--- Arrow
+-- Harpoon
+nnoremap(',', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>')
+nnoremap('<C-s>', '<cmd>lua require("harpoon.mark").add_file()<CR>')
 nnoremap('<Left>', function()
-  require('arrow.persist').previous()
+  require('harpoon.ui').nav_next()
   vim.cmd 'norm zz'
 end)
 nnoremap('<Right>', function()
-  require('arrow.persist').next()
+  require('harpoon.ui').nav_prev()
   vim.cmd 'norm zz'
 end)
-nnoremap('<C-s>', '<cmd>lua require("arrow.persist").toggle()<CR>')

@@ -38,9 +38,9 @@ return { -- Useful plugin to show you pending keybinds.
 
     -- Document existing key chains
     wk.register({
+      f = { '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<CR>', 'Find files' },
       s = {
         name = 'Search',
-        f = { '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<CR>', 'Files' },
         g = { '<cmd>lua require("telescope.builtin").live_grep()<CR>', 'Grep' },
         r = { '<cmd>lua require("telescope.builtin").oldfiles()<CR>', 'Recent Files' },
         l = { '<cmd>lua require("telescope.builtin").resume()<CR>', 'Resume' },
