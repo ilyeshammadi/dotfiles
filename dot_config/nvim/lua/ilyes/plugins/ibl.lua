@@ -5,7 +5,8 @@ return {
   config = function()
     require('ibl').setup {
       indent = {
-        char = '┆',
+        char = '┊',
+        -- char = '│',
       },
       scope = {
         enabled = false,

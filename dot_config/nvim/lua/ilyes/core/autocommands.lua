@@ -11,7 +11,7 @@ vim.api.nvim_create_autocmd('FileType', {
   group = vim.api.nvim_create_augroup('ilyes-disable-diagnostic', { clear = true }),
   pattern = { 'python' },
   callback = function()
-    vim.diagnostic.config { virtual_text = false, signs = false }
+    vim.diagnostic.config { virtual_text = false, signs = true }
   end,
 })
 

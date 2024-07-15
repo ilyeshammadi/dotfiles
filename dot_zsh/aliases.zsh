@@ -5,7 +5,7 @@ alias c="clear"
 alias e="exit"
 alias fzf="fzf-tmux -p"
 alias cat="bat"
-alias ls="exa --icons --group-directories-first"
+alias ls="eza --icons --group-directories-first"
 alias po="poetry"
 alias we="watchexec"
 

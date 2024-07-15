@@ -21,7 +21,7 @@ return {
             dap = {
               justMyCode = false,
             },
-            args = { '--log-level', 'DEBUG', '-vvv' },
+            args = { '--log-level', 'DEBUG', '-vvv', '-p', 'no:warnings' },
             runner = 'pytest',
             python = '.venv/bin/python',
           },

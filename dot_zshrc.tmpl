@@ -35,9 +35,17 @@ source $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source <(fzf --zsh)
 
 {{ if eq .chezmoi.os "darwin" -}}
+# Source env vars
+if [ -d ~/.zsh/envs ]; then
+  for file in ~/.zsh/envs/*(.); do
+    if [[ -f "$file" ]]; then
+      source "$file"
+    fi
+  done
+fi
 
-	eval "$(/opt/homebrew/bin/brew shellenv)"
-	source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+eval "$(/opt/homebrew/bin/brew shellenv)"
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
 {{ end -}}
 

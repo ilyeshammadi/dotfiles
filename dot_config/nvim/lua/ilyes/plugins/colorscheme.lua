@@ -27,7 +27,7 @@ return {
           IncSearch = { bg = palette.roninYellow },
         }
 
-				-- Transparent
+        -- Transparent
         hl.Pmenu = { bg = '' }
         hl.PmenuSbar = { bg = '' }
         hl.TreesitterContext = { bg = '' }
@@ -41,10 +41,11 @@ return {
         hl.FloatShadow = { bg = '' }
         hl.FloatShadowThrough = { bg = '' }
         hl.TelescopeBorder = { bg = '' }
-        hl.StatusLine = { bg = '' }
-        hl.StatusLineNC = { bg = '' }
+        hl.StatusLine = { bg = '', fg = palette.sumiInk6 }
+        hl.StatusLineNC = { bg = '', fg = palette.sumiInk6 }
         hl.FloatermBorder = { bg = '' }
         hl.FloatFooter = { bg = '' }
+        hl.Folded = { bg = '' }
 
         return hl
       end,

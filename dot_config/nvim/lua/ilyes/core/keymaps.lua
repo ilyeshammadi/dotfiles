@@ -49,7 +49,7 @@ nnoremap('<C-_>', "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_fi
 nnoremap('[d', vim.diagnostic.goto_prev, { desc = 'Previous Diagnostic message' })
 nnoremap(']d', vim.diagnostic.goto_next, { desc = 'Next Diagnostic message' })
 
-nnoremap('-', '<cmd>Oil<CR>', { desc = 'Open parent directory' })
+nnoremap('-', '<cmd>Oil --float<CR>', { desc = '🫒 Oil' })
 
 -- Quick fix
 nnoremap(']q', '<cmd>silent cnext<CR>', { desc = 'Next quickfix list item', silent = true })

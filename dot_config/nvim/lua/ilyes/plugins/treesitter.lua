@@ -8,7 +8,7 @@ return {
   event = 'VeryLazy',
   config = function()
     require('nvim-treesitter.configs').setup {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'json', 'yaml', 'python', 'javascript', 'rust' },
+      ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'json', 'yaml', 'python', 'javascript', 'rust', 'go' },
       auto_install = true,
       highlight = { enable = true },
       indent = { enable = true },
@@ -32,8 +32,6 @@ return {
             ['if'] = '@function.inner',
             ['ao'] = '@class.outer',
             ['io'] = '@class.inner',
-            -- ['ai'] = '@block.outer',
-            -- ['ii'] = '@block.inner',
             ['aa'] = '@parameter.outer',
             ['ia'] = '@parameter.inner',
             ['ac'] = '@comment.outer',
