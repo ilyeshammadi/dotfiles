@@ -52,6 +52,10 @@ output DP-8 {
 	enable
 	mode 2560x1440@144Hz
 }
+output HDMI-A-1 {
+	enable
+	mode 2560x1440@144Hz
+}
 
 ###################################################################################################
 ########################################### Keybinds ##############################################
@@ -154,7 +158,6 @@ bindsym XF86MonBrightnessDown exec "brightnessctl set 5%-"
 # Apps
 bindsym Shift+Ctrl+Alt+j exec wezterm
 bindsym Shift+Ctrl+Alt+k exec brave
-bindsym Shift+Ctrl+Alt+o exec discord
 
 # Monitor
 bindsym $mod+Shift+m exec "swaymsg output eDP-1 disable"
@@ -173,12 +176,11 @@ bar {
 ## Graphical Apps
 exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id wezterm start -- ~/.scripts/usr_tmux_attach_or_start'
 exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id brave'
-exec --no-startup-id discord
-assign [class="discord"] 9
 
 ## Background apps
 exec wlsunset -l 52.4 -L 4.6 -t 3500
 exec autotiling
+exec_always xwaylandvideobridge -d :0 -X -a -S || killall xwaylandvideobridge
 
 ###################################################################################################
 ###################################### Styling ####################################################
@@ -226,10 +228,3 @@ client.urgent							$urgent-border 						$urgent-background 						$urgent-text 	
 ########################################## Include ################################################
 ###################################################################################################
 include /etc/sway/config.d/*
-
-###################################################################################################
-###################################### SwayFX Specific settings ###################################
-###################################################################################################
-# Blur
-blur enable
-blur_xray disabe
