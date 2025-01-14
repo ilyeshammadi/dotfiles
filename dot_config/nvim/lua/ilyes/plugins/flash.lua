@@ -6,6 +6,11 @@ return {
       prompt = {
         enabled = false,
       },
+      modes = {
+        char = {
+          enabled = false,
+        },
+      },
     }
   end,
   keys = {

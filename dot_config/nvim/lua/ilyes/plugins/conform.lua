@@ -26,6 +26,7 @@ return {
         zsh = { 'shfmt' },
         bash = { 'shfmt' },
         go = { 'gofumpt' },
+        htmldjango = { 'djlint' },
       },
     }
   end,
