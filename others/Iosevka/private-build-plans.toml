@@ -1,0 +1,13 @@
+[buildPlans.YesLi]
+family = "YesLi"
+spacing = "term"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = false
+
+[buildPlans.YesLi.variants]
+inherits = "ss14"
+
+[buildPlans.YesLi.variants.design]
+zero = "slashed"
+percent = "dots"

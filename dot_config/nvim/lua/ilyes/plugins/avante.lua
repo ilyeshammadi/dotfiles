@@ -4,14 +4,19 @@ return {
   -- lazy = true,
   version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
   opts = {
-    auto_suggestions_provider = 'openai',
-    provider = 'openai', -- Recommend using Claude
-    -- openai = {
-    --   endpoint = 'http://localhost:11434/v1',
-    --   model = 'codellama',
+    -- auto_suggestions_provider = 'ollama',
+    -- provider = 'ollama',
+    -- vendors = {
+    --   ollama = {
+    --     __inherited_from = 'openai',
+    --     api_key_name = '',
+    --     endpoint = 'http://127.0.0.1:11434/v1',
+    --     model = 'codegemma',
+    --   },
     -- },
+		provider = 'openai',
     openai = {
-      model = 'gpt-4o-mini',
+      model = 'gpt-4o',
     },
     hints = { enabled = false },
 
