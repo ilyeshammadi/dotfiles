@@ -25,6 +25,7 @@ return {
           MsgSeparator = { bg = theme.ui.bg },
           ModeMsg = { fg = palette.sumiInk6 },
           IncSearch = { bg = palette.roninYellow },
+          MiniIndentscopeSymbol = { fg = palette.oldWhite },
         }
 
         -- Transparent

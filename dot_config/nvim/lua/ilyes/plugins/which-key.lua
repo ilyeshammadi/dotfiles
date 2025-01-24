@@ -47,7 +47,6 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>f', '<cmd>lua require("telescope.builtin").find_files({ hidden = true })<CR>', desc = 'Find files' },
       { '<leader>g', group = 'Git' },
       { '<leader>gR', "<cmd>lua require 'gitsigns'.reset_buffer()<CR>", desc = 'Reset buffer' },
-      { '<leader>gg', '<cmd>Neogit cwd=%:p:h<CR>', desc = 'Neogit' },
       { '<leader>gl', "<cmd>lua require 'gitsigns'.blame_line()<CR>", desc = 'Blame' },
       { '<leader>go', '<cmd>Telescope git_status<CR>', desc = 'Open changed file' },
       { '<leader>gp', "<cmd>lua require 'gitsigns'.preview_hunk()<CR>", desc = 'Preview hunk' },
