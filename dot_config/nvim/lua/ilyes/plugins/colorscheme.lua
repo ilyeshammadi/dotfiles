@@ -26,6 +26,7 @@ return {
           ModeMsg = { fg = palette.sumiInk6 },
           IncSearch = { bg = palette.roninYellow },
           MiniIndentscopeSymbol = { fg = palette.oldWhite },
+          MiniIndentscopeSymbolOff = { fg = palette.oldWhite, bg = palette.oldWhite },
         }
 
         -- Transparent
