@@ -22,14 +22,5 @@ return {
         hex_color = hipatterns.gen_highlighter.hex_color(),
       },
     }
-
-    local indentscope = require 'mini.indentscope'
-    indentscope.setup {
-      draw = {
-        delay = 0,
-        animation = indentscope.gen_animation.none(),
-      },
-      symbol = '┊',
-    }
   end,
 }
