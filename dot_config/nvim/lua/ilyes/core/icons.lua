@@ -121,7 +121,6 @@ return {
     Tab = '󰌒',
     Table = '',
     Target = '󰀘',
-    Telescope = '',
     Text = '',
     Tree = '',
     Triangle = '󰐊',

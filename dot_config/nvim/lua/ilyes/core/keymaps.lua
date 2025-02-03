@@ -42,9 +42,6 @@ nnoremap('[t', '<cmd>tabprevious<CR>', { silent = true, desc = 'Previous tab' })
 nnoremap('[<space>', 'O<esc>j')
 nnoremap(']<space>', 'o<esc>k')
 
--- Fuzzy find in buffer
-nnoremap('<C-_>', "<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>", { desc = 'Fuzzy find in buffer', silent = true })
-
 -- Diagnostic keymaps
 nnoremap('[d', vim.diagnostic.goto_prev, { desc = 'Previous Diagnostic message' })
 nnoremap(']d', vim.diagnostic.goto_next, { desc = 'Next Diagnostic message' })

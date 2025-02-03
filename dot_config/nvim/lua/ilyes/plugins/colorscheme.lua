@@ -43,7 +43,6 @@ return {
         hl.TabLineSel = { bg = '' }
         hl.FloatShadow = { bg = '' }
         hl.FloatShadowThrough = { bg = '' }
-        hl.TelescopeBorder = { bg = '' }
         hl.StatusLine = { bg = '', fg = palette.sumiInk6 }
         hl.StatusLineNC = { bg = '', fg = palette.sumiInk6 }
         hl.FloatermBorder = { bg = '' }

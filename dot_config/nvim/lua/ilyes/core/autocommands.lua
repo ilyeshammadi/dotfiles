@@ -32,16 +32,6 @@ vim.api.nvim_create_autocmd('BufRead', {
   end,
 })
 
--- Display cursorline only for active window
-vim.cmd [[
-augroup CursorLine
-    au!
-    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    au WinLeave * setlocal nocursorline
-augroup END
-au FileType TelescopePrompt* setlocal nocursorline
-]]
-
 -- Create an autocommand group and the autocommand
 vim.api.nvim_create_autocmd('BufWritePost', {
   group = vim.api.nvim_create_augroup('ilyes-format-onsave', { clear = true }),
