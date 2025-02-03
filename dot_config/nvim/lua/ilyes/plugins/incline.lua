@@ -6,12 +6,12 @@ return {
   event = 'BufReadPre',
   config = function()
     require('incline').setup {
-      highlight = {
-        groups = {
-          InclineNormal = { guibg = 'none', guifg = '#C8C093' },
-          InclineNormalNC = { guibg = 'none', guifg = '#54546d' },
-        },
-      },
+      -- highlight = {
+      --   groups = {
+      --     InclineNormal = { guibg = 'none', guifg = '#C8C093' },
+      --     InclineNormalNC = { guibg = 'none', guifg = '#54546d' },
+      --   },
+      -- },
       window = {
         padding = 0,
         margin = { horizontal = 0, vertical = 0 },
