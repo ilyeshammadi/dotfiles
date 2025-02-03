@@ -56,7 +56,6 @@ return {
           },
         },
       },
-
       lua_ls = {
         settings = {
           Lua = {
@@ -75,6 +74,8 @@ return {
           },
         },
       },
+      emmet_ls = {},
+      jinja_lsp = {},
     }
 
     require('mason').setup()

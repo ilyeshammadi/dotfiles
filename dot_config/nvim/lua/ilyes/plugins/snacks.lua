@@ -5,7 +5,7 @@ return {
   ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
-    indent = { enabled = true, char = '┊', animate = { enabled = false }, scope = { char = '┊' } },
+    indent = { enabled = true, indent = { char = '┊' }, animate = { enabled = false }, scope = { char = '┊' } },
     scope = { enabled = true },
     input = { enabled = true },
     picker = { enabled = true, layout = { preset = 'telescope' } },
@@ -98,6 +98,7 @@ return {
         -- Create some toggle mappings
         Snacks.toggle.inlay_hints():map '<leader>uh'
         Snacks.toggle.dim():map '<leader>uD'
+        Snacks.toggle.indent():map '<leader>ug'
       end,
     })
   end,
