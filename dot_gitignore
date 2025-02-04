@@ -584,3 +584,5 @@ tags
 
 .tool-versions
 
+.aider/
+.aider*
