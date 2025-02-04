@@ -12,6 +12,12 @@ return {
     notifier = { enabled = true },
     quickfile = { enabled = true },
     zen = { enabled = true, toggles = { dim = false } },
+    styles = {
+      zen = {
+				relative = "editor",
+        backdrop = { transparent = false },
+      },
+    },
   },
   keys = {
     {
