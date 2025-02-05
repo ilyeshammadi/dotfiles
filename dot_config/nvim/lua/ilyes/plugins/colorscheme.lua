@@ -27,6 +27,8 @@ return {
           InclineNormal = { bg = '', fg = 'foam' },
           InclineNormalNC = { bg = '', fg = 'muted' },
           StatusLine = { bg = '', fg = 'muted' },
+          TreesitterContext = { bg = 'base' },
+          TreesitterContextLineNumber = { bg = 'base' },
         },
       }
       vim.cmd 'colorscheme rose-pine'

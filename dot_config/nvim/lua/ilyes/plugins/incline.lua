@@ -5,13 +5,8 @@ return {
   },
   event = 'BufReadPre',
   config = function()
+    local devicons = require 'nvim-web-devicons'
     require('incline').setup {
-      -- highlight = {
-      --   groups = {
-      --     InclineNormal = { guibg = 'none', guifg = '#C8C093' },
-      --     InclineNormalNC = { guibg = 'none', guifg = '#54546d' },
-      --   },
-      -- },
       window = {
         padding = 0,
         margin = { horizontal = 0, vertical = 0 },
@@ -22,8 +17,12 @@ return {
           filename = '[No Name]'
         end
 
+        local ft_icon = devicons.get_icon(filename)
+
         local res = {
           ' ',
+          ft_icon,
+          '  ',
           filename,
           guibg = 'none',
         }

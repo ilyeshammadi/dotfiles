@@ -4,8 +4,10 @@ return { -- Useful plugin to show you pending keybinds.
   config = function()
     local wk = require 'which-key'
     wk.setup {
-
       preset = 'modern',
+      delay = function(ctx)
+        return ctx.plugin and 0 or 500
+      end,
       win = {
         border = 'single',
       },
