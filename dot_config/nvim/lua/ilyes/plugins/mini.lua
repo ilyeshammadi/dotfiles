@@ -9,6 +9,7 @@ return {
     require('mini.pairs').setup()
     require('mini.comment').setup()
     require('mini.git').setup()
+    require('mini.diff').setup()
     local hipatterns = require 'mini.hipatterns'
     hipatterns.setup {
       highlighters = {

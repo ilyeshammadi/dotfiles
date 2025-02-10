@@ -8,32 +8,22 @@ return {
     require('codecompanion').setup {
       strategies = {
         chat = {
-          adapter = 'qwen',
+          adapter = 'ollama',
         },
         inline = {
-          adapter = 'qwen',
+          adapter = 'ollama',
         },
         cmd = {
-          adapter = 'qwen',
+          adapter = 'ollama',
         },
       },
       adapters = {
-        qwen = function()
+        ollama = function()
           return require('codecompanion.adapters').extend('ollama', {
-            name = 'qwen',
+            name = 'ollama',
             schema = {
               model = {
                 default = 'qwen2.5-coder:7b',
-              },
-            },
-          })
-        end,
-        deepseek = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            name = 'deepseek',
-            schema = {
-              model = {
-                default = 'deepseek-r1:8b',
               },
             },
           })

@@ -10,4 +10,6 @@ inherits = "ss14"
 
 [buildPlans.YesLi.variants.design]
 zero = "slashed"
+capital-w = "straight-serifless"
+w = "straight-serifless"
 percent = "dots"
