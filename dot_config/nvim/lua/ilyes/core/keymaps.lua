@@ -83,10 +83,6 @@ nnoremap('gl', function()
   end
 end, { desc = 'Show line diagnostics' })
 
--- Git
-nnoremap(']g', "<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<CR>", { desc = 'Next hunk' })
-nnoremap('[g', "<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<CR>", { desc = 'Previous hunk' })
-
 -- Treesitter context
 nnoremap('[c', function()
   require('treesitter-context').go_to_context(vim.v.count1)

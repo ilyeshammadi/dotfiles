@@ -1,3 +1,5 @@
+local icons = require 'ilyes.core.icons'
+
 return {
   'echasnovski/mini.nvim',
   event = 'VeryLazy',
@@ -8,8 +10,16 @@ return {
     require('mini.surround').setup()
     require('mini.pairs').setup()
     require('mini.comment').setup()
-    require('mini.git').setup()
-    require('mini.diff').setup()
+    require('mini.diff').setup {
+      view = {
+        style = 'sign',
+        signs = {
+          add = icons.ui.BoldLineLeft,
+          change = icons.ui.BoldLineLeft,
+          delete = icons.ui.Triangle,
+        },
+      },
+    }
     local hipatterns = require 'mini.hipatterns'
     hipatterns.setup {
       highlighters = {

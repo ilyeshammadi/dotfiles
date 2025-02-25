@@ -15,6 +15,9 @@ return {
     notifier = { enabled = true },
     quickfile = { enabled = true },
     words = { enabled = true },
+    statuscolumn = {
+      enabled = true,
+    },
     zen = { enabled = true, toggles = { dim = false } },
     styles = {
       zen = {
@@ -45,7 +48,7 @@ return {
       function()
         Snacks.picker.files(files_opts)
       end,
-      desc = 'Find files',
+      desc = 'Find Files',
     },
     {
       '<leader>/',
@@ -75,7 +78,7 @@ return {
       function()
         Snacks.picker.grep_word()
       end,
-      desc = 'Grep under cursor',
+      desc = 'Grep Under Cursor',
     },
     {
       '<leader>sg',
@@ -83,6 +86,13 @@ return {
         Snacks.picker.grep()
       end,
       desc = 'Grep',
+    },
+    {
+      '<leader>se',
+      function()
+        Snacks.picker.git_status()
+			end,
+      desc = 'Edited Files',
     },
     {
       '<leader>sl',
