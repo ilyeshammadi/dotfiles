@@ -32,6 +32,7 @@ return {
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
     local servers = {
+      -- Python
       basedpyright = {
         settings = {
           basedpyright = {
@@ -41,6 +42,8 @@ return {
           },
         },
       },
+      ruff = {},
+      -- Go
       gopls = {
         settings = {
           gopls = {
@@ -56,6 +59,7 @@ return {
           },
         },
       },
+      -- Lua
       lua_ls = {
         settings = {
           Lua = {
@@ -74,8 +78,12 @@ return {
           },
         },
       },
+      -- Html
       emmet_ls = {},
       jinja_lsp = {},
+			htmx_lsp = {},
+      -- Markdown
+      marksman = {},
     }
 
     require('mason').setup()

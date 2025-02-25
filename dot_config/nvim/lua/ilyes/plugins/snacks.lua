@@ -1,20 +1,24 @@
+local files_opts = { layout = 'ivy_split', formatters = {
+  file = { truncate = 120 },
+} }
+
 return {
   'folke/snacks.nvim',
   priority = 1000,
   lazy = false,
-  ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
     indent = { enabled = true, indent = { char = '┊' }, animate = { enabled = false }, scope = { char = '┊' } },
     scope = { enabled = true },
     input = { enabled = true },
-    picker = { enabled = true, layout = { preset = 'telescope' } },
+    picker = { enabled = true, layout = 'ivy' },
     notifier = { enabled = true },
     quickfile = { enabled = true },
+    words = { enabled = true },
     zen = { enabled = true, toggles = { dim = false } },
     styles = {
       zen = {
-				relative = "editor",
+        relative = 'editor',
         backdrop = { transparent = false },
       },
     },
@@ -39,9 +43,16 @@ return {
     {
       '<leader>f',
       function()
-        Snacks.picker.files()
+        Snacks.picker.files(files_opts)
       end,
       desc = 'Find files',
+    },
+    {
+      '<leader>/',
+      function()
+        Snacks.picker.lines()
+      end,
+      desc = 'Lines',
     },
     {
       '<leader>gb',
@@ -83,9 +94,83 @@ return {
     {
       '<leader>sr',
       function()
-        Snacks.picker.recent()
+        Snacks.picker.recent(files_opts)
       end,
       desc = 'Recent Files',
+    },
+    {
+      '<leader>ss',
+      function()
+        Snacks.picker.lsp_symbols()
+      end,
+      desc = 'LSP Symbols',
+    },
+    -- LSP
+    {
+      'gd',
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = 'Goto Definition',
+    },
+    {
+      'gD',
+      function()
+        Snacks.picker.lsp_declarations()
+      end,
+      desc = 'Goto Declaration',
+    },
+    {
+      'gr',
+      function()
+        Snacks.picker.lsp_references()
+      end,
+      nowait = true,
+      desc = 'References',
+    },
+    {
+      'gI',
+      function()
+        Snacks.picker.lsp_implementations()
+      end,
+      desc = 'Goto Implementation',
+    },
+    {
+      'gy',
+      function()
+        Snacks.picker.lsp_type_definitions()
+      end,
+      desc = 'Goto T[y]pe Definition',
+    },
+    {
+      '<leader>ss',
+      function()
+        Snacks.picker.lsp_symbols()
+      end,
+      desc = 'LSP Symbols',
+    },
+    {
+      '<leader>sS',
+      function()
+        Snacks.picker.lsp_workspace_symbols()
+      end,
+      desc = 'LSP Workspace Symbols',
+    },
+    {
+      '))',
+      function()
+        Snacks.words.jump(vim.v.count1)
+      end,
+      desc = 'Next Reference',
+      mode = { 'n', 't' },
+    },
+    {
+      '((',
+      function()
+        Snacks.words.jump(-vim.v.count1)
+      end,
+      desc = 'Prev Reference',
+      mode = { 'n', 't' },
     },
   },
   init = function()
