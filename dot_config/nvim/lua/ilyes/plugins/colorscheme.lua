@@ -17,6 +17,7 @@ return {
         TreesitterContextLineNumber = { bg = 'base' },
         MsgArea = { bg = 'base' },
         MsgSeparator = { bg = 'base' },
+        SnacksIndent = { fg = '#403d52' },
       },
     }
     vim.cmd 'colorscheme rose-pine'

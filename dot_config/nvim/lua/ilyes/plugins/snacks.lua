@@ -1,6 +1,6 @@
 local files_opts = { layout = 'ivy_split', formatters = {
   file = { truncate = 120 },
-} }
+}, hidden = true }
 
 return {
   'folke/snacks.nvim',
@@ -8,7 +8,7 @@ return {
   lazy = false,
   opts = {
     bigfile = { enabled = true },
-    indent = { enabled = true, indent = { char = '┊' }, animate = { enabled = false }, scope = { char = '┊' } },
+    indent = { enabled = true, indent = { char = '┊' }, animate = { enabled = false }, scope = { enabled = false, char = '┊' } },
     scope = { enabled = true },
     input = { enabled = true },
     picker = { enabled = true, layout = 'ivy' },
@@ -76,14 +76,14 @@ return {
     {
       '<leader>sG',
       function()
-        Snacks.picker.grep_word()
+        Snacks.picker.grep_word { hidden = true }
       end,
       desc = 'Grep Under Cursor',
     },
     {
       '<leader>sg',
       function()
-        Snacks.picker.grep()
+        Snacks.picker.grep { hidden = true }
       end,
       desc = 'Grep',
     },
@@ -91,7 +91,7 @@ return {
       '<leader>se',
       function()
         Snacks.picker.git_status()
-			end,
+      end,
       desc = 'Edited Files',
     },
     {
