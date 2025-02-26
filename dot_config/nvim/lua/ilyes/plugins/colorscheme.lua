@@ -9,6 +9,7 @@ return {
         transparency = false,
       },
       highlight_groups = {
+        Comment = { italic = true },
         InclineNormal = { bg = '', fg = 'foam' },
         InclineNormalNC = { bg = '', fg = 'muted' },
         StatusLine = { bg = '', fg = 'muted' },
