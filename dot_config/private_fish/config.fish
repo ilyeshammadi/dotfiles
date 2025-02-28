@@ -7,7 +7,8 @@ alias vi="nvim"
 alias vim="nvim"
 alias fzf="fzf-tmux -p"
 alias cat="bat"
-alias ls="eza -l --icons --group-directories-first"
+alias ls="eza --group-directories-first"
+alias ll="eza -l --icons --group-directories-first"
 
 # Abbrevations
 ## Generic
