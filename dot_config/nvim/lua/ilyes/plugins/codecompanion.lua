@@ -36,7 +36,7 @@ return {
       display = {
         diff = {
           enabled = true,
-          provider = 'mini_diff',
+          -- provider = 'mini_diff',
         },
       },
     }
