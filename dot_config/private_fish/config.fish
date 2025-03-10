@@ -1,6 +1,7 @@
 fish_vi_key_bindings
 
 set -g fish_greeting
+set fish_cursor_insert block
 
 # Aliases
 alias vi="nvim"

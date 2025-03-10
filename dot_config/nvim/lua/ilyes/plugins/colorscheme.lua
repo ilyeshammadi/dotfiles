@@ -14,9 +14,14 @@ return {
         InclineNormalNC = { bg = '', fg = 'muted' },
         StatusLine = { bg = '', fg = 'muted' },
         TreesitterContext = { bg = 'base' },
-        TreesitterContextLineNumber = { bg = 'base' },
+        TreesitterContextLineNumber = { bg = 'base', fg = 'muted' },
         MsgArea = { bg = 'base' },
         MsgSeparator = { bg = 'base' },
+        FloatBorder = { bg = 'base' },
+        NormalFloat = { bg = 'base' },
+        Pmenu = { fg = 'muted', bg = 'base' },
+        WhichKeyFloat = { bg = 'base' },
+        WhichKeyBorder = { bg = 'base' },
       },
     }
     vim.cmd 'colorscheme rose-pine'

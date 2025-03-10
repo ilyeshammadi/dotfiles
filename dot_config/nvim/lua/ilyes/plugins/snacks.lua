@@ -14,7 +14,6 @@ return {
     picker = { enabled = true, layout = 'ivy' },
     notifier = { enabled = true },
     quickfile = { enabled = true },
-    words = { enabled = true },
     statuscolumn = {
       enabled = true,
     },
@@ -165,22 +164,6 @@ return {
         Snacks.picker.lsp_workspace_symbols()
       end,
       desc = 'LSP Workspace Symbols',
-    },
-    {
-      '))',
-      function()
-        Snacks.words.jump(vim.v.count1)
-      end,
-      desc = 'Next Reference',
-      mode = { 'n', 't' },
-    },
-    {
-      '((',
-      function()
-        Snacks.words.jump(-vim.v.count1)
-      end,
-      desc = 'Prev Reference',
-      mode = { 'n', 't' },
     },
   },
   init = function()
