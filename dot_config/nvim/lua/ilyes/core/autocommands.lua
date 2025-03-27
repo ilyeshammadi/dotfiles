@@ -6,14 +6,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.api.nvim_create_autocmd('FileType', {
-  desc = 'Disable diagnostic messages for some languages',
-  group = vim.api.nvim_create_augroup('ilyes-disable-diagnostic', { clear = true }),
-  pattern = { 'python' },
-  callback = function()
-    vim.diagnostic.config { virtual_text = false, signs = true }
-  end,
-})
+-- vim.api.nvim_create_autocmd('FileType', {
+--   desc = 'Disable diagnostic messages for some languages',
+--   group = vim.api.nvim_create_augroup('ilyes-disable-diagnostic', { clear = true }),
+--   pattern = { 'python' },
+--   callback = function()
+--     vim.diagnostic.config { virtual_text = false, signs = true }
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd('BufRead', {
   desc = 'Preseve cursor position in file',

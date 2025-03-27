@@ -4,7 +4,8 @@ local default_diagnostic_config = {
   signs = {
     active = true,
   },
-  virtual_text = true,
+  virtual_text = { current_line = true },
+	-- virtual_lines = true,
   update_in_insert = false,
   underline = true,
   severity_sort = true,
@@ -42,7 +43,7 @@ return {
           },
         },
       },
-      ruff = {},
+      -- ruff = {},
       -- Go
       gopls = {
         settings = {
@@ -81,7 +82,7 @@ return {
       -- Html
       emmet_ls = {},
       jinja_lsp = {},
-			htmx_lsp = {},
+      htmx_lsp = {},
       -- Markdown
       marksman = {},
     }

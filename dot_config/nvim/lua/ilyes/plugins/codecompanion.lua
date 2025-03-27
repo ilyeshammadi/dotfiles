@@ -1,6 +1,6 @@
 return {
   'olimorris/codecompanion.nvim',
-	event = 'VeryLazy',
+  event = 'VeryLazy',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
@@ -36,7 +36,7 @@ return {
       display = {
         diff = {
           enabled = true,
-          -- provider = 'mini_diff',
+          provider = 'mini_diff',
         },
       },
     }
