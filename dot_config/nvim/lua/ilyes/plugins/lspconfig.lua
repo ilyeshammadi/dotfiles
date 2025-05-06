@@ -4,8 +4,8 @@ local default_diagnostic_config = {
   signs = {
     active = true,
   },
-  virtual_text = { current_line = true },
-	-- virtual_lines = true,
+  virtual_text = { severity = vim.diagnostic.severity.WARN },
+  virtual_lines = { current_line = true, severity = vim.diagnostic.severity.ERROR },
   update_in_insert = false,
   underline = true,
   severity_sort = true,
@@ -39,6 +39,9 @@ return {
           basedpyright = {
             analysis = {
               typeCheckingMode = 'basic',
+            },
+            python = {
+              venvPath = './venv',
             },
           },
         },

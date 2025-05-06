@@ -5,7 +5,9 @@ return {
   event = 'VeryLazy',
   version = '*',
   config = function()
-    require('mini.bracketed').setup()
+    require('mini.bracketed').setup {
+      diagnostic = { options = { float = false, severity = vim.diagnostic.severity.ERROR } },
+    }
     require('mini.ai').setup()
     require('mini.surround').setup()
     require('mini.pairs').setup()

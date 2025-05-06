@@ -165,6 +165,28 @@ return {
       end,
       desc = 'LSP Workspace Symbols',
     },
+
+    {
+      '<leader><leader>',
+      function()
+        Snacks.scratch { name = 'notes', file = './notes.md', ft = 'md' }
+      end,
+      desc = 'Toggle Scratch Notes',
+    },
+    {
+      '<leader>.',
+      function()
+        Snacks.scratch()
+      end,
+      desc = 'Toggle Scratch Buffer',
+    },
+    {
+      '<leader>S',
+      function()
+        Snacks.scratch.select()
+      end,
+      desc = 'Select Scratch Buffer',
+    },
   },
   init = function()
     vim.api.nvim_create_autocmd('User', {

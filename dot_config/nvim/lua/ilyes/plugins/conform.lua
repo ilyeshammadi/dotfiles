@@ -17,7 +17,7 @@ return {
         json = { 'prettier' },
         jsonc = { 'prettier' },
         yaml = { 'prettier' },
-        markdown = { 'prettier' },
+        markdown = {},
         graphql = { 'prettier' },
         lua = { 'stylua' },
         python = { 'ruff' },
