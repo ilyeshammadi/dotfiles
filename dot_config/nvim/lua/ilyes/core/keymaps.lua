@@ -42,10 +42,6 @@ nnoremap('[t', '<cmd>tabprevious<CR>', { silent = true, desc = 'Previous tab' })
 nnoremap('[<space>', 'O<esc>j')
 nnoremap(']<space>', 'o<esc>k')
 
--- Diagnostic keymaps
-nnoremap('[d', vim.diagnostic.goto_prev, { desc = 'Previous Diagnostic message' })
-nnoremap(']d', vim.diagnostic.goto_next, { desc = 'Next Diagnostic message' })
-
 nnoremap('-', '<cmd>Oil --float<CR>', { desc = '🫒 Oil' })
 
 -- Quick fix
@@ -73,14 +69,14 @@ nnoremap('gr', '<cmd>lua vim.lsp.buf.references()<CR>', { desc = 'Goto refernces
 nnoremap('gI', '<cmd>lua vim.lsp.buf.implementation()<CR>', { desc = 'Goto implementation' })
 nnoremap('gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { desc = 'Show signature help' })
 nnoremap('gl', function()
-  local float = vim.diagnostic.config().float
-
-  if float then
-    local config = type(float) == 'table' and float or {}
-    config.scope = 'line'
-
-    vim.diagnostic.open_float(config)
-  end
+  vim.diagnostic.config { virtual_lines = { current_line = true } }
+vim.api.nvim_create_autocmd('CursorMoved', {
+  group = vim.api.nvim_create_augroup('line-diagnostics', { clear = true }),
+  callback = function()
+    vim.diagnostic.config { virtual_lines = false }
+    return true
+  end,
+})
 end, { desc = 'Show line diagnostics' })
 
 -- Treesitter context

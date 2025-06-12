@@ -3,9 +3,26 @@ local icons = require 'ilyes.core.icons'
 local default_diagnostic_config = {
   signs = {
     active = true,
+    text = {
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '',
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '',
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
+    },
   },
-  virtual_text = { severity = vim.diagnostic.severity.WARN },
-  virtual_lines = { current_line = true, severity = vim.diagnostic.severity.ERROR },
+  virtual_text = false,
   update_in_insert = false,
   underline = true,
   severity_sort = true,
@@ -110,18 +127,6 @@ return {
         end,
       },
     }
-
-    -- Change the Diagnostic symbols in the sign column (gutter)
-    local signs = {
-      Error = icons.diagnostics.BoldError,
-      Warn = icons.diagnostics.BoldWarning,
-      Hint = icons.diagnostics.BoldHint,
-      Info = icons.diagnostics.BoldInformation,
-    }
-    for type, icon in pairs(signs) do
-      local hl = 'DiagnosticSign' .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
-    end
 
     -- Apply default diagnostic config
     vim.diagnostic.config(default_diagnostic_config)

@@ -6,7 +6,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-
 vim.api.nvim_create_autocmd('BufRead', {
   desc = 'Preseve cursor position in file',
   callback = function(opts)
