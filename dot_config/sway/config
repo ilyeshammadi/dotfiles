@@ -6,7 +6,7 @@ set $up k
 set $right l
 
 # Defaul terminal
-set $term wezterm
+set $term kitty
 
 # Default menu app
 set $menu dmenu_path | wmenu | xargs swaymsg exec --
@@ -156,7 +156,7 @@ bindsym XF86MonBrightnessUp exec "brightnessctl set +5%"
 bindsym XF86MonBrightnessDown exec "brightnessctl set 5%-"
 
 # Apps
-bindsym Shift+Ctrl+Alt+j exec wezterm
+bindsym Shift+Ctrl+Alt+j exec kitty
 bindsym Shift+Ctrl+Alt+k exec firefox
 
 # Monitor
@@ -174,8 +174,10 @@ bar {
 ###################################### Start-up apps ##############################################
 ###################################################################################################
 ## Graphical Apps
-exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id wezterm start -- ~/.scripts/usr_tmux_attach_or_start'
+# exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id wezterm start -- ~/.scripts/usr_tmux_attach_or_start'
+exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id kitty
 exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id firefox'
+exec --no-startup-id swaymsg 'workspace 9; exec --no-startup-id discord'
 
 ## Background apps
 exec wlsunset -l 52.4 -L 4.6 -t 3500

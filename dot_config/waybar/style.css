@@ -3,17 +3,17 @@
   font-family: "JetBrainsMono Nerd Font";
 }
 window#waybar {
-  background: #1f1f28;
-  color: #54546d;
+  background: #191724;
+  color: #6e6a86;
 }
 
 #workspaces button {
-  color: #54546d;
+  color: #6e6a86;
   padding: 0 2px;
 }
 
 #workspaces button.focused {
-  color: #c8c093;
+  color: #e0def4;
 }
 
 #wireplumber {
