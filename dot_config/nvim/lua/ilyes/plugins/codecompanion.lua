@@ -1,34 +1,39 @@
 return {
   'olimorris/codecompanion.nvim',
   event = 'VeryLazy',
+  version = '^18.0.0',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
   },
   config = function()
     require('codecompanion').setup {
-      strategies = {
+      interactions = {
         chat = {
-          adapter = 'ollama',
+          adapter = {
+            name = 'claude_code',
+            model = 'haiku',
+          },
         },
         inline = {
-          adapter = 'ollama',
+          adapter = 'claude_code',
+          model = 'sonnet',
         },
         cmd = {
-          adapter = 'ollama',
+          adapter = 'claude_code',
+          model = 'sonnet',
         },
       },
       adapters = {
-        ollama = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            name = 'ollama',
-            schema = {
-              model = {
-                default = 'qwen2.5-coder:7b',
+        acp = {
+          claude_code = function()
+            return require('codecompanion.adapters').extend('claude_code', {
+              env = {
+                CLAUDE_CODE_OAUTH_TOKEN = 'cmd:cat ~/.config/secrets/anthropic_key',
               },
-            },
-          })
-        end,
+            })
+          end,
+        },
       },
       opts = {
         log_level = 'DEBUG',
