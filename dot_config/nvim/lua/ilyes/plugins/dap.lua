@@ -10,6 +10,7 @@ return {
     'theHamsta/nvim-dap-virtual-text',
     'nvim-neotest/nvim-nio',
   },
+	enabled = false,
   event = 'VeryLazy',
   config = function()
     local dap = require 'dap'

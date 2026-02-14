@@ -3,6 +3,9 @@ fish_vi_key_bindings
 set -g fish_greeting
 set fish_cursor_insert block
 
+# Bin folders
+fish_add_path ~/.cargo/bin
+
 # Aliases
 alias vi="nvim"
 alias vim="nvim"
@@ -25,3 +28,5 @@ abbr --add lzg "lazygit"
 
 
 starship init fish | source
+
+

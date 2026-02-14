@@ -37,7 +37,7 @@ return {
       '<leader>e',
       function()
         Snacks.explorer.open {
-          auto_close = true,
+          auto_close = false,
         }
       end,
       desc = 'Explorer',
@@ -190,7 +190,7 @@ return {
   },
   init = function()
     vim.api.nvim_create_autocmd('User', {
-      pattern = 'VeryLazy',
+pattern = "VeryLazy",
       callback = function()
         -- Setup some globals for debugging (lazy-loaded)
         _G.dd = function(...)
@@ -199,12 +199,15 @@ return {
         _G.bt = function()
           Snacks.debug.backtrace()
         end
-        vim.print = _G.dd -- Override print to use snacks for `:=` command
 
-        -- Create some toggle mappings
-        Snacks.toggle.inlay_hints():map '<leader>uh'
-        Snacks.toggle.dim():map '<leader>uD'
-        Snacks.toggle.indent():map '<leader>ug'
+        -- Override print to use snacks for `:=` command
+        if vim.fn.has("nvim-0.11") == 1 then
+          vim._print = function(_, ...)
+            dd(...)
+          end
+        else
+          vim.print = _G.dd 
+        end
       end,
     })
   end,

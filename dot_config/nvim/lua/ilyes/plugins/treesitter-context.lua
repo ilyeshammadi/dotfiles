@@ -2,6 +2,7 @@ return {
   'nvim-treesitter/nvim-treesitter-context',
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
   event = 'BufRead',
+	branch = 'master',
   config = function()
     require('treesitter-context').setup {
 			enable = true,
