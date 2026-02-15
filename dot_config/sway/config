@@ -157,7 +157,7 @@ bindsym XF86MonBrightnessDown exec "brightnessctl set 5%-"
 
 # Apps
 bindsym Shift+Ctrl+Alt+j exec kitty
-bindsym Shift+Ctrl+Alt+k exec firefox
+bindsym Shift+Ctrl+Alt+k exec vivaldi-stable
 
 # Monitor
 bindsym $mod+Shift+m exec "swaymsg output eDP-1 disable"
@@ -176,7 +176,7 @@ bar {
 ## Graphical Apps
 # exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id wezterm start -- ~/.scripts/usr_tmux_attach_or_start'
 exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id kitty
-exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id firefox'
+exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id vivaldi-stable'
 exec --no-startup-id swaymsg 'workspace 9; exec --no-startup-id discord'
 
 ## Background apps

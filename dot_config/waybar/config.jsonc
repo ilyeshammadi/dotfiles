@@ -20,9 +20,9 @@
       "nvim": "",
       "zsh": "",
       "tmux": "",
-      "wezterm": "",
+      "kitty": "",
       "(.*) - Discord": "$1",
-      "(.*) — Mozilla Firefox": "$1",
+      "(.*) — Vivaldi": "$1",
     },
   },
   "tray": {
