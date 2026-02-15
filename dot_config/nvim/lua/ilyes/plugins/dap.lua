@@ -11,7 +11,7 @@ return {
 
     -- Langugae drivers
     'mfussenegger/nvim-dap-python',
-    'mfussenegger/nvim-dap-go',
+    'leoluz/nvim-dap-go',
   },
   event = 'VeryLazy',
   config = function()
