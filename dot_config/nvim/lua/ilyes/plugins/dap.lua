@@ -6,11 +6,13 @@ return {
     'rcarriga/nvim-dap-ui',
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-    'mfussenegger/nvim-dap-python',
     'theHamsta/nvim-dap-virtual-text',
     'nvim-neotest/nvim-nio',
+
+    -- Langugae drivers
+    'mfussenegger/nvim-dap-python',
+    'mfussenegger/nvim-dap-go',
   },
-	enabled = false,
   event = 'VeryLazy',
   config = function()
     local dap = require 'dap'
@@ -30,5 +32,6 @@ return {
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
     require('dap-python').setup()
+    require('dap-go').setup()
   end,
 }
