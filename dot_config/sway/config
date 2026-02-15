@@ -174,7 +174,6 @@ bar {
 ###################################### Start-up apps ##############################################
 ###################################################################################################
 ## Graphical Apps
-# exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id wezterm start -- ~/.scripts/usr_tmux_attach_or_start'
 exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id kitty
 exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id vivaldi-stable'
 exec --no-startup-id swaymsg 'workspace 9; exec --no-startup-id discord'
@@ -208,7 +207,7 @@ set $urgent-text														#DCA561
 set $urgent-indicator												#DCA561
 
 # Font
-font pango:JetBrainsMono Nerd Font 10
+font pango:Iosevka Nerd Font 10
 
 # hide_edge_borders smart
 default_border pixel 1
@@ -217,9 +216,9 @@ default_floating_border none
 gaps inner 10
 gaps outer 5
 
-for_window [workspace="1"] border none
-workspace 1 gaps inner 0
-workspace 1 gaps outer 0
+# for_window [workspace="1"] border none
+# workspace 1 gaps inner 0
+# workspace 1 gaps outer 0
 
 client.focused						$focused-border 					$focused-background 					$focused-text 					$focused-indicator	
 client.unfocused					$unfocused-border 				$unfocused-background 				$unfocused-text 				$unfocused-indicator
