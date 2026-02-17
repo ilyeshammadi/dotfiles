@@ -64,6 +64,9 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>ts', "<cmd>lua require('neotest').summary.toggle()<CR>", desc = 'Summary' },
       { '<leader>tt', "<cmd>lua require('neotest').run.run()<CR>", desc = 'Run' },
       { '<leader>u', group = 'Toggle' },
+      { '<leader>o', group = 'Obsidian' },
+      { '<leader>os', '<cmd>Obsidian search<CR>', desc = 'Search' },
+      { '<leader>oc', '<cmd>Obsidian new<CR>', desc = 'Create' },
     }
   end,
 }
