@@ -9,14 +9,17 @@ return {
   },
   opts = {
     legacy_commands = false, -- this will be removed in the next major release
+    daily_notes = {
+      folder = 'dailies',
+    },
     workspaces = {
       {
         name = 'personal',
         path = '~/vaults/personal',
       },
     },
-    templates = {
-      folder = 'templates',
+    picker = {
+      name = 'snacks.pick',
     },
   },
 }

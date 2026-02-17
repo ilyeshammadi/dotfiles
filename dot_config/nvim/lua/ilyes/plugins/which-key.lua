@@ -67,6 +67,8 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>o', group = 'Obsidian' },
       { '<leader>os', '<cmd>Obsidian search<CR>', desc = 'Search' },
       { '<leader>oc', '<cmd>Obsidian new<CR>', desc = 'Create' },
+      { '<leader>ot', '<cmd>Obsidian tags<CR>', desc = 'Tags' },
+      { '<leader>od', '<cmd>Obsidian dailies<CR>', desc = 'dailies' },
     }
   end,
 }
