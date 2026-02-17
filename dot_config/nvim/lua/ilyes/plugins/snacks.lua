@@ -12,7 +12,7 @@ return {
     scope = { enabled = true },
     input = { enabled = true },
     picker = { enabled = true, layout = 'ivy' },
-    notifier = { enabled = true },
+    notifier = { enabled = false },
     quickfile = { enabled = true },
     statuscolumn = {
       enabled = true,
