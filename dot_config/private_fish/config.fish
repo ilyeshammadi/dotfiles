@@ -5,8 +5,6 @@ set fish_cursor_insert block
 
 # Bin folders
 fish_add_path ~/.cargo/bin
-# Source env vars
-source ~/.fish/*.fish
 
 # Aliases
 alias vi="nvim"
