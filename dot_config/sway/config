@@ -25,10 +25,30 @@ input * {
 	 # Enable horizontal scrolling
 	 scroll_method two_finger
 	 # Adjust sensitivity
-	 accel_profile adaptive
-	 pointer_accel 0.3
+	 accel_profile flat
+	 pointer_accel 0.25
 }
 
+input type:touchpad {
+		events disabled
+    tap disabled
+    drag disabled
+		drag_lock disabled
+    dwt enabled                # Disable while typing
+    dwtp enabled               # Disable while typing
+    accel_profile flat
+		pointer_accel 0.5
+		scroll_factor 0.2
+}
+
+# TrackPoint (red button) - custom sensitivity
+input "2:10:TPPS/2_Elan_TrackPoint" {
+    pointer_accel 0.3     # Different from mice
+    accel_profile flat
+    scroll_method on_button_down
+    scroll_button 274
+		scroll_factor 0.2
+}
 ###################################################################################################
 ########################################### Output ################################################
 ###################################################################################################
@@ -63,6 +83,7 @@ output HDMI-A-1 {
 bindsym $mod+Return exec $term
 bindsym $mod+q kill
 bindsym $mod+d exec $menu
+bindsym End exec systemctl suspend
 
 floating_modifier $mod normal
 
