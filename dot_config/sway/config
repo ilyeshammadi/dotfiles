@@ -53,7 +53,7 @@ input "2:10:TPPS/2_Elan_TrackPoint" {
 ########################################### Output ################################################
 ###################################################################################################
 # Wallpaper
-output * background /home/ilyes/wallpapers/wp-2.png fill
+output * background /home/ilyes/wallpapers/wp-3.jpg fill
 
 # Monitor
 output eDP-1 {
