@@ -13,6 +13,7 @@ alias fzf="fzf-tmux -p"
 alias cat="bat"
 alias ls="eza --group-directories-first"
 alias ll="eza -l --icons --group-directories-first"
+alias ?="aichat"
 
 # Abbrevations
 ## Generic
