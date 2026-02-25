@@ -33,3 +33,10 @@ if [[ "$OSTYPE" == darwin* ]]; then
 	export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 	export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 fi
+
+
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+# End Nix
