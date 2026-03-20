@@ -28,6 +28,13 @@ abbr --add lzd "lazydocker"
 abbr --add lzg "lazygit"
 
 
+# Source
+## Source all files in ~/.fish/
+if test -d ~/.fish
+    for f in ~/.fish/*.fish
+        source $f
+    end
+end
+
+## Source startship
 starship init fish | source
-
-
