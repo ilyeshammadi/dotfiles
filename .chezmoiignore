@@ -17,3 +17,15 @@ README.md
 .skhdrc
 
 {{ end }}
+
+{{ if ne .machineType "laptop" }}
+
+.config/kitty
+.config/sway
+.config/waybar
+.emptty
+wallpapers
+.yabairc
+.skhdrc
+
+{{ end }}
