@@ -57,6 +57,12 @@ brew install --cask \
   discord \
   obsidian
 
+# --- Set fish as default shell ---
+if ! grep -q "$(command -v fish)" /etc/shells; then
+  command -v fish | sudo tee -a /etc/shells
+fi
+sudo chsh -s "$(command -v fish)" "$USER"
+
 # --- Fisher (fish plugin manager) ---
 if ! fish -c "type -q fisher" 2>/dev/null; then
   fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
