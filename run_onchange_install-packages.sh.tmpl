@@ -30,7 +30,6 @@ brew install \
   btop \
   watchexec \
   fish \
-  zsh \
   ripgrep \
   direnv \
   aichat \
@@ -57,6 +56,12 @@ brew install --cask \
   vivaldi \
   discord \
   obsidian
+
+# --- Fisher (fish plugin manager) ---
+if ! fish -c "type -q fisher" 2>/dev/null; then
+  fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+fi
+fish -c "fisher update" 2>/dev/null || true
 
 {{ else if eq .chezmoi.os "linux" -}}
 # =============================================================================
@@ -93,7 +98,6 @@ yay -S --needed --noconfirm \
   btop \
   watchexec \
   fish \
-  zsh \
   ripgrep \
   direnv \
   aichat \
@@ -138,6 +142,18 @@ yay -S --needed --noconfirm \
 sudo systemctl enable --now docker
 sudo usermod -aG docker "$USER"
 
+# --- Set fish as default shell ---
+if ! grep -q "$(command -v fish)" /etc/shells; then
+  command -v fish | sudo tee -a /etc/shells
+fi
+sudo chsh -s "$(command -v fish)" "$USER"
+
+# --- Fisher (fish plugin manager) ---
+if ! fish -c "type -q fisher" 2>/dev/null; then
+  fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+fi
+fish -c "fisher update" 2>/dev/null || true
+
 {{ else -}}
 # ==========================================================================
 # Debian — Devbox VM
@@ -156,7 +172,6 @@ sudo apt-get install -y --no-install-recommends \
   gnupg \
   lsb-release \
   unzip \
-  zsh \
   fish \
   ripgrep \
   direnv \
@@ -267,6 +282,18 @@ if ! command -v docker &>/dev/null; then
   sudo systemctl enable --now docker
   sudo usermod -aG docker "$USER"
 fi
+
+# --- Set fish as default shell ---
+if ! grep -q "$(command -v fish)" /etc/shells; then
+  command -v fish | sudo tee -a /etc/shells
+fi
+sudo chsh -s "$(command -v fish)" "$USER"
+
+# --- Fisher (fish plugin manager) ---
+if ! fish -c "type -q fisher" 2>/dev/null; then
+  fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+fi
+fish -c "fisher update" 2>/dev/null || true
 
 {{ end -}}
 {{ end -}}

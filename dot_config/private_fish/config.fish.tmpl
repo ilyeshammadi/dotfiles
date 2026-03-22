@@ -1,0 +1,63 @@
+fish_vi_key_bindings
+
+set -g fish_greeting
+set fish_cursor_insert block
+
+# --- PATH ---
+fish_add_path ~/.local/bin
+fish_add_path ~/.scripts
+fish_add_path ~/.cargo/bin
+fish_add_path ~/go/bin
+fish_add_path ~/.local/share/pypoetry/bin
+
+{{ if eq .chezmoi.os "darwin" -}}
+fish_add_path /opt/homebrew/bin
+fish_add_path /opt/homebrew/opt/postgresql@15/bin
+fish_add_path /opt/homebrew/opt/openjdk/bin
+{{ end -}}
+
+# --- Environment ---
+set -gx EDITOR nvim
+set -gx VISUAL nvim
+set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
+set -gx FZF_DEFAULT_OPTS '--height 40% --layout=reverse --border --color=bg+:#363646,gutter:-1'
+
+{{ if eq .chezmoi.os "darwin" -}}
+# macOS SDK paths
+set -gx CPATH (xcrun --show-sdk-path)/usr/include:/usr/local/include
+set -gx LIBRARY_PATH /usr/local/opt/openssl/lib/:/usr/local/lib
+set -gx CPPFLAGS "-I/opt/homebrew/opt/openjdk/include"
+{{ end -}}
+
+# --- Aliases ---
+alias vi="nvim"
+alias vim="nvim"
+alias fzf="fzf-tmux -p"
+alias cat="bat"
+alias ls="eza --group-directories-first"
+alias ll="eza -l --icons --group-directories-first"
+alias ?="aichat"
+
+# --- Abbreviations ---
+abbr --add v nvim
+abbr --add c clear
+abbr --add e exit
+abbr --add po poetry
+abbr --add lzg lazygit
+abbr --add lzd lazydocker
+## Docker
+abbr --add dps "docker ps"
+abbr --add dsrm "docker stop (docker ps -a -q) && docker rm (docker ps -a -q) && docker volume rm (docker volume ls -q)"
+
+# --- direnv hook ---
+direnv hook fish | source
+
+# --- Source ~/.fish/*.fish ---
+if test -d ~/.fish
+    for f in ~/.fish/*.fish
+        source $f
+    end
+end
+
+# --- Starship prompt ---
+starship init fish | source
