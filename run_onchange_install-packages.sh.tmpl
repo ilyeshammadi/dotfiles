@@ -283,6 +283,12 @@ if ! command -v docker &>/dev/null; then
   sudo usermod -aG docker "$USER"
 fi
 
+# --- kitty terminfo (for SSH sessions from kitty) ---
+if ! infocmp xterm-kitty &>/dev/null 2>&1; then
+  curl -sLo /tmp/kitty.terminfo https://raw.githubusercontent.com/kovidgoyal/kitty/master/terminfo/kitty.terminfo
+  sudo tic -xe xterm-kitty /tmp/kitty.terminfo
+fi
+
 # --- Set fish as default shell ---
 if ! grep -q "$(command -v fish)" /etc/shells; then
   command -v fish | sudo tee -a /etc/shells
