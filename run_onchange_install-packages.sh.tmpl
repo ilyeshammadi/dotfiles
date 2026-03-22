@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # chezmoi: run_onchange — reruns automatically when this file changes
-set -euo pipefail
+set -eu
 
 {{ if eq .chezmoi.os "darwin" -}}
 # =============================================================================
@@ -59,7 +59,7 @@ brew install --cask \
 
 # --- Set fish as default shell ---
 if ! grep -q "$(command -v fish)" /etc/shells; then
-  command -v fish | sudo tee -a /etc/shells
+  echo "$(command -v fish)" | sudo tee -a /etc/shells >/dev/null
 fi
 sudo chsh -s "$(command -v fish)" "$USER"
 
@@ -150,7 +150,7 @@ sudo usermod -aG docker "$USER"
 
 # --- Set fish as default shell ---
 if ! grep -q "$(command -v fish)" /etc/shells; then
-  command -v fish | sudo tee -a /etc/shells
+  echo "$(command -v fish)" | sudo tee -a /etc/shells >/dev/null
 fi
 sudo chsh -s "$(command -v fish)" "$USER"
 
@@ -201,12 +201,12 @@ if command -v batcat &>/dev/null && ! command -v bat &>/dev/null; then
   ln -sf "$(command -v batcat)" ~/.local/bin/bat
 fi
 
-# --- Neovim (AppImage, latest stable) ---
+# --- Neovim (tarball, latest stable) ---
 if ! command -v nvim &>/dev/null; then
-  curl -Lo /tmp/nvim.appimage \
-    https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
-  chmod +x /tmp/nvim.appimage
-  sudo mv /tmp/nvim.appimage /usr/local/bin/nvim
+  curl -Lo /tmp/nvim.tar.gz \
+    https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+  sudo tar -C /usr/local -xf /tmp/nvim.tar.gz --strip-components=1
+  rm /tmp/nvim.tar.gz
 fi
 
 # --- Starship ---
@@ -217,10 +217,10 @@ fi
 # --- eza ---
 if ! command -v eza &>/dev/null; then
   sudo mkdir -p /etc/apt/keyrings
-  wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc \
-    | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+  wget -qO /tmp/gierens.asc https://raw.githubusercontent.com/eza-community/eza/main/deb.asc
+  sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg /tmp/gierens.asc
   echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" \
-    | sudo tee /etc/apt/sources.list.d/gierens.list
+    | sudo tee /etc/apt/sources.list.d/gierens.list >/dev/null
   sudo apt-get update -qq
   sudo apt-get install -y eza
 fi
@@ -277,12 +277,11 @@ fi
 
 # --- Docker ---
 if ! command -v docker &>/dev/null; then
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
-    | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  curl -fsSLo /tmp/docker.gpg https://download.docker.com/linux/ubuntu/gpg
+  sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg /tmp/docker.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
     https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-    | sudo tee /etc/apt/sources.list.d/docker.list
+    | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
   sudo apt-get update -qq
   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
   sudo systemctl enable --now docker
@@ -297,7 +296,7 @@ fi
 
 # --- Set fish as default shell ---
 if ! grep -q "$(command -v fish)" /etc/shells; then
-  command -v fish | sudo tee -a /etc/shells
+  echo "$(command -v fish)" | sudo tee -a /etc/shells >/dev/null
 fi
 sudo chsh -s "$(command -v fish)" "$USER"
 
