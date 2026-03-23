@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# chezmoi: run_onchange — reruns automatically when this file changes
+# chezmoi: run_once — runs once on first bootstrap, never again automatically
 set -eu
 
 {{ if eq .chezmoi.os "darwin" -}}

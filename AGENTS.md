@@ -28,7 +28,7 @@ across macOS and Linux (Arch laptop + Ubuntu devbox).
 ├── .chezmoiexternal.toml  # external dependencies (tpm)
 ├── .chezmoiignore         # conditional file exclusions per OS/machine
 ├── .stylua.toml           # StyLua formatter config
-└── run_onchange_install-packages.sh.tmpl  # Package bootstrap script
+└── run_once_install-packages.sh.tmpl      # Package bootstrap script
 ```
 
 ---
@@ -54,7 +54,10 @@ chezmoi diff
 # Pull upstream changes and apply
 chezmoi update
 
-# Re-run the package install script (force)
+# Manually run the package install script on demand
+bash ~/.local/share/chezmoi/run_once_install-packages.sh.tmpl
+
+# Force re-run the package install script via chezmoi (clears run_once state)
 chezmoi state delete-bucket --bucket=scriptState && chezmoi apply
 ```
 
@@ -162,7 +165,7 @@ All editor options are set via `vim.opt.*`, `vim.o.*`, or `vim.g.*` in
 
 ## Shell Scripts Style Guidelines
 
-The bootstrap script (`run_onchange_install-packages.sh.tmpl`) follows these conventions:
+The bootstrap script (`run_once_install-packages.sh.tmpl`) follows these conventions:
 
 - Shebang: `#!/usr/bin/env bash`
 - Strict mode: `set -eu` at the top of every script
