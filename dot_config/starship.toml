@@ -17,7 +17,7 @@ disabled = false
 # The following modules are customized for tmux status line
 [directory]
 style = "fg:#54546d"
-format = "$read_only $symbol $path "
+format = "$read_only $path "
 read_only = "[-]"
 
 [git_branch]
@@ -26,12 +26,21 @@ format = '| $symbol $branch(:$remote_branch) '
 
 [kubernetes]
 symbol = "󱃾 "
-format = '| $symbol $cluster \($namespace\)'
+format = '| $symbol $cluster \($namespace\) '
 disabled = false
 
 [docker_context]
 symbol = '󰡨 '
-style = 'fg:#54546d'
 format = '| $symbol $context '
 disabled = false
 only_with_files = false
+
+[username]
+format = '| $user'
+disabled = false
+show_always = false
+
+[hostname]
+ssh_only = true
+format = '@$hostname'
+disabled = false
