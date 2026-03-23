@@ -17,13 +17,21 @@ disabled = false
 # The following modules are customized for tmux status line
 [directory]
 style = "fg:#54546d"
-format = "$read_only $path | "
+format = "$read_only $symbol $path "
 read_only = "[-]"
 
 [git_branch]
 symbol = ''
-format = '$symbol $branch(:$remote_branch) | '
+format = '| $symbol $branch(:$remote_branch) '
 
 [kubernetes]
-format = '$cluster \($namespace\)'
+symbol = "󱃾 "
+format = '| $symbol $cluster \($namespace\)'
 disabled = false
+
+[docker_context]
+symbol = '󰡨 '
+style = 'fg:#54546d'
+format = '| $symbol $context '
+disabled = false
+only_with_files = false
