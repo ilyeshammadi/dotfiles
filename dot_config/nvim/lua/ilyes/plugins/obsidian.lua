@@ -12,9 +12,6 @@ return {
     templates = {
       folder = 'templates',
     },
-    note = {
-      template = 'default.md',
-    },
     daily_notes = {
       folder = 'dailies',
     },
