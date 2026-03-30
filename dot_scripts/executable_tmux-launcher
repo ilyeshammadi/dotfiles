@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-items="dotfiles (Run chezmoi edit)
+items="dotfiles
 lazygit
 lazydocker
 k9s
