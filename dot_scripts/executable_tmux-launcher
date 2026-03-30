@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -eu
+
+items="lazygit\nlazydocker\nk9s\ndotfiles"
+
+chosen=$(printf "$items" | fzf --prompt="  Launch: " --height=100% --border=none)
+
+[ -z "$chosen" ] && exit 0
+
+case "$chosen" in
+  lazygit)    tmux new-window -n LazyGit    -c "#{pane_current_path}" lazygit ;;
+  lazydocker) tmux new-window -n LazyDocker lazydocker ;;
+  k9s)        tmux new-window -n K9s k9s ;;
+  dotfiles)   tmux new-window -n Dotfiles   -c "$HOME/.local/share/chezmoi" chezmoi edit ;;
+esac
