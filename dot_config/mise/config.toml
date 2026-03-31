@@ -1,0 +1,26 @@
+[tools]
+# Languages
+python = "latest"
+node = "lts"
+go = "latest"
+rust = "latest"
+
+# Workflow
+neovim = "0.11.6"
+tmux = "latest"
+lazygit = "latest"
+lazydocker = "latest"
+yazi = "latest"
+starship = "latest"
+
+# Docker
+podman = "latest"
+
+# Kubernetes
+kubectl = "latest"
+kubectx = "latest"
+kubens = "latest"
+minikube = "latest"
+k9s = "latest"
+
+
