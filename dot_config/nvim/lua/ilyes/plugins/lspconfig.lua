@@ -1,3 +1,4 @@
+local helm_ls = require("lsp.helm_ls")
 local default_diagnostic_config = {
   signs = {
     active = true,
@@ -207,6 +208,16 @@ return {
           },
         },
       },
+			helm_ls = {
+				settings = {
+					["helm-ls"] = {
+						yamlls = {
+							path = "yaml-language-server",
+						},
+					},
+				}
+			}
+
     }
 
     -- Ensure the servers and tools above are installed
