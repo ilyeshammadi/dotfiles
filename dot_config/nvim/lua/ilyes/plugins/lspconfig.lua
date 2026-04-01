@@ -192,6 +192,8 @@ return {
           },
         },
       },
+      ['terraform-ls'] = {},
+			tflint = {}
     }
 
     local ensure_installed = {
