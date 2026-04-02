@@ -1,4 +1,9 @@
 [tools]
+# Core tools
+fzf = "latest"
+exa = "latest"
+bat = "latest"
+
 # Languages
 python = "latest"
 node = "latest"
