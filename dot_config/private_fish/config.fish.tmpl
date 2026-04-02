@@ -30,12 +30,16 @@ set -gx CPPFLAGS "-I/opt/homebrew/opt/openjdk/include"
 {{ end -}}
 
 # --- Aliases ---
+## Core
+alias cd="z"
+alias ls="eza --group-directories-first"
+alias ll="eza -l --icons --group-directories-first"
+alias cat="bat"
 alias vi="nvim"
 alias vim="nvim"
 alias fzf="fzf-tmux -p"
-alias cat="bat"
-alias ls="eza --group-directories-first"
-alias ll="eza -l --icons --group-directories-first"
+
+## K8s
 alias k="kubectl"
 alias kctx="kubectx"
 alias kns="kubens"
