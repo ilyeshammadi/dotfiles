@@ -1,8 +1,9 @@
 [tools]
 # Core tools
 fzf = "latest"
-exa = "latest"
+eza = "latest"
 bat = "latest"
+zoxide = "latest"
 
 # Languages
 python = "latest"
