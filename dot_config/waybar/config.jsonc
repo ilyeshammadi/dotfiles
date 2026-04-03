@@ -61,7 +61,7 @@
   "network#ethernet": {
     "interface": "enp*",
     "format-ethernet": "󰈀 ",
-    "format-disconnected": "",
+    "format-disconnected": "󰈀 ",
     "tooltip-format-wifi": "{essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
     "max-length": 50,
