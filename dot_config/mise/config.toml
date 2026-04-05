@@ -4,6 +4,7 @@ fzf = "latest"
 eza = "latest"
 bat = "latest"
 zoxide = "latest"
+jq = "latest"
 
 # Languages
 python = "latest"
