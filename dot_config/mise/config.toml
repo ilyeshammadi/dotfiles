@@ -31,4 +31,4 @@ minikube = "latest"
 k9s = "latest"
 
 # Cloud
-aws
+aws = "latest"
