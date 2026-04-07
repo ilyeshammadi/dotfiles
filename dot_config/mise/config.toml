@@ -30,4 +30,5 @@ kubens = "latest"
 minikube = "latest"
 k9s = "latest"
 
-
+# Cloud
+aws
