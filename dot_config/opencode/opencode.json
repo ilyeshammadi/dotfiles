@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-anthropic-oauth"],
+  "plugin": ["opencode-claude-oauth"],
   "permission": {
     "bash": {
       "*": "ask",
