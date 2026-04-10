@@ -32,3 +32,5 @@ k9s = "latest"
 
 # Cloud
 awscli = "latest"
+op = "latest"
+fnox = "latest"
