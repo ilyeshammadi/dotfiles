@@ -55,13 +55,6 @@ abbr --add lzd lazydocker
 abbr --add dps "docker ps"
 abbr --add dsrm "docker stop (docker ps -a -q) && docker rm (docker ps -a -q) && docker volume rm (docker volume ls -q)"
 
-# --- Source ~/.fish/*.fish ---
-if test -d ~/.fish
-    for f in ~/.fish/*.fish
-        source $f
-    end
-end
-
 # --- mise ---
 mise activate fish | source
 
