@@ -26,8 +26,12 @@ format = '| $symbol $branch(:$remote_branch) '
 
 [kubernetes]
 symbol = "󱃾 "
-format = '| $symbol $cluster \($namespace\) '
+format = '| $symbol $context \($namespace\) '
 disabled = false
+
+[[kubernetes.contexts]]
+context_pattern = "arn:aws:eks:(?P<region>[^:]+):[^:]+:cluster/(?P<cluster>.*)"
+context_alias = "eks-$cluster[$region]"
 
 [docker_context]
 symbol = '󰡨 '
