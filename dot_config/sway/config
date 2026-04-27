@@ -11,6 +11,8 @@ set $term kitty
 # Default menu app
 set $menu dmenu_path | wmenu | xargs swaymsg exec --
 
+# Cursor
+seat * xcursor_theme Bibata-Modern-Classic 20
 
 ###################################################################################################
 ########################################### Input #################################################
@@ -178,7 +180,7 @@ bindsym XF86MonBrightnessDown exec "brightnessctl set 5%-"
 
 # Apps
 bindsym Shift+Ctrl+Alt+j exec kitty
-bindsym Shift+Ctrl+Alt+k exec vivaldi-stable
+bindsym Shift+Ctrl+Alt+k exec vivaldi
 
 # Monitor
 bindsym $mod+Shift+m exec "swaymsg output eDP-1 disable"
@@ -196,7 +198,7 @@ bar {
 ###################################################################################################
 ## Graphical Apps
 exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id kitty
-exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id vivaldi-stable'
+exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id vivaldi
 exec --no-startup-id swaymsg 'workspace 9; exec --no-startup-id discord'
 
 ## Background apps
