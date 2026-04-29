@@ -27,6 +27,7 @@ return {
         bash = { 'shfmt' },
         go = { 'gofumpt' },
         htmldjango = { 'djlint' },
+        nix = { 'nixfmt' },
       },
     }
   end,
