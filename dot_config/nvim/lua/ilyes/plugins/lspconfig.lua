@@ -194,7 +194,7 @@ return {
       },
       ['terraform-ls'] = {},
 			-- nix lsp
-			nil = {}
+			['nil'] = {},
     }
 
     local ensure_installed = {
@@ -208,6 +208,8 @@ return {
       'djlint',
       'helm-ls',
       'yaml-language-server',
+			'terraform-ls',
+			'nil',
     }
 
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
