@@ -194,7 +194,7 @@ return {
       },
       ['terraform-ls'] = {},
 			-- nix lsp
-			['nil'] = {},
+			['nil_ls'] = {},
     }
 
     local ensure_installed = {
