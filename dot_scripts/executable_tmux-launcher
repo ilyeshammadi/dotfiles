@@ -5,6 +5,7 @@ items="dotfiles
 lazygit
 lazydocker
 k9s
+btop
 "
 
 chosen=$(printf "$items" | fzf --prompt="  Launch: " --height=100% --border=none)
@@ -12,8 +13,9 @@ chosen=$(printf "$items" | fzf --prompt="  Launch: " --height=100% --border=none
 [ -z "$chosen" ] && exit 0
 
 case "$chosen" in
-  dotfiles)   tmux new-window -n Dotfiles   -c "$HOME/.local/share/chezmoi" chezmoi edit ;;
-  lazygit)    tmux new-window -n LazyGit    -c "#{pane_current_path}" lazygit ;;
-  lazydocker) tmux new-window -n LazyDocker lazydocker ;;
-  k9s)        tmux new-window -n K9s k9s ;;
+  dotfiles)   tmux new-window -n dotfiles   -c "$HOME/.local/share/chezmoi" chezmoi edit ;;
+  lazygit)    tmux new-window -n lazygit    -c "#{pane_current_path}" lazygit ;;
+  lazydocker) tmux new-window -n lazydocker lazydocker ;;
+  k9s)        tmux new-window -n k9s k9s ;;
+  btop)       tmux new-window -n btop btop ;;
 esac

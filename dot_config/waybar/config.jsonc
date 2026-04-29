@@ -51,7 +51,7 @@
     "max-volume": 100,
   },
   "network#wifi": {
-    "interface": "wlan0",
+    "interface": "w*",
     "format-wifi": "{icon}",
     "format-disconnected": "󰤮",
     "format-icons": ["󰤟", "󰤢", "󰤥", "󰤨"],
@@ -62,7 +62,6 @@
     "interface": "enp*",
     "format-ethernet": "󰈀 ",
     "format-disconnected": "󰈀 ",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
     "max-length": 50,
   },
