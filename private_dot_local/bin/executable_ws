@@ -1,0 +1,242 @@
+#!/usr/bin/env bash
+#
+# ws - manage tmux sessions backed by git worktrees
+#
+# Creates a tmux session with one window per repo, each pointing at a
+# dedicated git worktree. Profiles define which repos to use and what
+# commands to run after setup.
+#
+# USAGE
+#   ws create -p <profile> <task-id>
+#   ws delete -p <profile> [<task-id>]
+#   ws list
+#
+# COMMANDS
+#   create    Create a new tmux session with worktrees for each repo
+#             in the given profile. Runs any post-setup hooks defined
+#             in the profile.
+#
+#   delete    Tear down a session: kill the tmux session, remove
+#             worktrees, delete branches, and clean up the task dir.
+#             Requires -p <profile>. If no task-id is given, opens
+#             an fzf picker from that profile's tree directory.
+#
+#   list      Show all active sessions and their profiles.
+#
+# PROFILES
+#   Profiles live in ~/.config/ws/profiles/<name>.sh
+#   and define the following variables:
+#
+#     WS_BASE            - root directory containing the git repos
+#     WS_TREE_DIR        - directory where worktrees are created
+#     WS_DEFAULT_BRANCH  - branch to checkout before creating worktrees (default: master)
+#     WS_REPOS           - array of "repo::{TASK}-based-branch-pattern" entries
+#
+#   Profiles can also define post-setup functions that run inside the
+#   worktree directory after creation. Name them ws_post_<repo> with
+#   dashes replaced by underscores:
+#
+#     ws_post_my_repo() {
+#       npm install
+#       npm run build
+#     }
+#
+# EXAMPLE PROFILE (~/.config/ws/profiles/myproject.sh)
+#
+#     WS_BASE=~/dev/myproject
+#     WS_TREE_DIR=~/dev/myproject/tree
+#     WS_DEFAULT_BRANCH=main
+#     WS_REPOS=(
+#       "backend::{TASK}"
+#       "frontend::feature/{TASK}"
+#     )
+#
+#     ws_post_backend() {
+#       pip install -e .
+#     }
+#
+#     ws_post_frontend() {
+#       npm install
+#     }
+#
+set -euo pipefail
+
+PROFILES_DIR="${HOME}/.config/ws/profiles"
+
+usage() {
+  cat <<EOF
+Usage:
+  ws create -p <profile> <task-id>
+  ws delete -p <profile> [<task-id>]
+  ws list
+EOF
+  exit 1
+}
+
+load_profile() {
+  local profile="$1"
+  local profile_file="${PROFILES_DIR}/${profile}.sh"
+  if [[ ! -f "$profile_file" ]]; then
+    echo "Profile not found: $profile_file" >&2
+    exit 1
+  fi
+  source "$profile_file"
+}
+
+cmd_create() {
+  local profile=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -p) profile="$2"; shift 2 ;;
+      *)  break ;;
+    esac
+  done
+
+  local task_id="${1:-}"
+  if [[ -z "$profile" || -z "$task_id" ]]; then
+    echo "Usage: ws create -p <profile> <task-id>" >&2
+    exit 1
+  fi
+
+  load_profile "$profile"
+
+  # Session name gets a "task-" prefix, but branches use the raw task_id
+  local session_name="task-${task_id}"
+  local tree_base="${WS_TREE_DIR}/${task_id}"
+  mkdir -p "$tree_base"
+
+  tmux new-session -d -s "$session_name" -n _init
+  local first_window=true
+
+  # Create one tmux window per repo, setup worktree and run post commands in each
+  for entry in "${WS_REPOS[@]}"; do
+    # Parse "repo::branch-pattern" from the profile
+    local repo="${entry%%::*}"
+    local branch_template="${entry##*::}"
+    local branch="${branch_template//\{TASK\}/$task_id}"
+    local repo_path="${WS_BASE}/${repo}"
+    local worktree_path="${tree_base}/${repo}"
+    local default_branch="${WS_DEFAULT_BRANCH:-master}"
+
+    echo "Setting up ${repo} (branch: ${branch})..."
+
+    if $first_window; then
+      tmux rename-window -t "${session_name}:_init" "$repo"
+      first_window=false
+    else
+      tmux new-window -t "$session_name" -n "$repo"
+    fi
+
+    local target="${session_name}:${repo}"
+
+    # Checkout default branch, pull latest, create worktree, and cd into it
+    tmux send-keys -t "$target" "git -C '${repo_path}' checkout '${default_branch}' && git -C '${repo_path}' pull && git -C '${repo_path}' worktree add -b '${branch}' '${worktree_path}' 2>/dev/null; cd '${worktree_path}'" Enter
+
+    tmux send-keys -t "$target" "clear" Enter
+
+    # If the profile defines a ws_post_<repo> function, send each line to the pane.
+    # declare -f adds trailing semicolons, so we strip them to avoid tmux parsing issues.
+    local func_name="ws_post_${repo//-/_}"
+    if declare -f "$func_name" > /dev/null; then
+      local body
+      body=$(declare -f "$func_name" | sed '1,2d;$d;s/^[[:space:]]*//;s/;$//')
+      while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        tmux send-keys -t "$target" "$line" Enter
+      done <<< "$body"
+    fi
+  done
+
+  echo "Session '${session_name}' created with profile '${profile}'."
+  echo "Attach with: tmux attach -t ${session_name}"
+}
+
+cmd_delete() {
+  local profile=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -p) profile="$2"; shift 2 ;;
+      *)  break ;;
+    esac
+  done
+
+  if [[ -z "$profile" ]]; then
+    echo "Usage: ws delete -p <profile> [<task-id>]" >&2
+    exit 1
+  fi
+
+  load_profile "$profile"
+
+  local task_id="${1:-}"
+  if [[ -z "$task_id" ]]; then
+    task_id=$(ls "${WS_TREE_DIR}" 2>/dev/null | fzf -m) || true
+    if [[ -z "$task_id" ]]; then
+      echo "Nothing selected."
+      return
+    fi
+  fi
+
+  for tid in $task_id; do
+    local task_session="task-${tid}"
+    local delete_session="delete-task-${tid}"
+
+    # Kill the task session first
+    tmux kill-session -t "$task_session" 2>/dev/null || true
+
+    # Spawn a new session where each window removes one repo's worktree and branch
+    local first_window=true
+    for entry in "${WS_REPOS[@]}"; do
+      local repo="${entry%%::*}"
+      local branch_template="${entry##*::}"
+      local branch="${branch_template//\{TASK\}/$tid}"
+      local repo_path="${WS_BASE}/${repo}"
+      local worktree_path="${WS_TREE_DIR}/${tid}/${repo}"
+
+      local cmd="git -C '${repo_path}' worktree remove '${worktree_path}' 2>/dev/null; "
+      cmd+="git -C '${repo_path}' worktree prune; "
+      cmd+="git -C '${repo_path}' branch -D '${branch}' 2>/dev/null; "
+      cmd+="exit"
+
+      if $first_window; then
+        tmux new-session -d -s "$delete_session" -n "$repo" "bash -c \"${cmd}\""
+        first_window=false
+      else
+        tmux new-window -t "$delete_session" -n "$repo" "bash -c \"${cmd}\""
+      fi
+    done
+
+    # Cleanup window: waits for all repo windows to exit, then removes the tree dir
+    tmux new-window -t "$delete_session" -n cleanup \
+      "bash -c \"while tmux list-windows -t '${delete_session}' 2>/dev/null | grep -qv cleanup; do sleep 0.5; done; rm -rf '${WS_TREE_DIR}/${tid}'; echo 'Deleted ${tid}.'; sleep 2\""
+
+    echo "Deleting '${tid}' in tmux session '${delete_session}'."
+  done
+}
+
+cmd_list() {
+  for profile_file in "${PROFILES_DIR}"/*.sh; do
+    [[ -f "$profile_file" ]] || continue
+    local prof
+    prof=$(basename "$profile_file" .sh)
+    source "$profile_file"
+    if [[ -n "${WS_TREE_DIR:-}" && -d "${WS_TREE_DIR}" ]]; then
+      for dir in "${WS_TREE_DIR}"/*/; do
+        [[ -d "$dir" ]] || continue
+        local tid
+        tid=$(basename "$dir")
+        printf "%-30s %s\n" "$tid" "(profile: ${prof})"
+      done
+    fi
+  done | sort -u
+}
+
+# Main dispatch
+command="${1:-}"
+shift || true
+
+case "$command" in
+  create) cmd_create "$@" ;;
+  delete) cmd_delete "$@" ;;
+  list)   cmd_list "$@" ;;
+  *)      usage ;;
+esac
