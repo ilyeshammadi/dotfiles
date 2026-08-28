@@ -1,14 +1,15 @@
-{
+return {
   "zbirenbaum/copilot.lua",
   cmd = "Copilot",
   event = "InsertEnter",
   config = function()
     require("copilot").setup({
       suggestion = {
+				enabled = true,
         auto_trigger = true,
-        keymap = { accept = "<Tab>", next = "<C-]>", prev = "<C-[>" },
+        keymap = { accept = "<Right>", next = "<C-j>", prev = "<C-k>" },
       },
       panel = { enabled = false }, -- disable the extra panel UI since you just want inline
     })
-  end,
+  end
 }
