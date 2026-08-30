@@ -6,6 +6,7 @@ return {
       'nvim-lua/plenary.nvim',
       'antoinemadec/FixCursorHold.nvim',
       'nvim-treesitter/nvim-treesitter',
+			'nvim-neotest/neotest-go',
       'nvim-neotest/neotest-python',
     },
     event = 'VeryLazy',
@@ -19,6 +20,7 @@ return {
           open_on_run = false,
         },
         adapters = {
+					require("neotest-go"),
           require 'neotest-python' {
             -- See https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for values
             dap = {

@@ -187,6 +187,8 @@ return {
       end,
       desc = 'Select Scratch Buffer',
     },
+		{ "<leader>ls", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+		{ "<leader>lS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
   },
   init = function()
     vim.api.nvim_create_autocmd('User', {
