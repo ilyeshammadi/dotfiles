@@ -201,6 +201,7 @@ return {
       'basedpyright',
       'gopls',
       'gofumpt',
+			'delve',
       'emmylua_ls',
       'stylua',
       'prettier',
