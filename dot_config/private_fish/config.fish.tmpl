@@ -11,9 +11,13 @@ fish_add_path ~/go/bin
 fish_add_path ~/.local/share/pypoetry/bin
 
 {{ if eq .chezmoi.os "darwin" -}}
+# Homebrew has no formulae left; this is only here so nix-darwin can drive
+# `brew` itself for the casks declared in nix-config/modules/darwin/homebrew.nix.
 fish_add_path /opt/homebrew/bin
-fish_add_path /opt/homebrew/opt/postgresql@15/bin
-fish_add_path /opt/homebrew/opt/openjdk/bin
+
+# nix-darwin. Last, because fish_add_path prepends: the final call ends up
+# first in PATH, so nix wins over brew.
+fish_add_path /run/current-system/sw/bin
 {{ end -}}
 
 # --- Environment ---
@@ -26,7 +30,6 @@ set -gx FZF_DEFAULT_OPTS '--height 40% --layout=reverse --border --color=bg+:#36
 # macOS SDK paths
 set -gx CPATH (xcrun --show-sdk-path)/usr/include:/usr/local/include
 set -gx LIBRARY_PATH /usr/local/opt/openssl/lib/:/usr/local/lib
-set -gx CPPFLAGS "-I/opt/homebrew/opt/openjdk/include"
 {{ end -}}
 
 # --- Aliases ---
