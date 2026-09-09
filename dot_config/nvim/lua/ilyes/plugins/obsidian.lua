@@ -1,32 +1,24 @@
-return {
-  'obsidian-nvim/obsidian.nvim',
-  -- version = '*', -- use latest release, remove to use latest commit
-  dependencies = {
+-- markview.nvim configures itself via its own `plugin/` file; it only needs to
+-- be present on the runtimepath, which ilyes.pack takes care of.
+require('obsidian').setup {
+  legacy_commands = false,
+  templates = {
+    folder = 'templates',
+  },
+  daily_notes = {
+    folder = 'dailies',
+  },
+  workspaces = {
     {
-      'OXY2DEV/markview.nvim',
-      lazy = false,
+      name = 'personal',
+      path = '~/vaults/personal',
+    },
+    {
+      name = 'work',
+      path = '~/vaults/work',
     },
   },
-  opts = {
-    legacy_commands = false, -- this will be removed in the next major release
-    templates = {
-      folder = 'templates',
-    },
-    daily_notes = {
-      folder = 'dailies',
-    },
-    workspaces = {
-      {
-        name = 'personal',
-        path = '~/vaults/personal',
-      },
-      {
-        name = 'work',
-        path = '~/vaults/work',
-      },
-    },
-    picker = {
-      name = 'snacks.picker',
-    },
+  picker = {
+    name = 'snacks.picker',
   },
 }
