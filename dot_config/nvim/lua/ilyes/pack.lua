@@ -79,7 +79,8 @@ vim.schedule(function()
     'https://github.com/junegunn/fzf',
     'https://github.com/kevinhwang91/nvim-bqf',
 
-
+		-- Debug setup
+    'https://github.com/nvim-neotest/nvim-nio',
     'https://github.com/mfussenegger/nvim-dap',
     'https://github.com/rcarriga/nvim-dap-ui',
     'https://github.com/jay-babu/mason-nvim-dap.nvim',
