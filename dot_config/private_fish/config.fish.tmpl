@@ -25,6 +25,7 @@ set -gx EDITOR nvim
 set -gx VISUAL nvim
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -gx FZF_DEFAULT_OPTS '--height 40% --layout=reverse --border --color=bg+:#363646,gutter:-1'
+set -gx FZF_TMUX_OPTS '-p'
 
 {{ if eq .chezmoi.os "darwin" -}}
 # macOS SDK paths
@@ -66,3 +67,8 @@ starship init fish | source
 
 # --- Zoxide ---
 zoxide init fish | source
+
+# --- Local env files ---
+for f in ~/.fish/*.fish
+    source $f
+end
