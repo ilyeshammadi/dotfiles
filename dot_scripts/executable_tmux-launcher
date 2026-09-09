@@ -17,6 +17,7 @@ chosen=$(printf "$items" | fzf --prompt="  Launch: " --height=100% --border=none
 case "$chosen" in
   dotfiles)   tmux new-window -n dotfiles   -c "$HOME/.local/share/chezmoi" chezmoi edit ;;
   nix) tmux new-window -n nix   -c "$HOME/.local/share/nix-config" nvim ;;
+  infra) tmux new-window -n nix   -c "$HOME/.local/share/infra" nvim ;;
   git)    tmux new-window -n lazygit    -c "#{pane_current_path}" lazygit ;;
   diff)    tmux new-window -n tuicr    -c "#{pane_current_path}" tuicr ;;
 	docker) tmux new-window -n lazydocker lazydocker ;;
