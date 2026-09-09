@@ -79,11 +79,6 @@ vim.schedule(function()
     'https://github.com/junegunn/fzf',
     'https://github.com/kevinhwang91/nvim-bqf',
 
-    'https://github.com/nvim-neotest/nvim-nio',
-    'https://github.com/antoinemadec/FixCursorHold.nvim',
-    'https://github.com/nvim-neotest/neotest',
-    'https://github.com/nvim-neotest/neotest-python',
-    'https://github.com/nvim-neotest/neotest-go',
 
     'https://github.com/mfussenegger/nvim-dap',
     'https://github.com/rcarriga/nvim-dap-ui',
@@ -95,6 +90,5 @@ vim.schedule(function()
   }
 
   require 'ilyes.plugins.nvim-bqf'
-  require 'ilyes.plugins.neotest'
   require 'ilyes.plugins.dap'
 end)
