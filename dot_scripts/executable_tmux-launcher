@@ -3,6 +3,7 @@ set -eu
 
 items="dotfiles
 nix
+infra
 git
 diff
 docker
