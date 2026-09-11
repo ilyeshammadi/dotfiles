@@ -1,5 +1,4 @@
--- Set up first: mocks nvim-web-devicons, so every later plugin gets icons
--- without the extra dependency.
+-- First: mocks nvim-web-devicons for every plugin loaded after it.
 require('mini.icons').setup()
 MiniIcons.mock_nvim_web_devicons()
 

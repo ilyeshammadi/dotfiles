@@ -1,9 +1,8 @@
--- Plugins via `vim.pack` (`:help vim.pack`). It only installs and `:packadd`s:
--- every `setup()` lives in `ilyes.plugins.*` and is required below, in order.
--- There is no dependency resolution, so that order IS the dependency graph.
+-- `vim.pack` only installs and `:packadd`s; each `setup()` lives in
+-- `ilyes.plugins.*`, required below. No dependency resolution, so that
+-- order is the dependency graph.
 
--- Build hooks. Must be registered before the first `vim.pack.add()`, otherwise
--- they are skipped on a fresh install.
+-- Must be registered before the first `vim.pack.add()` or it misses a fresh install.
 vim.api.nvim_create_autocmd('PackChanged', {
   group = vim.api.nvim_create_augroup('ilyes-pack-build', { clear = true }),
   callback = function(ev)
@@ -27,9 +26,7 @@ vim.pack.add {
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter-context', version = 'master' },
 
-  -- blink.cmp must precede nvim-lspconfig: it supplies the LSP capabilities.
-  -- Its default snippet preset reads friendly-snippets off the rtp and expands
-  -- via native `vim.snippet`, so no LuaSnip and no build step.
+  -- Must precede nvim-lspconfig: supplies the LSP capabilities.
   'https://github.com/rafamadriz/friendly-snippets',
   { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range '1.*' },
 
@@ -51,11 +48,10 @@ vim.pack.add {
 
 -- Colorscheme first, so a slow plugin below can't leave the UI unstyled.
 require 'ilyes.plugins.colorscheme'
--- mini before snacks: mini.icons mocks nvim-web-devicons for everything after.
+-- Before snacks: mini.icons mocks nvim-web-devicons for everything after.
 require 'ilyes.plugins.mini'
 require 'ilyes.plugins.snacks'
 require 'ilyes.plugins.treesitter'
-require 'ilyes.plugins.treesitter-context'
 require 'ilyes.plugins.blink'
 require 'ilyes.plugins.lspconfig'
 require 'ilyes.plugins.conform'
@@ -65,7 +61,7 @@ require('tabline').setup {}
 require 'ilyes.plugins.obsidian'
 require 'ilyes.plugins.which-key'
 
--- Not needed to draw the first screen, so kept off the startup path.
+-- Not needed for the first screen.
 vim.schedule(function()
   vim.pack.add {
     'https://github.com/kevinhwang91/nvim-bqf',

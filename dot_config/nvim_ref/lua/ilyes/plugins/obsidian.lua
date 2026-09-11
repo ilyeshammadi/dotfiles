@@ -1,5 +1,3 @@
--- Rendering is obsidian.nvim's own `ui` module (on by default); it warns if a
--- second markdown renderer is installed, so there isn't one.
 require('obsidian').setup {
   legacy_commands = false,
   templates = {

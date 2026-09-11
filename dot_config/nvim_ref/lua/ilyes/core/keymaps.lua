@@ -31,31 +31,24 @@ map('n', '[t', '<cmd>tabprevious<CR>', { silent = true, desc = 'Previous tab' })
 
 map('n', '-', '<cmd>Oil --float<CR>', { desc = '🫒 Oil' })
 
--- Quick fix. `]q`/`[q` are Nvim defaults; these two are not.
+-- `]q`/`[q` are Nvim defaults.
 map('n', ']Q', '<cmd>cnewer<CR>', { desc = 'Next quickfix list', silent = true })
 map('n', '[Q', '<cmd>colder<CR>', { desc = 'Previous quickfix list', silent = true })
 map('n', 'qq', function()
   vim.cmd(vim.fn.getqflist({ winid = 0 }).winid == 0 and 'copen' or 'cclose')
 end, { desc = 'Toggle quickfix', silent = true })
 
--- LSP. `K`, `gra`, `gri`, `grn`, `grr`, `grt`, `grx`, `gO` are Nvim defaults.
+-- `K` and the `gr*`/`gO` set are Nvim defaults.
 map('n', 'gd', vim.lsp.buf.definition, { desc = 'Goto definition' })
 map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto declaration' })
 map('n', 'gs', vim.lsp.buf.signature_help, { desc = 'Show signature help' })
 map('n', 'gl', vim.diagnostic.open_float, { desc = 'Show line diagnostics' })
 
--- Treesitter context
-map('n', '[c', function()
-  require('treesitter-context').go_to_context(vim.v.count1)
-end, { silent = true, desc = 'Previous context' })
+map('n', '[c', function() require('treesitter-context').go_to_context(vim.v.count1) end, { silent = true, desc = 'Previous context' })
 
 -- Harpoon
-map('n', ',', function()
-  require('harpoon.ui').toggle_quick_menu()
-end)
-map('n', '<C-s>', function()
-  require('harpoon.mark').add_file()
-end)
+map('n', ',', function() require('harpoon.ui').toggle_quick_menu() end)
+map('n', '<C-s>', function() require('harpoon.mark').add_file() end)
 map('n', '<Left>', function()
   require('harpoon.ui').nav_next()
   vim.cmd 'norm zz'

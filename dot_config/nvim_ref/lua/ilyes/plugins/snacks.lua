@@ -26,21 +26,12 @@ require('snacks').setup {
   },
 }
 
--- was: init + `User VeryLazy` autocmd. That event is lazy.nvim's and never
--- fires under vim.pack; snacks is already loaded here, so just run it inline.
-_G.dd = function(...)
-  Snacks.debug.inspect(...)
-end
-_G.bt = function()
-  Snacks.debug.backtrace()
-end
+_G.dd = function(...) Snacks.debug.inspect(...) end
+_G.bt = function() Snacks.debug.backtrace() end
 
 -- Route `:=` through snacks
-vim._print = function(_, ...)
-  dd(...)
-end
+vim._print = function(_, ...) dd(...) end
 
--- was: keys = { ... } on the lazy spec
 local map = vim.keymap.set
 
 map('n', '<leader>z', function() Snacks.zen() end, { desc = 'Zen' })

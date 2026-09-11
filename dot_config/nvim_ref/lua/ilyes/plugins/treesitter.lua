@@ -1,10 +1,33 @@
--- nvim-treesitter `main` branch: parsers are installed explicitly and
--- highlighting is started per filetype. `:TSUpdate` after a plugin update is
--- handled by the PackChanged hook in ilyes.pack.
-local filetypes =
-  { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go', 'python', 'dockerfile', 'fish', 'yaml', 'helm' }
+-- `main` branch: parsers installed explicitly, highlighting started per
+-- filetype. `:TSUpdate` is handled by the PackChanged hook in ilyes.pack.
+local filetypes = {
+  'bash',
+  'c',
+  'diff',
+  'html',
+  'lua',
+  'luadoc',
+  'markdown',
+  'markdown_inline',
+  'query',
+  'vim',
+  'vimdoc',
+  'go',
+  'python',
+  'dockerfile',
+  'fish',
+  'yaml',
+  'helm',
+}
 
 require('nvim-treesitter').install(filetypes)
+
+require('treesitter-context').setup {
+  enable = true,
+  max_lines = 2,
+  multiline_threshold = 1,
+  trim_scope = 'inner',
+}
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = filetypes,
@@ -12,9 +35,3 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.treesitter.start()
   end,
 })
-
--- Start treesitter for the current buffer if it's already loaded
-local ft = vim.bo.filetype
-if vim.tbl_contains(filetypes, ft) then
-  vim.treesitter.start()
-end

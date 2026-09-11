@@ -1,11 +1,10 @@
--- mason must be set up before any server is enabled, to get its bin on $PATH.
+-- Before any server is enabled, to get mason's bin on $PATH.
 require('mason').setup {}
 require('fidget').setup {}
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('ilyes-lsp-attach', { clear = true }),
   callback = function(event)
-    -- Highlight references of the word under the cursor while it rests there.
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     if client and client:supports_method('textDocument/documentHighlight', event.buf) then
       local highlight_augroup = vim.api.nvim_create_augroup('ilyes-lsp-highlight', { clear = false })
@@ -60,43 +59,28 @@ local servers = {
       },
     },
   },
-  -- Lua
   emmylua_ls = {
     on_init = function(client)
+      -- Defer to a project's own Lua LSP config when it has one.
       if client.workspace_folders then
         local path = client.workspace_folders[1].name
-        if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
-          return
+        if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.emmyrc.json') or vim.uv.fs_stat(path .. '/.luarc.json')) then
+          client.config.settings = {}
         end
       end
-
-      client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-        runtime = {
-          version = 'LuaJIT',
-          path = { 'lua/?.lua', 'lua/?/init.lua' },
-        },
-        workspace = {
-          checkThirdParty = false,
-          -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
-          --  See https://github.com/neovim/nvim-lspconfig/issues/3189
-          library = vim.api.nvim_get_runtime_file('', true),
-        },
-      })
     end,
     settings = {
-      Lua = {
+      emmylua = {
+        runtime = {
+          version = 'LuaJIT',
+          -- `lua/` entries so `require 'ilyes.plugins.x'` resolves.
+          requirePattern = { '?.lua', '?/init.lua', 'lua/?.lua', 'lua/?/init.lua' },
+        },
+        diagnostics = { globals = { 'vim' } },
         hint = { enable = true },
-        runtime = { version = 'LuaJIT' },
-        workspace = {
-          checkThirdParty = false,
-          library = {
-            '${3rd}/luv/library',
-            unpack(vim.api.nvim_get_runtime_file('', true)),
-          },
-        },
-        completion = {
-          callSnippet = 'Replace',
-        },
+        -- Swap for `vim.api.nvim_get_runtime_file('', true)` to index every
+        -- installed plugin too. Slower.
+        workspace = { library = { vim.env.VIMRUNTIME } },
       },
     },
   },
@@ -133,7 +117,7 @@ require('mason-tool-installer').setup {
   },
 }
 
--- `'*'` is merged into every named config, so capabilities are set once.
+-- `'*'` merges into every named config.
 vim.lsp.config('*', { capabilities = require('blink.cmp').get_lsp_capabilities() })
 for name, server in pairs(servers) do
   vim.lsp.config(name, server)
@@ -142,6 +126,7 @@ vim.lsp.enable(vim.tbl_keys(servers))
 
 vim.diagnostic.config {
   signs = {
+    -- Blank: severity shows through numhl and underline instead.
     text = {
       [vim.diagnostic.severity.ERROR] = '',
       [vim.diagnostic.severity.WARN] = '',
