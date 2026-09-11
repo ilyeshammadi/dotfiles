@@ -10,7 +10,7 @@ cursor-style = block
 
 # Mouse
 mouse-hide-while-typing = true
-mouse-scroll-multiplier = 3
+mouse-scroll-multiplier = 1
 
 # Terminal bell
 bell-features = no-system,no-audio
