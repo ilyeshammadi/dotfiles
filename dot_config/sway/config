@@ -6,7 +6,7 @@ set $up k
 set $right l
 
 # Defaul terminal
-set $term kitty
+set $term ghostty
 
 # Default menu app
 set $menu dmenu_path | wmenu | xargs swaymsg exec --
@@ -179,7 +179,7 @@ bindsym XF86MonBrightnessUp exec "brightnessctl set +5%"
 bindsym XF86MonBrightnessDown exec "brightnessctl set 5%-"
 
 # Apps
-bindsym Shift+Ctrl+Alt+j exec kitty
+bindsym Shift+Ctrl+Alt+j exec ghostty
 bindsym Shift+Ctrl+Alt+k exec vivaldi
 
 # Monitor
@@ -197,7 +197,7 @@ bar {
 ###################################### Start-up apps ##############################################
 ###################################################################################################
 ## Graphical Apps
-exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id kitty
+exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id ghostty
 exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id vivaldi
 exec --no-startup-id swaymsg 'workspace 9; exec --no-startup-id discord'
 

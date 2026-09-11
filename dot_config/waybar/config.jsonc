@@ -21,7 +21,7 @@
       "nvim": "",
       "zsh": "",
       "tmux": "",
-      "kitty": "",
+      "ghostty": "",
       "(.*) - Discord": "$1",
       "(.*) — Vivaldi": "$1",
     },
