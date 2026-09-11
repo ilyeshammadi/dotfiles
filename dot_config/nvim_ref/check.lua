@@ -78,6 +78,21 @@ vim.schedule(function()
   chk('cursor restore autocmd exists', function()
     return #vim.api.nvim_get_autocmds { event = 'BufReadPost', group = 'ilyes-restore-cursor' } == 1
   end)
+  chk('gl float wraps long diagnostics', function()
+    local buf = vim.api.nvim_create_buf(true, false)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, { 'x' })
+    vim.api.nvim_set_current_buf(buf)
+    vim.diagnostic.set(vim.api.nvim_create_namespace('t'), buf, {
+      { lnum = 0, col = 0, message = ('word '):rep(60), severity = vim.diagnostic.severity.ERROR },
+    })
+    local _, win = vim.diagnostic.open_float()
+    if not win then error('no float opened') end
+    if not vim.wo[win].wrap then error('float has wrap off') end
+    local h = vim.api.nvim_win_get_height(win)
+    vim.api.nvim_win_close(win, true)
+    if h < 2 then error('float is 1 line tall -> text was truncated, not wrapped') end
+    return true
+  end)
   print(ok and '\nALL OK' or '\nFAILURES')
   vim.cmd(ok and 'qa!' or 'cq!')
 end)

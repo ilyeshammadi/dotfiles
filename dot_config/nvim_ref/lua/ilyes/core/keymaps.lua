@@ -42,16 +42,7 @@ end, { desc = 'Toggle quickfix', silent = true })
 map('n', 'gd', vim.lsp.buf.definition, { desc = 'Goto definition' })
 map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto declaration' })
 map('n', 'gs', vim.lsp.buf.signature_help, { desc = 'Show signature help' })
-map('n', 'gl', function()
-  vim.diagnostic.config { virtual_lines = { current_line = true } }
-  vim.api.nvim_create_autocmd('CursorMoved', {
-    group = vim.api.nvim_create_augroup('line-diagnostics', { clear = true }),
-    callback = function()
-      vim.diagnostic.config { virtual_lines = false }
-      return true
-    end,
-  })
-end, { desc = 'Show line diagnostics' })
+map('n', 'gl', vim.diagnostic.open_float, { desc = 'Show line diagnostics' })
 
 -- Treesitter context
 map('n', '[c', function()
