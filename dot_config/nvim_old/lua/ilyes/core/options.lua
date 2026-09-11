@@ -7,6 +7,8 @@ vim.opt.relativenumber = true
 
 vim.opt.mouse = 'a' -- Enable mouse mode, can be useful for resizing splits for example!
 
+vim.opt.showmode = true -- Don't show the mode, since it's already in status line
+
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
@@ -43,16 +45,22 @@ vim.opt.cursorline = true -- Show which line your cursor is on
 
 vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
 
+vim.opt.hlsearch = true -- Set highlight on search, but clear on pressing <Esc> in normal mode
+
 -- Set default grep to ripgrep
 vim.o.grepprg = 'rg --vimgrep --no-heading --smart-case --hidden'
+vim.o.grepformat = '%f:%l:%c:%m'
 vim.opt.guicursor = 'i:block'
 
 vim.opt.shortmess:append 'sIW' -- Disable welcome message
-vim.o.foldmethod = 'expr'
-vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.o.wrap = true -- Wrap line
+vim.o.foldmethod = 'expr' -- Use syntax based folding
+vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.o.foldlevelstart = 99 -- Open all folds by default
 
 vim.o.fillchars = [[eob: ,fold: ,foldopen: ,foldsep: ,foldclose:]]
+vim.o.foldcolumn = '0'
+vim.o.foldenable = true
 
 vim.o.swapfile = false -- Disable swap file
 

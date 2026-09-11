@@ -1,8 +1,5 @@
 local wk = require 'which-key'
 
--- NOTE: lazy skips the automatic `setup(opts)` when a `config` function is
--- given, and the old config function never called it -- so these options were
--- silently dead. They apply now, so which-key looks different. Delete to revert.
 wk.setup {
   preset = 'modern',
   delay = function(ctx)
@@ -30,7 +27,7 @@ wk.add {
     function()
       wk.show { global = false }
     end,
-    desc = 'Buffer Local Keymaps (which-key)',
+    desc = 'Buffer Local Keymaps',
   },
   { '<leader>d', group = 'Debug' },
   { '<leader>dC', "<cmd>lua require'dap'.run_to_cursor()<CR>", desc = 'Run To Cursor' },
@@ -44,18 +41,14 @@ wk.add {
   { '<leader>dp', "<cmd>lua require'dap'.pause()<CR>", desc = 'Pause' },
   { '<leader>dq', "<cmd>lua require'dap'.close()<CR>", desc = 'Quit' },
   { '<leader>dr', "<cmd>lua require'dap'.repl.toggle()<CR>", desc = 'Toggle Repl' },
-  { '<leader>ds', "<cmd>lua require'dap'.continue()<CR>", desc = 'Start' },
   { '<leader>dt', "<cmd>lua require'dap'.toggle_breakpoint()<CR>", desc = 'Toggle breakpoint' },
   { '<leader>du', "<cmd>lua require'dap'.step_out()<CR>", desc = 'Step Out' },
   { '<leader>g', group = 'Git' },
   { '<leader>l', group = 'Lsp' },
   { '<leader>lR', '<cmd>LspRestart<CR>', desc = 'Restart LSP' },
-  { '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>', desc = 'Code action' },
   { '<leader>lf', "<cmd>lua require('conform').format()<CR>", desc = 'Format' },
   { '<leader>li', '<cmd>LspInfo<CR>', desc = 'Info' },
-  { '<leader>ll', '<cmd>lua vim.lsp.codelens.run()<CR>', desc = 'CodeLens action' },
   { '<leader>lq', '<cmd>lua vim.diagnostic.setloclist()<CR>', desc = 'Quickfix' },
-  { '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', desc = 'Rename' },
   { '<leader>s', group = 'Search' },
   { '<leader>u', group = 'Toggle' },
   { '<leader>o', group = 'Obsidian' },

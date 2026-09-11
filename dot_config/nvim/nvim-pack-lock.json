@@ -1,18 +1,9 @@
 {
   "plugins": {
-    "LuaSnip": {
-      "rev": "642b0c595e11608b4c18219e93b88d7637af27bc",
-      "src": "https://github.com/L3MON4D3/LuaSnip",
-      "version": "2.0.0 - 3.0.0"
-    },
     "blink.cmp": {
       "rev": "78336bc89ee5365633bcf754d93df01678b5c08f",
       "src": "https://github.com/saghen/blink.cmp",
       "version": "1.0.0 - 2.0.0"
-    },
-    "catppuccin": {
-      "rev": "edefef779ab08ce1a4a404713e3012b0d202bd35",
-      "src": "https://github.com/catppuccin/nvim"
     },
     "conform.nvim": {
       "rev": "016802de402556da54c36bd7359b441266b01cdd",
@@ -26,21 +17,9 @@
       "rev": "a5a73e586521fe5c12d751ad81a0db67649a94ed",
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
-    "fzf": {
-      "rev": "63e82a9e3dd52cc67a46db842b8a29e0c1f83229",
-      "src": "https://github.com/junegunn/fzf"
-    },
     "harpoon": {
       "rev": "1bc17e3e42ea3c46b33c0bbad6a880792692a1b3",
       "src": "https://github.com/ThePrimeagen/harpoon"
-    },
-    "helm-ls.nvim": {
-      "rev": "20df43509b02a3ce3c6b3eee254d6e2bffa9a370",
-      "src": "https://github.com/qvalentin/helm-ls.nvim"
-    },
-    "markview.nvim": {
-      "rev": "5d9fc2aa6dd1c2fbdc7a68bc79b300e9967b21ff",
-      "src": "https://github.com/OXY2DEV/markview.nvim"
     },
     "mason-nvim-dap.nvim": {
       "rev": "9a10e096703966335bd5c46c8c875d5b0690dade",
@@ -104,10 +83,6 @@
       "rev": "f3061339b8eaf9fda873600bc425b8d2d8502533",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-context",
       "version": "'master'"
-    },
-    "nvim-web-devicons": {
-      "rev": "5f032a85be210cd1c6ac98861eb3b187ff3bd5eb",
-      "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "obsidian.nvim": {
       "rev": "cb8a5a60df74aa15fb2069cd8cbd4a55e9c76077",

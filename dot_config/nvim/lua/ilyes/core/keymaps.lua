@@ -1,100 +1,59 @@
--- Helper functions
-local nnoremap = function(from, to, opts)
-  vim.keymap.set('n', from, to, opts)
-end
-
-local vnoremap = function(from, to, opts)
-  vim.keymap.set('v', from, to, opts)
-end
+local map = vim.keymap.set
 
 -- Move on display lines like real lines
-nnoremap('j', 'gj')
-nnoremap('gj', 'j')
-nnoremap('k', 'gk')
-nnoremap('gk', 'k')
+map('n', 'j', 'gj')
+map('n', 'gj', 'j')
+map('n', 'k', 'gk')
+map('n', 'gk', 'k')
 
 -- Use <Esc> to turn off search highlighting
-nnoremap('<Esc>', '<cmd>nohlsearch<CR>')
+map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Keep indenting when moving lines
-vnoremap('>', '>gv')
-vnoremap('<', '<gv')
+map('v', '>', '>gv')
+map('v', '<', '<gv')
 
 -- Move lines up and down
-vnoremap('J', ":m '>+1<CR>gv=gv")
-vnoremap('K', ":m '<-2<CR>gv=gv")
+map('v', 'J', ":m '>+1<CR>gv=gv")
+map('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- Zzzzz
-nnoremap('x', '"_x')
-nnoremap('<C-d>', '<C-d>zz')
-nnoremap('<C-u>', '<C-u>zz')
-nnoremap('n', 'nzz')
-nnoremap('N', 'Nzz')
-nnoremap('G', 'Gzz')
-nnoremap('gd', 'gdzz')
-nnoremap('gr', 'grzz')
+map('n', 'x', '"_x')
+map('n', '<C-d>', '<C-d>zz')
+map('n', '<C-u>', '<C-u>zz')
+map('n', 'n', 'nzz')
+map('n', 'N', 'Nzz')
+map('n', 'G', 'Gzz')
 
 -- Next tab
-nnoremap(']t', '<cmd>tabnext<CR>', { silent = true, desc = 'Next tab' })
-nnoremap('[t', '<cmd>tabprevious<CR>', { silent = true, desc = 'Previous tab' })
+map('n', ']t', '<cmd>tabnext<CR>', { silent = true, desc = 'Next tab' })
+map('n', '[t', '<cmd>tabprevious<CR>', { silent = true, desc = 'Previous tab' })
 
--- Add white space before or after
-nnoremap('[<space>', 'O<esc>j')
-nnoremap(']<space>', 'o<esc>k')
+map('n', '-', '<cmd>Oil --float<CR>', { desc = '🫒 Oil' })
 
-nnoremap('-', '<cmd>Oil --float<CR>', { desc = '🫒 Oil' })
+-- `]q`/`[q` are Nvim defaults.
+map('n', ']Q', '<cmd>cnewer<CR>', { desc = 'Next quickfix list', silent = true })
+map('n', '[Q', '<cmd>colder<CR>', { desc = 'Previous quickfix list', silent = true })
+map('n', 'qq', function()
+  vim.cmd(vim.fn.getqflist({ winid = 0 }).winid == 0 and 'copen' or 'cclose')
+end, { desc = 'Toggle quickfix', silent = true })
 
--- Quick fix
-nnoremap(']q', '<cmd>silent cnext<CR>', { desc = 'Next quickfix list item', silent = true })
-nnoremap('[q', '<cmd>silent cprevious<CR>', { desc = 'Previous quickfix list item', silent = true })
-nnoremap(']Q', '<cmd>cnewer<CR>', { desc = 'Next quickfix list', silent = true })
-nnoremap('[Q', '<cmd>colder<CR>', { desc = 'Previous quickfix list', silent = true })
--- Toggle quick fix list
-vim.cmd [[
-  function! QuickFixToggle()
-    if empty(filter(getwininfo(), 'v:val.quickfix'))
-      copen
-    else
-      cclose
-    endif
-  endfunction
-]]
-nnoremap('qq', [[:call QuickFixToggle()<CR>]], { desc = 'Toggle quickfix', silent = true })
+-- `K` and the `gr*`/`gO` set are Nvim defaults.
+map('n', 'gd', vim.lsp.buf.definition, { desc = 'Goto definition' })
+map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto declaration' })
+map('n', 'gs', vim.lsp.buf.signature_help, { desc = 'Show signature help' })
+map('n', 'gl', vim.diagnostic.open_float, { desc = 'Show line diagnostics' })
 
--- LSP
-nnoremap('K', '<cmd>lua vim.lsp.buf.hover()<CR>', { desc = 'Show hover' })
-nnoremap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { desc = 'Goto definition' })
-nnoremap('gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', { desc = 'Goto declaration' })
-nnoremap('gr', '<cmd>lua vim.lsp.buf.references()<CR>', { desc = 'Goto refernces' })
-nnoremap('gI', '<cmd>lua vim.lsp.buf.implementation()<CR>', { desc = 'Goto implementation' })
-nnoremap('gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { desc = 'Show signature help' })
-nnoremap('gl', function()
-  vim.diagnostic.config { virtual_lines = { current_line = true } }
-vim.api.nvim_create_autocmd('CursorMoved', {
-  group = vim.api.nvim_create_augroup('line-diagnostics', { clear = true }),
-  callback = function()
-    vim.diagnostic.config { virtual_lines = false }
-    return true
-  end,
-})
-end, { desc = 'Show line diagnostics' })
-
--- Treesitter context
-nnoremap('[c', function()
-  require('treesitter-context').go_to_context(vim.v.count1)
-end, { silent = true, desc = 'Previous context' })
-
--- Neotest
-nnoremap('tt', ":lua require('neotest').run.run()<CR>", { desc = 'Run current test', silent = true })
+map('n', '[c', function() require('treesitter-context').go_to_context(vim.v.count1) end, { silent = true, desc = 'Previous context' })
 
 -- Harpoon
-nnoremap(',', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>')
-nnoremap('<C-s>', '<cmd>lua require("harpoon.mark").add_file()<CR>')
-nnoremap('<Left>', function()
+map('n', ',', function() require('harpoon.ui').toggle_quick_menu() end)
+map('n', '<C-s>', function() require('harpoon.mark').add_file() end)
+map('n', '<Left>', function()
   require('harpoon.ui').nav_next()
   vim.cmd 'norm zz'
 end)
-nnoremap('<Right>', function()
+map('n', '<Right>', function()
   require('harpoon.ui').nav_prev()
   vim.cmd 'norm zz'
 end)

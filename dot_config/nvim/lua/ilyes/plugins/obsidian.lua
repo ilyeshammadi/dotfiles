@@ -1,5 +1,3 @@
--- markview.nvim configures itself via its own `plugin/` file; it only needs to
--- be present on the runtimepath, which ilyes.pack takes care of.
 require('obsidian').setup {
   legacy_commands = false,
   templates = {

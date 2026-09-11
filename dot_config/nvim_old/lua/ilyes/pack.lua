@@ -1,12 +1,19 @@
--- `vim.pack` only installs and `:packadd`s; each `setup()` lives in
--- `ilyes.plugins.*`, required below. No dependency resolution, so that
--- order is the dependency graph.
+-- Plugins via `vim.pack` (`:help vim.pack`). It only installs and `:packadd`s:
+-- every `setup()` lives in `ilyes.plugins.*` and is required below, in order.
+-- There is no dependency resolution, so that order IS the dependency graph.
 
--- Must be registered before the first `vim.pack.add()` or it misses a fresh install.
+-- Build hooks. Must be registered before the first `vim.pack.add()`, otherwise
+-- they are skipped on a fresh install.
 vim.api.nvim_create_autocmd('PackChanged', {
   group = vim.api.nvim_create_augroup('ilyes-pack-build', { clear = true }),
   callback = function(ev)
-    if ev.data.spec.name == 'nvim-treesitter' and ev.data.kind == 'update' then
+    local name, kind = ev.data.spec.name, ev.data.kind
+
+    if name == 'LuaSnip' and (kind == 'install' or kind == 'update') and vim.fn.executable 'make' == 1 then
+      vim.system({ 'make', 'install_jsregexp' }, { cwd = ev.data.path })
+    end
+
+    if name == 'nvim-treesitter' and kind == 'update' then
       if not ev.data.active then
         vim.cmd.packadd 'nvim-treesitter'
       end
@@ -17,22 +24,26 @@ vim.api.nvim_create_autocmd('PackChanged', {
 
 vim.pack.add {
   'https://github.com/nvim-lua/plenary.nvim',
+  'https://github.com/nvim-tree/nvim-web-devicons',
 
   { src = 'https://github.com/rose-pine/neovim', name = 'rose-pine' },
+  { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
 
-  { src = 'https://github.com/echasnovski/mini.nvim', version = vim.version.range '*' },
   'https://github.com/folke/snacks.nvim',
+  { src = 'https://github.com/echasnovski/mini.nvim', version = vim.version.range '*' },
 
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter-context', version = 'master' },
 
-  -- Must precede nvim-lspconfig: supplies the LSP capabilities.
+  -- blink.cmp must precede nvim-lspconfig: it supplies the LSP capabilities.
+  { src = 'https://github.com/L3MON4D3/LuaSnip', version = vim.version.range '2.*' },
   'https://github.com/rafamadriz/friendly-snippets',
   { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range '1.*' },
 
   'https://github.com/mason-org/mason.nvim',
   'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim',
   'https://github.com/j-hui/fidget.nvim',
+  'https://github.com/qvalentin/helm-ls.nvim',
   'https://github.com/neovim/nvim-lspconfig',
 
   'https://github.com/stevearc/conform.nvim',
@@ -43,30 +54,32 @@ vim.pack.add {
   'https://github.com/ThePrimeagen/harpoon',
   'https://github.com/christoomey/vim-tmux-navigator',
 
+  'https://github.com/OXY2DEV/markview.nvim',
   'https://github.com/obsidian-nvim/obsidian.nvim',
 }
 
 -- Colorscheme first, so a slow plugin below can't leave the UI unstyled.
 require 'ilyes.plugins.colorscheme'
--- Before snacks: mini.icons mocks nvim-web-devicons for everything after.
-require 'ilyes.plugins.mini'
 require 'ilyes.plugins.snacks'
+require 'ilyes.plugins.mini'
 require 'ilyes.plugins.treesitter'
+require 'ilyes.plugins.treesitter-context'
 require 'ilyes.plugins.blink'
 require 'ilyes.plugins.lspconfig'
 require 'ilyes.plugins.conform'
 require 'ilyes.plugins.oil'
 require 'ilyes.plugins.outline'
-require('tabline').setup {}
+require 'ilyes.plugins.nvim-tabline'
 require 'ilyes.plugins.obsidian'
 require 'ilyes.plugins.which-key'
 
--- Not needed for the first screen.
+-- Not needed to draw the first screen, so kept off the startup path.
 vim.schedule(function()
   vim.pack.add {
+    'https://github.com/junegunn/fzf',
     'https://github.com/kevinhwang91/nvim-bqf',
 
-    -- Debug setup
+		-- Debug setup
     'https://github.com/nvim-neotest/nvim-nio',
     'https://github.com/mfussenegger/nvim-dap',
     'https://github.com/rcarriga/nvim-dap-ui',
@@ -74,8 +87,9 @@ vim.schedule(function()
     'https://github.com/theHamsta/nvim-dap-virtual-text',
     'https://github.com/mfussenegger/nvim-dap-python',
     'https://github.com/leoluz/nvim-dap-go',
+
   }
 
-  require('bqf').setup { preview = { winblend = 0 } }
+  require 'ilyes.plugins.nvim-bqf'
   require 'ilyes.plugins.dap'
 end)

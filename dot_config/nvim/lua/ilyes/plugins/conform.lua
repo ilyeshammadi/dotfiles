@@ -22,4 +22,10 @@ require('conform').setup {
     htmldjango = { 'djlint' },
     nix = { 'nixfmt' },
   },
+  -- Format everything on save except python.
+  format_on_save = function(bufnr)
+    if vim.bo[bufnr].filetype ~= 'python' then
+      return {}
+    end
+  end,
 }

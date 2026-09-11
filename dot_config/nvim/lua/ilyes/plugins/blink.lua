@@ -1,21 +1,10 @@
--- Snippet engine. The `make install_jsregexp` build step (regex support in
--- snippets) runs from the PackChanged hook in ilyes.pack.
-require('luasnip').setup {}
-require('luasnip.loaders.from_vscode').lazy_load()
-
 --- @module 'blink.cmp'
 --- @type blink.cmp.Config
 require('blink.cmp').setup {
   keymap = {
-    -- See `:h blink-cmp-config-keymap`. All presets provide:
-    --   <tab>/<s-tab>: move to right/left of your snippet expansion
-    --   <c-space>: Open menu or open docs if already open
-    --   <c-n>/<c-p> or <up>/<down>: Select next/previous item
-    --   <c-e>: Hide menu
-    --   <c-k>: Toggle signature help
+    -- `:h blink-cmp-config-keymap` for what the preset binds.
     preset = 'enter',
 
-    -- Custom keymaps for Tab/Shift-Tab navigation
     ['<Tab>'] = { 'select_next', 'fallback' },
     ['<S-Tab>'] = { 'select_prev', 'fallback' },
   },
@@ -34,10 +23,7 @@ require('blink.cmp').setup {
     default = { 'lsp', 'path', 'snippets', 'buffer' },
   },
 
-  snippets = { preset = 'luasnip' },
-
-  -- Lua implementation avoids the prebuilt Rust binary download, which also
-  -- means blink.cmp needs no build step under vim.pack.
+  -- Avoids the prebuilt Rust binary download, so no build step under vim.pack.
   fuzzy = { implementation = 'lua' },
 
   signature = { enabled = true },

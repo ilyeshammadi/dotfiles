@@ -1,6 +1,4 @@
--- First: mocks nvim-web-devicons for every plugin loaded after it.
-require('mini.icons').setup()
-MiniIcons.mock_nvim_web_devicons()
+local icons = require 'ilyes.core.icons'
 
 require('mini.bracketed').setup {
   diagnostic = { options = { float = false, severity = vim.diagnostic.severity.ERROR } },
@@ -8,10 +6,15 @@ require('mini.bracketed').setup {
 require('mini.ai').setup()
 require('mini.surround').setup()
 require('mini.pairs').setup()
+require('mini.comment').setup()
 require('mini.diff').setup {
   view = {
     style = 'sign',
-    signs = { add = '▎', change = '▎', delete = '󰐊' },
+    signs = {
+      add = icons.ui.BoldLineLeft,
+      change = icons.ui.BoldLineLeft,
+      delete = icons.ui.Triangle,
+    },
   },
 }
 

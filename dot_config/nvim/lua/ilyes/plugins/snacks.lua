@@ -26,21 +26,12 @@ require('snacks').setup {
   },
 }
 
--- was: init + `User VeryLazy` autocmd. That event is lazy.nvim's and never
--- fires under vim.pack; snacks is already loaded here, so just run it inline.
-_G.dd = function(...)
-  Snacks.debug.inspect(...)
-end
-_G.bt = function()
-  Snacks.debug.backtrace()
-end
+_G.dd = function(...) Snacks.debug.inspect(...) end
+_G.bt = function() Snacks.debug.backtrace() end
 
 -- Route `:=` through snacks
-vim._print = function(_, ...)
-  dd(...)
-end
+vim._print = function(_, ...) dd(...) end
 
--- was: keys = { ... } on the lazy spec
 local map = vim.keymap.set
 
 map('n', '<leader>z', function() Snacks.zen() end, { desc = 'Zen' })
@@ -56,8 +47,6 @@ map('n', '<leader>sl', function() Snacks.picker.resume() end, { desc = 'Resume' 
 map('n', '<leader>sr', function() Snacks.picker.recent(files_opts) end, { desc = 'Recent Files' })
 map('n', '<leader>ss', function() Snacks.picker.lsp_symbols() end, { desc = 'LSP Symbols' })
 map('n', '<leader>sS', function() Snacks.picker.lsp_workspace_symbols() end, { desc = 'LSP Workspace Symbols' })
-map('n', '<leader>ls', function() Snacks.picker.lsp_symbols() end, { desc = 'LSP Symbols' })
-map('n', '<leader>lS', function() Snacks.picker.lsp_workspace_symbols() end, { desc = 'LSP Workspace Symbols' })
 map('n', '<leader><leader>', function() Snacks.scratch { name = 'notes', file = './notes.md', ft = 'md' } end, { desc = 'Toggle Scratch Notes' })
 map('n', '<leader>.', function() Snacks.scratch() end, { desc = 'Toggle Scratch Buffer' })
 map('n', '<leader>S', function() Snacks.scratch.select() end, { desc = 'Select Scratch Buffer' })
