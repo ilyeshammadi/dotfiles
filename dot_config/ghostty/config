@@ -1,0 +1,32 @@
+# Font
+font-family = "Iosevka Term"
+font-size = 20
+
+# Theme
+theme = Rose Pine
+
+# Cursor
+cursor-style = block
+
+# Mouse
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 3
+
+# Terminal bell
+bell-features = no-system,no-audio
+
+# Window
+window-padding-x = 10
+window-padding-y = 10
+
+window-decoration = none
+confirm-close-surface = false
+
+
+# Clipboard
+clipboard-read = allow
+clipboard-write = allow
+
+# macOS
+macos-titlebar-style = hidden
+quit-after-last-window-closed = true
