@@ -1,6 +1,11 @@
 # Font
+{{ if eq .chezmoi.os "darwin" }}
 font-family = "Iosevka Term"
 font-size = 20
+{{ else if eq .chezmoi.os "linux" }}
+font-family = "Iosevka Nerd Font"
+font-size = 16
+{{ end }}
 
 # Theme
 theme = Rose Pine
