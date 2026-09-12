@@ -1,0 +1,13 @@
+{
+  "lastChangelogVersion": "0.85.1",
+  "packages": [
+    "npm:pi-claude-bridge",
+    "npm:pi-web-access",
+    "npm:pi-lens",
+    "npm:@inobit/pi-themes"
+  ],
+  "theme": "rosepine-dawn/rosepine",
+  "defaultProvider": "claude-bridge",
+  "defaultModel": "claude-sonnet-5",
+  "defaultThinkingLevel": "medium"
+}
