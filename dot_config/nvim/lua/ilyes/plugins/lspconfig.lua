@@ -84,6 +84,7 @@ local servers = {
       },
     },
   },
+  ts_ls = {},
   yamlls = {},
   helm_ls = {
     settings = {
@@ -106,6 +107,7 @@ require('mason-tool-installer').setup {
     'gofumpt',
     'delve',
     'emmylua_ls',
+    'typescript-language-server',
     'stylua',
     'prettier',
     'sqlfluff',
