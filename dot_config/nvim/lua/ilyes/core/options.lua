@@ -58,3 +58,5 @@ vim.o.swapfile = false -- Disable swap file
 
 vim.o.errorformat = '%f|%l col %c|%m'
 vim.o.laststatus = 3 -- Global status line
+
+vim.o.conceallevel = 2
