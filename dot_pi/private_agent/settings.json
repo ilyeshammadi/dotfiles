@@ -9,5 +9,6 @@
   "theme": "rosepine-dawn/rosepine",
   "defaultProvider": "claude-bridge",
   "defaultModel": "claude-sonnet-5",
-  "defaultThinkingLevel": "medium"
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": true
 }
