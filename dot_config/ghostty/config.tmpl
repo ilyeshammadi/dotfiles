@@ -12,21 +12,29 @@ theme = Rose Pine
 
 # Cursor
 cursor-style = block
+cursor-style-blink = false
+
+# Shell integration
+# no-cursor: keep the block cursor at the prompt
+shell-integration-features = no-cursor
 
 # Mouse
 mouse-hide-while-typing = true
-mouse-scroll-multiplier = 3
+mouse-scroll-multiplier = discrete:3
 
 # Terminal bell
-bell-features = no-system,no-audio
+bell-features = no-attention,no-title,no-system,no-audio,no-border
 
 # Window
+
+{{ if eq .chezmoi.os "linux" }}
+window-decoration = none
+{{ end }}
 window-padding-x = 10
 window-padding-y = 10
-
-window-decoration = none
+window-save-state = never
+window-show-tab-bar = never
 confirm-close-surface = false
-
 
 # Clipboard
 clipboard-read = allow
@@ -34,4 +42,11 @@ clipboard-write = allow
 
 # macOS
 macos-titlebar-style = hidden
+macos-option-as-alt = true
 quit-after-last-window-closed = true
+
+# Notifications and overlays
+app-notifications = no-clipboard-copy,no-config-reload
+resize-overlay = never
+link-previews = false
+scrollbar = never
