@@ -98,6 +98,7 @@ local servers = {
   terraformls = {},
   -- nix lsp
   nil_ls = {},
+	clangd = {}
 }
 
 require('mason-tool-installer').setup {
