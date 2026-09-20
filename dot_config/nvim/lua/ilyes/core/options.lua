@@ -47,7 +47,7 @@ vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below
 vim.o.grepprg = 'rg --vimgrep --no-heading --smart-case --hidden'
 vim.opt.guicursor = 'i:block'
 
-vim.opt.shortmess:append 'sIW' -- Disable welcome message
+-- vim.opt.shortmess:append 'sIW' -- Disable welcome message
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.o.foldlevelstart = 99 -- Open all folds by default
