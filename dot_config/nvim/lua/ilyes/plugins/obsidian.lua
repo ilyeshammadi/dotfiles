@@ -1,5 +1,8 @@
 require('obsidian').setup {
   legacy_commands = false,
+	ui = {
+		enable = false
+	},
   templates = {
     folder = 'templates',
   },
