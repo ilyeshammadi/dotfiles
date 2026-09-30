@@ -5,8 +5,11 @@ require('blink.cmp').setup {
     -- `:h blink-cmp-config-keymap` for what the preset binds.
     preset = 'enter',
 
-    ['<Tab>'] = { 'select_next', 'fallback' },
-    ['<S-Tab>'] = { 'select_prev', 'fallback' },
+    ['<Tab>'] = { 'snippet_forward', 'fallback' },
+    ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+
+    ['<Up>'] = { 'select_prev', 'fallback' },
+    ['<Down>'] = { 'select_next', 'fallback' },
   },
 
   appearance = {
