@@ -15,7 +15,6 @@ local filetypes = {
 	 'go',
 	 'python',
 	 'dockerfile',
-	 'fish',
 	 'yaml',
 	 'helm',
 	 'javascript',
