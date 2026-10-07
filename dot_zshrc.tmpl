@@ -44,11 +44,13 @@ export EDITOR=nvim
 export VISUAL=nvim
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=bg+:#363646,gutter:-1'
-export FZF_TMUX_OPTS='-p'
+# export FZF_TMUX_OPTS='-p'
 
 {{ if eq .chezmoi.os "darwin" -}}
-# macOS SDK paths
-export CPATH="$(xcrun --show-sdk-path)/usr/include:/usr/local/include"
+# macOS SDK paths (cached — xcrun is slow, and the SDK path rarely changes)
+SDK_CACHE=~/.cache/macos-sdk-path
+[[ -f $SDK_CACHE ]] || xcrun --show-sdk-path > $SDK_CACHE
+export CPATH="$(<$SDK_CACHE)/usr/include:/usr/local/include"
 export LIBRARY_PATH=/usr/local/opt/openssl/lib/:/usr/local/lib
 {{ end -}}
 
