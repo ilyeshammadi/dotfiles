@@ -48,10 +48,11 @@ vim.o.grepprg = 'rg --vimgrep --no-heading --smart-case --hidden'
 vim.opt.guicursor = 'i:block'
 
 -- vim.opt.shortmess:append 'sIW' -- Disable welcome message
+vim.o.foldenable = true
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-vim.o.foldlevelstart = 99 -- Open all folds by default
-
+vim.o.foldtext = ''
+vim.o.foldlevelstart = 99
 vim.o.fillchars = [[eob: ,fold: ,foldopen: ,foldsep: ,foldclose:]]
 
 vim.o.swapfile = false -- Disable swap file
