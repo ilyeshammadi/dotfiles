@@ -1,10 +1,13 @@
 {
-  "lastChangelogVersion": "0.85.1",
+  "lastChangelogVersion": "1.0.3",
   "packages": [
     "npm:pi-claude-bridge",
     "npm:pi-web-access",
     "npm:pi-lens",
-    "npm:@inobit/pi-themes"
+    "npm:@inobit/pi-themes",
+    "npm:@dietrichgebert/ponytail",
+    "npm:pi-subagents",
+    "npm:pi-goal-x"
   ],
   "theme": "rosepine-dawn/rosepine",
   "defaultProvider": "claude-bridge",
