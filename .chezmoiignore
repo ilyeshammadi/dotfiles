@@ -1,7 +1,6 @@
 others/
 .stylua.toml
 README.md
-.pi/agent/settings.json
 
 
 {{ if eq .chezmoi.os "darwin" }}
