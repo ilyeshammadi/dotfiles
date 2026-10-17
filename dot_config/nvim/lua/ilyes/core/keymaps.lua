@@ -44,11 +44,17 @@ map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Goto declaration' })
 map('n', 'gs', vim.lsp.buf.signature_help, { desc = 'Show signature help' })
 map('n', 'gl', vim.diagnostic.open_float, { desc = 'Show line diagnostics' })
 
-map('n', '[c', function() require('treesitter-context').go_to_context(vim.v.count1) end, { silent = true, desc = 'Previous context' })
+map('n', '[c', function()
+  require('treesitter-context').go_to_context(vim.v.count1)
+end, { silent = true, desc = 'Previous context' })
 
 -- Harpoon
-map('n', ',', function() require('harpoon.ui').toggle_quick_menu() end)
-map('n', '<C-s>', function() require('harpoon.mark').add_file() end)
+map('n', ',', function()
+  require('harpoon.ui').toggle_quick_menu()
+end)
+map('n', '<C-s>', function()
+  require('harpoon.mark').add_file()
+end)
 map('n', '<Left>', function()
   require('harpoon.ui').nav_next()
   vim.cmd 'norm zz'
@@ -57,3 +63,7 @@ map('n', '<Right>', function()
   require('harpoon.ui').nav_prev()
   vim.cmd 'norm zz'
 end)
+
+map('n', '<leader>lh', function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 }, { bufnr = 0 })
+end, { desc = 'Toggle inlay hints' })
