@@ -30,8 +30,6 @@ vim.pack.add {
   'https://github.com/rafamadriz/friendly-snippets',
   { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range '1.*' },
 
-  'https://github.com/mason-org/mason.nvim',
-  'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim',
   'https://github.com/j-hui/fidget.nvim',
   'https://github.com/neovim/nvim-lspconfig',
 
@@ -70,7 +68,6 @@ vim.schedule(function()
     'https://github.com/nvim-neotest/nvim-nio',
     'https://github.com/mfussenegger/nvim-dap',
     'https://github.com/rcarriga/nvim-dap-ui',
-    'https://github.com/jay-babu/mason-nvim-dap.nvim',
     'https://github.com/theHamsta/nvim-dap-virtual-text',
     'https://github.com/mfussenegger/nvim-dap-python',
     'https://github.com/leoluz/nvim-dap-go',

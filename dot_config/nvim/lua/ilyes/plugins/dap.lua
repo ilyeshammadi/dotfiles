@@ -1,12 +1,6 @@
 local dap = require 'dap'
 local dapui = require 'dapui'
 
-require('mason-nvim-dap').setup {
-  automatic_setup = true,
-  handlers = {},
-  ensure_installed = {},
-}
-
 dapui.setup {}
 require('nvim-dap-virtual-text').setup()
 

@@ -1,5 +1,3 @@
--- Before any server is enabled, to get mason's bin on $PATH.
-require('mason').setup {}
 require('fidget').setup {}
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -99,25 +97,6 @@ local servers = {
   -- nix lsp
   nil_ls = {},
   clangd = {},
-}
-
-require('mason-tool-installer').setup {
-  ensure_installed = {
-    'basedpyright',
-    'gopls',
-    'gofumpt',
-    'delve',
-    'emmylua_ls',
-    'typescript-language-server',
-    'stylua',
-    'prettier',
-    'sqlfluff',
-    'djlint',
-    'helm-ls',
-    'yaml-language-server',
-    'terraform-ls',
-    'nil',
-  },
 }
 
 -- `'*'` merges into every named config.
