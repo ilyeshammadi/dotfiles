@@ -7,3 +7,6 @@ require('rose-pine').setup {
 }
 
 vim.cmd.colorscheme 'rose-pine'
+
+local palette = require 'rose-pine.palette'
+vim.api.nvim_set_hl(0, '@tag.gostruct', { fg = palette.rose })
