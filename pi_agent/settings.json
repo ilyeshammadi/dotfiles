@@ -6,12 +6,12 @@
     "npm:pi-lens",
     "npm:@inobit/pi-themes",
     "npm:@dietrichgebert/ponytail",
-    "npm:pi-subagents",
-    "npm:pi-goal-x"
+    "npm:pi-plan"
   ],
   "theme": "rosepine-dawn/rosepine",
   "defaultProvider": "claude-bridge",
-  "defaultModel": "claude-sonnet-5",
+  "defaultModel": "claude-sonnet-5-5",
   "defaultThinkingLevel": "medium",
-  "hideThinkingBlock": true
+  "hideThinkingBlock": true,
+  "enabledModels": ["egghead/qwen3.8-27b", "claude-bridge/claude-sonnet-5-5"]
 }
