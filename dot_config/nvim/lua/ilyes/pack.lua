@@ -2,6 +2,19 @@
 -- `ilyes.plugins.*`, required below. No dependency resolution, so that
 -- order is the dependency graph.
 
+-- Built into Neovim's runtime (no plugin needed), just not loaded by default.
+-- Adds `:Cfilter[!] /pattern/`: keeps only quickfix entries matching `pattern`
+-- (filename or text), or with `!` drops matches instead of keeping them.
+-- Operates on the *current* quickfix list and pushes a new one, so `[Q`/`:colder`
+-- still gets back the unfiltered list.
+--
+--   :Cfilter /_test/         keep entries mentioning `_test` (e.g. file_test.go)
+--   :Cfilter! /_test/        drop entries mentioning `_test`
+--   :Cfilter /TestAdd/       keep only a specific failing test
+--   :Cfilter /\.go$/         regex: keep entries whose text ends in `.go`
+--   :Cfilter /vendor\//      regex: drop entries from a vendor/ path (combine with !)
+vim.cmd.packadd 'cfilter'
+
 -- Must be registered before the first `vim.pack.add()` or it misses a fresh install.
 vim.api.nvim_create_autocmd('PackChanged', {
   group = vim.api.nvim_create_augroup('ilyes-pack-build', { clear = true }),
