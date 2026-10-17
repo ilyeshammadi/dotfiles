@@ -62,8 +62,6 @@ require 'ilyes.plugins.which-key'
 -- Not needed for the first screen.
 vim.schedule(function()
   vim.pack.add {
-    'https://github.com/kevinhwang91/nvim-bqf',
-
     -- Debug setup
     'https://github.com/nvim-neotest/nvim-nio',
     'https://github.com/mfussenegger/nvim-dap',
@@ -73,6 +71,5 @@ vim.schedule(function()
     'https://github.com/leoluz/nvim-dap-go',
   }
 
-  require('bqf').setup { preview = { winblend = 0 } }
   require 'ilyes.plugins.dap'
 end)
