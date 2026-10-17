@@ -88,7 +88,15 @@ local servers = {
   },
   ts_ls = {},
   yamlls = {},
+
+  -- Self-contained: no nvim-lspconfig default needed for these three.
   helm_ls = {
+    cmd = { 'helm_ls', 'serve' },
+    filetypes = { 'helm', 'yaml.helm-values' },
+    root_markers = { 'Chart.yaml' },
+    capabilities = {
+      workspace = { didChangeWatchedFiles = { dynamicRegistration = true } },
+    },
     settings = {
       ['helm-ls'] = {
         yamlls = {
@@ -97,9 +105,18 @@ local servers = {
       },
     },
   },
-  terraformls = {},
-  -- nix lsp
-  nil_ls = {},
+  terraformls = {
+    cmd = { 'terraform-ls', 'serve' },
+    filetypes = { 'terraform', 'terraform-vars' },
+    root_markers = { '.terraform', '.git' },
+    on_attach = function(_, bufnr) vim.lsp.codelens.enable(true, { bufnr = bufnr }) end,
+  },
+  nil_ls = {
+    cmd = { 'nil' },
+    filetypes = { 'nix' },
+    root_markers = { 'flake.nix', '.git' },
+  },
+
   clangd = {},
 }
 
