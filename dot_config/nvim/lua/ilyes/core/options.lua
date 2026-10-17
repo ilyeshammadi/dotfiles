@@ -60,4 +60,7 @@ vim.o.swapfile = false -- Disable swap file
 vim.o.errorformat = '%f|%l col %c|%m'
 vim.o.laststatus = 3 -- Global status line
 
+-- Default statusline's ruler segment, plus LSP progress (replaces fidget.nvim).
+vim.o.rulerformat = [[%{%v:lua.lsp_status()%}    %-14.(%l,%c%V%) %P ]]
+
 vim.o.conceallevel = 0

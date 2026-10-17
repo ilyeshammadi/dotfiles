@@ -9,10 +9,6 @@
       "rev": "016802de402556da54c36bd7359b441266b01cdd",
       "src": "https://github.com/stevearc/conform.nvim"
     },
-    "fidget.nvim": {
-      "rev": "9e0201673e08e997e7cf52afca5565c70bd117f3",
-      "src": "https://github.com/j-hui/fidget.nvim"
-    },
     "friendly-snippets": {
       "rev": "a5a73e586521fe5c12d751ad81a0db67649a94ed",
       "src": "https://github.com/rafamadriz/friendly-snippets"

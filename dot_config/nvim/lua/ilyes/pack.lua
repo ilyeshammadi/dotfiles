@@ -30,7 +30,6 @@ vim.pack.add {
   'https://github.com/rafamadriz/friendly-snippets',
   { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range '1.*' },
 
-  'https://github.com/j-hui/fidget.nvim',
   'https://github.com/neovim/nvim-lspconfig',
 
   'https://github.com/stevearc/conform.nvim',
