@@ -6,7 +6,9 @@ set $up k
 set $right l
 
 # Defaul terminal
-set $term ghostty
+set $terminal ghostty
+set $browser vivaldi
+set $chat discord
 
 # Default menu app
 set $menu dmenu_path | wmenu | xargs swaymsg exec --
@@ -82,7 +84,7 @@ output HDMI-A-1 {
 ###################################################################################################
 ########################################### Keybinds ##############################################
 ###################################################################################################
-bindsym $mod+Return exec $term
+bindsym $mod+Return exec $terminal
 bindsym $mod+q kill
 bindsym $mod+d exec $menu
 bindsym End exec systemctl suspend
@@ -179,8 +181,8 @@ bindsym XF86MonBrightnessDown exec "brightnessctl set 5%-"
 
 # Apps
 bindsym $mod+space exec "vicinae toggle"
-bindsym Shift+Ctrl+Alt+j exec ghostty
-bindsym Shift+Ctrl+Alt+k exec vivaldi
+bindsym Shift+Ctrl+Alt+j exec $terminal
+bindsym Shift+Ctrl+Alt+k exec $browser
 
 # Monitor
 bindsym $mod+Shift+m exec "swaymsg output eDP-1 disable"
@@ -197,9 +199,12 @@ bar {
 ###################################### Start-up apps ##############################################
 ###################################################################################################
 ## Graphical Apps
-exec --no-startup-id swaymsg 'workspace 1; exec --no-startup-id ghostty
-exec --no-startup-id swaymsg 'workspace 2; exec --no-startup-id vivaldi
-exec --no-startup-id swaymsg 'workspace 9; exec --no-startup-id discord'
+# Chat always lives on 9; terminal and browser are only placed at login
+assign [app_id="discord"] workspace number 9
+
+# shortcut: sleeps instead of waiting for windows, use a swaymsg -t subscribe script if it races
+exec sh -c 'swaymsg workspace number 1; swaymsg exec $terminal; sleep 1; swaymsg workspace number 2; swaymsg exec $browser; sleep 1; swaymsg workspace number 1; swaymsg exec $chat'
+
 
 ## Background apps
 exec wlsunset -l 52.4 -L 4.6 -t 3500
