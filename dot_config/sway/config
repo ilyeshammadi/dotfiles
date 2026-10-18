@@ -143,7 +143,6 @@ bindsym $mod+e layout toggle split
 
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # Resize mode
@@ -179,6 +178,7 @@ bindsym XF86MonBrightnessUp exec "brightnessctl set +5%"
 bindsym XF86MonBrightnessDown exec "brightnessctl set 5%-"
 
 # Apps
+bindsym $mod+space exec "vicinae toggle"
 bindsym Shift+Ctrl+Alt+j exec ghostty
 bindsym Shift+Ctrl+Alt+k exec vivaldi
 
@@ -204,6 +204,7 @@ exec --no-startup-id swaymsg 'workspace 9; exec --no-startup-id discord'
 ## Background apps
 exec wlsunset -l 52.4 -L 4.6 -t 3500
 exec autotiling
+exec vicinae server
 exec_always xwaylandvideobridge -d :0 -X -a -S || killall xwaylandvideobridge
 
 ###################################################################################################
