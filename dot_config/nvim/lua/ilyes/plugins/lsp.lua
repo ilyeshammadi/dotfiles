@@ -19,6 +19,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
       vim.api.nvim_create_autocmd('LspDetach', {
         group = vim.api.nvim_create_augroup('ilyes-lsp-detach', { clear = true }),
+        buffer = event.buf,
         callback = function(event2)
           vim.lsp.buf.clear_references()
           vim.api.nvim_clear_autocmds { group = 'ilyes-lsp-highlight', buffer = event2.buf }
@@ -35,9 +36,9 @@ local servers = {
         analysis = {
           typeCheckingMode = 'basic',
         },
-        python = {
-          venvPath = './venv',
-        },
+      },
+      python = {
+        venvPath = './venv',
       },
     },
   },
@@ -140,7 +141,7 @@ vim.diagnostic.config {
       [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
     },
   },
-  virtual_text = false,
+  virtual_text = true,
   update_in_insert = false,
   underline = true,
   severity_sort = true,
