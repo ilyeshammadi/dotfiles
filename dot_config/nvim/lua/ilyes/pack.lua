@@ -80,7 +80,7 @@ vim.schedule(function()
     'https://github.com/antoinemadec/FixCursorHold.nvim',
     'https://github.com/nvim-neotest/neotest',
     'https://github.com/nvim-neotest/neotest-python',
-    'https://github.com/nvim-neotest/neotest-go',
+    'https://github.com/fredrikaverpil/neotest-golang',
     'https://github.com/mfussenegger/nvim-dap',
     'https://github.com/mfussenegger/nvim-dap-python',
     'https://github.com/leoluz/nvim-dap-go',
