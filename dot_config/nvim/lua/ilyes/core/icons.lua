@@ -54,4 +54,23 @@ return {
     dailies = '',
     workspace = '',
   },
+  -- Nerd Font glyphs for the snacks keymaps in which-key.
+  snacks = {
+    zen = '',
+    explorer = '',
+    files = '',
+    lines = '',
+    git_blame = '',
+    git_browse = '',
+    grep_word = '',
+    grep = '',
+    git_status = '',
+    resume = '',
+    recent = '',
+    symbols = '',
+    workspace_symbols = '',
+    scratch_notes = '',
+    scratch = '',
+    scratch_select = '',
+  },
 }
