@@ -76,6 +76,10 @@ vim.schedule(function()
   vim.pack.add {
     -- Debug setup
     'https://github.com/nvim-neotest/nvim-nio',
+    'https://github.com/antoinemadec/FixCursorHold.nvim',
+    'https://github.com/nvim-neotest/neotest',
+    'https://github.com/nvim-neotest/neotest-python',
+    'https://github.com/nvim-neotest/neotest-go',
     'https://github.com/mfussenegger/nvim-dap',
     'https://github.com/rcarriga/nvim-dap-ui',
     'https://github.com/theHamsta/nvim-dap-virtual-text',
@@ -83,5 +87,6 @@ vim.schedule(function()
     'https://github.com/leoluz/nvim-dap-go',
   }
 
+  require 'ilyes.plugins.neotest'
   require 'ilyes.plugins.dap'
 end)
