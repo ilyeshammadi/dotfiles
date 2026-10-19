@@ -54,6 +54,7 @@ vim.pack.add {
   'https://github.com/christoomey/vim-tmux-navigator',
 
   'https://github.com/obsidian-nvim/obsidian.nvim',
+  { src = 'https://github.com/igorlfs/nvim-dap-view', version = vim.version.range '1.*' },
 }
 
 -- Colorscheme first, so a slow plugin below can't leave the UI unstyled.
@@ -81,7 +82,6 @@ vim.schedule(function()
     'https://github.com/nvim-neotest/neotest-python',
     'https://github.com/nvim-neotest/neotest-go',
     'https://github.com/mfussenegger/nvim-dap',
-    'https://github.com/rcarriga/nvim-dap-ui',
     'https://github.com/mfussenegger/nvim-dap-python',
     'https://github.com/leoluz/nvim-dap-go',
   }

@@ -1,4 +1,5 @@
 local wk = require 'which-key'
+local icons = require 'ilyes.core.icons'
 
 wk.setup {
   preset = 'modern',
@@ -17,7 +18,8 @@ wk.setup {
     },
   },
   icons = {
-    mappings = false,
+    -- Only the explicit per-mapping icons; no rule-based ones.
+    rules = false,
   },
 }
 
@@ -30,19 +32,19 @@ wk.add {
     desc = 'Buffer Local Keymaps',
   },
   { '<leader>d', group = 'Debug' },
-  { '<leader>dC', "<cmd>lua require'dap'.run_to_cursor()<CR>", desc = 'Run To Cursor' },
-  { '<leader>dT', "<cmd>lua require'dap'.toggle_breakpoint(vim.fn.input('Breakpoint with condition: '))<CR>", desc = 'Toggle conditional breakpoint' },
-  { '<leader>dU', "<cmd>lua require'dapui'.toggle({reset = true})<CR>", desc = 'Toggle UI' },
-  { '<leader>dc', "<cmd>lua require'dap'.continue()<CR>", desc = 'Continue' },
-  { '<leader>dd', "<cmd>lua require'dap'.disconnect()<CR>", desc = 'Disconnect' },
-  { '<leader>dg', "<cmd>lua require'dap'.session()<CR>", desc = 'Get Session' },
-  { '<leader>di', "<cmd>lua require'dap'.step_into()<CR>", desc = 'Step Into' },
-  { '<leader>do', "<cmd>lua require'dap'.step_over()<CR>", desc = 'Step Over' },
-  { '<leader>dp', "<cmd>lua require'dap'.pause()<CR>", desc = 'Pause' },
-  { '<leader>dq', "<cmd>lua require'dap'.close()<CR>", desc = 'Quit' },
-  { '<leader>dr', "<cmd>lua require'dap'.repl.toggle()<CR>", desc = 'Toggle Repl' },
-  { '<leader>dt', "<cmd>lua require'dap'.toggle_breakpoint()<CR>", desc = 'Toggle breakpoint' },
-  { '<leader>du', "<cmd>lua require'dap'.step_out()<CR>", desc = 'Step Out' },
+  { '<leader>dC', "<cmd>lua require'dap'.run_to_cursor()<CR>", desc = 'Run To Cursor', icon = icons.debug.run_to_cursor },
+  { '<leader>dB', "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", desc = 'Conditional breakpoint', icon = icons.debug.conditional },
+  { '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<CR>", desc = 'Toggle breakpoint', icon = icons.debug.breakpoint },
+  { '<leader>dc', "<cmd>lua require'dap'.continue()<CR>", desc = 'Continue', icon = icons.debug.continue },
+  { '<leader>de', '<cmd>DapViewHover<CR>', desc = 'Hover', mode = { 'n', 'v' }, icon = icons.debug.hover },
+  { '<leader>di', "<cmd>lua require'dap'.step_into()<CR>", desc = 'Step Into', icon = icons.debug.step_into },
+  { '<leader>dl', "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log message: '))<CR>", desc = 'Log point', icon = icons.debug.log },
+  { '<leader>dn', "<cmd>lua require'dap'.step_over()<CR>", desc = 'Step Over', icon = icons.debug.step_over },
+  { '<leader>do', "<cmd>lua require'dap'.step_out()<CR>", desc = 'Step Out', icon = icons.debug.step_out },
+  { '<leader>dr', "<cmd>lua require'dap'.run_last()<CR>", desc = 'Run Last', icon = icons.debug.run_last },
+  { '<leader>du', '<cmd>DapViewToggle<CR>', desc = 'Toggle UI', icon = icons.debug.ui },
+  { '<leader>dw', '<cmd>DapViewWatch<CR>', desc = 'Watch', mode = { 'n', 'v' }, icon = icons.debug.watch },
+  { '<leader>dx', "<cmd>lua require'dap'.terminate()<CR>", desc = 'Terminate', icon = icons.debug.terminate },
   { '<leader>g', group = 'Git' },
   { '<leader>l', group = 'Lsp' },
   { '<leader>lR', '<cmd>LspRestart<CR>', desc = 'Restart LSP' },
