@@ -22,4 +22,36 @@ return {
     hover = '',
     watch = '',
   },
+  -- Nerd Font glyphs for the non-debug which-key entries.
+  help = '',
+  group = {
+    debug = '',
+    git = '',
+    lsp = '',
+    search = '',
+    test = '',
+    toggle = '',
+    obsidian = '',
+  },
+  lsp = {
+    restart = '',
+    format = '',
+    info = '',
+    quickfix = '',
+  },
+  test = {
+    output_panel = '',
+    run_dap = '',
+    run_file = '',
+    output = '',
+    summary = '',
+    run = '',
+  },
+  obsidian = {
+    search = '',
+    create = '',
+    tags = '',
+    dailies = '',
+    workspace = '',
+  },
 }
