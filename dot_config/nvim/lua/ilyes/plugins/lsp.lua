@@ -65,6 +65,11 @@ local servers = {
         if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.emmyrc.json') or vim.uv.fs_stat(path .. '/.luarc.json')) then
           client.config.settings = {}
         end
+        -- Editing the chezmoi source: the root is the repo, so point requires at the nvim dir.
+        local chezmoi_nvim = path .. '/dot_config/nvim'
+        if vim.uv.fs_stat(chezmoi_nvim) then
+          client.config.settings.emmylua.workspace.workspaceRoots = { chezmoi_nvim }
+        end
       end
     end,
     settings = {
@@ -76,9 +81,8 @@ local servers = {
         },
         diagnostics = { globals = { 'vim' } },
         hint = { enable = true },
-        -- Swap for `vim.api.nvim_get_runtime_file('', true)` to index every
-        -- installed plugin too. Slower.
-        workspace = { library = { vim.env.VIMRUNTIME } },
+        -- Whole runtimepath so loaded plugins (blink.cmp etc.) resolve too.
+        workspace = { library = vim.api.nvim_get_runtime_file('', true) },
       },
     },
   },
