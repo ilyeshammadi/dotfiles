@@ -18,14 +18,8 @@ require('conform').setup {
     sh = { 'shfmt' },
     zsh = { 'shfmt' },
     bash = { 'shfmt' },
-    go = { 'gofumpt' },
+    go = { 'golangci-lint' },
     htmldjango = { 'djlint' },
     nix = { 'nixfmt' },
   },
-  -- Format everything on save except python.
-  format_on_save = function(bufnr)
-    if vim.bo[bufnr].filetype ~= 'python' then
-      return {}
-    end
-  end,
 }
