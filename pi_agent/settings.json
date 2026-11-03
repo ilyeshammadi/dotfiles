@@ -6,12 +6,17 @@
     "npm:pi-lens",
     "npm:@inobit/pi-themes",
     "npm:@dietrichgebert/ponytail",
-    "npm:pi-plan"
+    "npm:pi-plan",
+    "npm:@majorgilles/pi-learning-tutor"
   ],
   "theme": "rosepine-dawn/rosepine",
   "defaultProvider": "claude-bridge",
   "defaultModel": "claude-sonnet-5-5",
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": true,
-  "enabledModels": ["egghead/qwen3.8-27b", "claude-bridge/claude-sonnet-5-5"]
+  "enabledModels": [
+    "egghead/qwen3.8-27b",
+    "claude-bridge/claude-sonnet-5-5",
+    "claude-bridge/claude-opus-5-5"
+  ]
 }
