@@ -3,7 +3,6 @@ set -eu
 
 items="dotfiles
 notes
-nix
 infra
 git
 diff
@@ -19,7 +18,6 @@ chosen=$(printf "$items" | fzf --prompt="  Launch: " --height=100% --border=none
 case "$chosen" in
   dotfiles)   tmux new-window -n dotfiles   -c "$HOME/.local/share/chezmoi" chezmoi edit ;;
   notes)   tmux new-window -n dotfiles   -c "$HOME/vaults/personal" nvim ;;
-  nix) tmux new-window -n nix   -c "$HOME/projects/nix-config" nvim ;;
   infra) tmux new-window -n nix   -c "$HOME/projects/infra" nvim ;;
   git)    tmux new-window -n lazygit    -c "#{pane_current_path}" lazygit ;;
   diff)    tmux new-window -n tuicr    -c "#{pane_current_path}" tuicr ;;
