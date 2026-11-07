@@ -17,6 +17,7 @@
   "enabledModels": [
     "egghead/qwen3.8-27b",
     "claude-bridge/claude-sonnet-5-5",
-    "claude-bridge/claude-opus-5-5"
+    "claude-bridge/claude-opus-5-5",
+    "claude-bridge/claude-haiku-5-5"
   ]
 }
