@@ -4,11 +4,15 @@ SAVEHIST=50000
 setopt EXTENDED_HISTORY
 
 # --- Completion ---
+autoload -Uz compinit && compinit  # nix-darwin ran this in /etc/zshrc; plain macOS zsh doesn't
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-# --- Vi mode (zsh-vi-mode, wired via nix) ---
-ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+# --- Vi mode (zsh-vi-mode, from brew) ---
+# zvm_config runs after the plugin defines $ZVM_CURSOR_*; at top level they're still empty.
+function zvm_config() {
+  ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+}
 
 # zsh-vi-mode rebinds keys after init and clobbers anything bound earlier
 # (fzf's ^R, custom widgets) — this hook runs after it, per its own docs.
@@ -21,6 +25,10 @@ function zvm_after_init() {
 
   zle -N fzf-env-widget
   bindkey '^V' fzf-env-widget
+
+  # Loaded here (not at top level) so zsh-vi-mode doesn't clobber their widgets; highlighting must be last.
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 }
 
 fzf-env-widget() {
@@ -29,6 +37,10 @@ fzf-env-widget() {
   [[ -n $line ]] && LBUFFER+='$'${line%%=*}
   zle reset-prompt
 }
+
+{{ if eq .chezmoi.os "darwin" -}}
+source /opt/homebrew/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+{{ end -}}
 
 # --- PATH ---
 typeset -U path
