@@ -28,6 +28,7 @@ function zvm_after_init() {
 
   # Loaded here (not at top level) so zsh-vi-mode doesn't clobber their widgets; highlighting must be last.
   source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  _zsh_autosuggest_start  # normally runs on next precmd, but zvm_after_init fires after the first one
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 }
 
