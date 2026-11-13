@@ -4,7 +4,9 @@ SAVEHIST=50000
 setopt EXTENDED_HISTORY
 
 # --- Completion ---
-autoload -Uz compinit && compinit  # nix-darwin ran this in /etc/zshrc; plain macOS zsh doesn't
+{{ if eq .chezmoi.os "darwin" -}}
+autoload -Uz compinit && compinit  # plain macOS zsh doesn't run it; NixOS /etc/zshrc already does
+{{ end -}}
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
@@ -12,6 +14,11 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 # zvm_config runs after the plugin defines $ZVM_CURSOR_*; at top level they're still empty.
 function zvm_config() {
   ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+  ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+  ZVM_VISUAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+  ZVM_VISUAL_LINE_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+  ZVM_REPLACE_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+  ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_BLOCK
 }
 
 # zsh-vi-mode rebinds keys after init and clobbers anything bound earlier
@@ -26,10 +33,13 @@ function zvm_after_init() {
   zle -N fzf-env-widget
   bindkey '^V' fzf-env-widget
 
+
+	{{ if eq .chezmoi.os "darwin" -}}
   # Loaded here (not at top level) so zsh-vi-mode doesn't clobber their widgets; highlighting must be last.
   source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   _zsh_autosuggest_start  # normally runs on next precmd, but zvm_after_init fires after the first one
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	{{end}}
 }
 
 fzf-env-widget() {
