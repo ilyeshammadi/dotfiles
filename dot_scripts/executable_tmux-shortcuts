@@ -3,7 +3,7 @@ set -eu
 
 PROJECTS="$HOME/projects"
 
-pick() { fzf --prompt="  $1: " --height=100% --border=none; }
+pick() { fzf --ansi --prompt="  $1: " --height=100% --border=none; }
 
 # Every git repo under ~/projects, as a path relative to it.
 list_projects() {
@@ -11,29 +11,45 @@ list_projects() {
     sed "s|^$PROJECTS/||; s|/\.git$||" | sort
 }
 
-# open_session <name> <dir> <command...>
+# tmux_session <name> <dir> <command...>
 # Run the command in its own tmux session; if it already exists, just switch to it.
-open_session() {
+tmux_session() {
   local session="${1//[.\/:]/_}" dir="$2" # tmux session names can't contain . or :
   shift 2
   tmux new-session -d -s "$session" -c "$dir" "$@" 2>/dev/null || true
   tmux switch-client -t "=$session"
 }
 
-chosen=$(printf '%s\n' dotfiles notes infra projects git diff docker kubernetes monitor | pick Launch)
+# Rose Pine (same values as dot_tmux.conf): name = iris, context = muted
+NAME=$'\033[1;38;2;196;167;231m' DESC=$'\033[0;38;2;110;106;134m' RESET=$'\033[0m'
+# "name - context" menu lines; the case below matches on the name only.
+chosen=$(
+  sed "s/^\([^ ]*\) - \(.*\)$/${NAME}\1${DESC} - \2${RESET}/" <<'MENU' | pick Launch
+dotfiles - chezmoi source
+notes - personal vault
+infra - infra repo
+projects - pick a git repo
+lazygit - git UI
+tuicr - git diff review
+lazydocker - docker UI
+k9s - kubernetes
+btop - system monitor
+MENU
+)
+chosen="${chosen%% - *}"
 [ -z "$chosen" ] && exit 0
 
 case "$chosen" in
-  dotfiles)   open_session dotfiles "$HOME/.local/share/chezmoi" chezmoi edit ;;
-  notes)      open_session notes    "$HOME/vaults/personal" nvim ;;
-  infra)      open_session infra    "$PROJECTS/infra" nvim ;;
-  monitor)    open_session monitor  "$HOME" btop ;;
-  git)        tmux new-window -n lazygit    -c "#{pane_current_path}" lazygit ;;
-  diff)       tmux new-window -n tuicr      -c "#{pane_current_path}" tuicr ;;
-  docker)     tmux new-window -n lazydocker lazydocker ;;
-  kubernetes) tmux new-window -n k9s        k9s ;;
+  dotfiles)   tmux_session dotfiles "$HOME/.local/share/chezmoi" chezmoi edit ;;
+  notes)      tmux_session notes    "$HOME/vaults/personal" nvim ;;
+  infra)      tmux_session infra    "$PROJECTS/infra" nvim ;;
+  btop)       tmux_session btop     "$HOME" btop ;;
+  k9s)        tmux_session k9s      "$HOME" k9s ;;
+  lazygit)    tmux new-window -n lazygit    -c "#{pane_current_path}" lazygit ;;
+  tuicr)      tmux new-window -n tuicr      -c "#{pane_current_path}" tuicr ;;
+  lazydocker) tmux new-window -n lazydocker lazydocker ;;
   projects)
     repo=$(list_projects | pick Project) || exit 0
-    [ -n "$repo" ] && open_session "$repo" "$PROJECTS/$repo" nvim
+    [ -n "$repo" ] && tmux_session "$repo" "$PROJECTS/$repo" nvim
     ;;
 esac
