@@ -3,19 +3,22 @@
 # ws - tmux sessions backed by git worktrees
 #
 # USAGE
-#   ws create -p <profile> <task-id>        one tmux window + worktree per repo
-#   ws delete -p <profile> [<task-id>...]   kill session, remove worktrees and branches
-#                                           (no task-id: pick with fzf)
-#   ws list                                 list tasks across all profiles
+#   ws add <task-id> [<alias>...]      one tmux window + worktree per chosen repo; adds to
+#                                      the task's session if it already exists
+#                                      (no alias: pick repos with fzf)
+#   ws delete [<task-id>...]           kill session, remove worktrees and branches
+#                                      (no task-id: pick tasks with fzf)
+#   ws list                            list tasks and their repos
+#   ws repos                           list configured repo aliases
 #
-# PROFILE (~/.config/ws/profiles/<name>.sh)
+# CONFIG (~/.config/ws/config.sh)
 #
 #   WS_TREE_DIR   where worktrees go: $WS_TREE_DIR/<task-id>/<alias>
 #   WS_REPOS      entries of "<repo-path>,from=<base>[,branch=<name>][,as=<alias>]"
 #                   from    required, branch the worktree is created from
 #                   branch  new branch name, {TASK} is replaced  (default: {TASK})
-#                   as      worktree dir + tmux window name, {TASK} is replaced
-#                           (default: basename of repo-path)
+#                   as      name used to select the repo, and the worktree dir +
+#                           tmux window name (default: basename of repo-path)
 #   ws_post_<repo>()  optional, lines are typed into the repo's window after setup;
 #                     <repo> is the basename of repo-path with - replaced by _
 #
@@ -32,15 +35,16 @@
 #
 set -euo pipefail
 
-PROFILES_DIR="$HOME/.config/ws/profiles"
+CONFIG_FILE="${WS_CONFIG:-$HOME/.config/ws/config.sh}"
 
 die() { echo "$*" >&2; exit 1; }
 
 usage() {
   die "Usage:
-  ws create -p <profile> <task-id>
-  ws delete -p <profile> [<task-id>...]
-  ws list"
+  ws add <task-id> [<alias>...]
+  ws delete [<task-id>...]
+  ws list
+  ws repos"
 }
 
 # ---------------------------------------------------------------------------
@@ -49,6 +53,11 @@ usage() {
 
 session_name() { echo "task-$1"; }
 task_dir()     { echo "$WS_TREE_DIR/$1"; }
+
+load_config() {
+  [[ -f "$CONFIG_FILE" ]] || die "Config not found: $CONFIG_FILE"
+  source "$CONFIG_FILE"
+}
 
 # parse_repo <entry> <task-id>
 # Sets REPO_PATH, REPO_NAME, REPO_FROM, REPO_BRANCH, REPO_ALIAS, REPO_WORKTREE.
@@ -78,13 +87,29 @@ parse_repo() {
   REPO_WORKTREE="$(task_dir "$task")/$REPO_ALIAS"
 }
 
-load_profile() {
-  local file="$PROFILES_DIR/$1.sh"
-  [[ -f "$file" ]] || die "Profile not found: $file"
-  source "$file"
+# Prints the WS_REPOS entry whose alias is <alias>, or fails.
+find_repo() {
+  local alias="$1" task="$2" entry
+  for entry in "${WS_REPOS[@]}"; do
+    parse_repo "$entry" "$task"
+    if [[ "$REPO_ALIAS" == "$alias" ]]; then
+      echo "$entry"
+      return
+    fi
+  done
+  die "Unknown repo '$alias' (see: ws repos)"
 }
 
-# Lines of the profile's ws_post_<repo> function, empty if not defined.
+# Prints all configured aliases, one per line.
+list_aliases() {
+  local entry
+  for entry in "${WS_REPOS[@]}"; do
+    parse_repo "$entry" "{TASK}"
+    echo "$REPO_ALIAS"
+  done
+}
+
+# Lines of the config's ws_post_<repo> function, empty if not defined.
 # declare -f prints "name ()", "{", body..., "}" with trailing ";" on each line.
 post_commands() {
   local fn="ws_post_${1//-/_}"
@@ -114,31 +139,35 @@ type_line() { tmux send-keys -t "$1" "$2" Enter; }
 # Commands
 # ---------------------------------------------------------------------------
 
-# Sets PROFILE from -p and leaves the remaining args in ARGS.
-parse_flags() {
-  PROFILE=""
-  ARGS=()
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      -p) PROFILE="${2:-}"; shift 2 || usage ;;
-      *)  ARGS+=("$1"); shift ;;
-    esac
+cmd_add() {
+  [[ $# -ge 1 ]] || usage
+  local task="$1"
+  shift
+  load_config
+
+  local -a aliases=("$@") entries=()
+  local alias entry line
+  if [[ ${#aliases[@]} -eq 0 ]]; then
+    while IFS= read -r alias; do aliases+=("$alias"); done < <(list_aliases | fzf -m --prompt "repos for $task> " || true)
+    [[ ${#aliases[@]} -gt 0 ]] || die "No repo selected."
+  fi
+  # Resolve every alias before touching tmux, so a typo creates nothing.
+  for alias in "${aliases[@]}"; do
+    entry="$(find_repo "$alias" "$task")"
+    entries+=("$entry")
   done
-  [[ -n "$PROFILE" ]] || usage
-}
 
-cmd_create() {
-  parse_flags "$@"
-  [[ ${#ARGS[@]} -eq 1 ]] || usage
-  local task="${ARGS[0]}"
-  load_profile "$PROFILE"
-
-  local session first=true entry line
+  local session first=true
   session="$(session_name "$task")"
+  tmux has-session -t "=$session" 2>/dev/null && first=false
   mkdir -p "$(task_dir "$task")"
 
-  for entry in "${WS_REPOS[@]}"; do
+  for entry in "${entries[@]}"; do
     parse_repo "$entry" "$task"
+    if [[ "$first" == false ]] && tmux list-windows -t "=$session" -F '#W' | grep -qxF "$REPO_ALIAS"; then
+      echo "Skipping $REPO_ALIAS: already in $session."
+      continue
+    fi
     echo "Setting up $REPO_NAME as $REPO_ALIAS (branch: $REPO_BRANCH, from: $REPO_FROM)..."
 
     open_window "$session" "$REPO_ALIAS" "$first"
@@ -153,16 +182,15 @@ cmd_create() {
     done < <(post_commands "$REPO_NAME")
   done
 
-  echo "Session '$session' created with profile '$PROFILE'."
+  echo "Session '$session' ready."
   echo "Attach with: tmux attach -t $session"
 }
 
 cmd_delete() {
-  parse_flags "$@"
-  load_profile "$PROFILE"
+  load_config
 
   local task
-  local -a tasks=("${ARGS[@]+"${ARGS[@]}"}")
+  local -a tasks=("$@")
   if [[ ${#tasks[@]} -eq 0 ]]; then
     while IFS= read -r task; do tasks+=("$task"); done < <(ls "$WS_TREE_DIR" 2>/dev/null | fzf -m || true)
     [[ ${#tasks[@]} -gt 0 ]] || { echo "Nothing selected."; return; }
@@ -173,8 +201,11 @@ cmd_delete() {
   done
 }
 
-# Removal runs in a detached "delete-task-<id>" session: one window per repo,
-# plus a cleanup window that removes the task dir once the others have exited.
+# Removal runs in a detached "delete-task-<id>" session: one window per repo
+# found in the task dir, plus a cleanup window that removes the task dir once
+# the others have exited.
+# shortcut: repos are matched by worktree dir against the current config, so a
+# repo removed or re-aliased since create is left behind; store a manifest if that bites.
 delete_task() {
   local task="$1" entry first=true
   local session="delete-$(session_name "$task")"
@@ -183,40 +214,43 @@ delete_task() {
 
   for entry in "${WS_REPOS[@]}"; do
     parse_repo "$entry" "$task"
+    [[ -d "$REPO_WORKTREE" ]] || continue
     local git="git -C '$REPO_PATH'"
     open_window "$session" "$REPO_ALIAS" "$first" \
       "bash -c \"$git worktree remove '$REPO_WORKTREE' 2>/dev/null; $git worktree prune; $git branch -D '$REPO_BRANCH' 2>/dev/null\""
     first=false
   done
 
-  tmux new-window -t "$session" -n cleanup \
+  open_window "$session" cleanup "$first" \
     "bash -c \"while tmux list-windows -t '$session' 2>/dev/null | grep -qv cleanup; do sleep 0.5; done; rm -rf '$(task_dir "$task")'; echo 'Deleted $task.'; sleep 2\""
 
   echo "Deleting '$task' in tmux session '$session'."
 }
 
 cmd_list() {
-  local file
-  for file in "$PROFILES_DIR"/*.sh; do
-    [[ -f "$file" ]] || continue
-    # Subshell so one profile's variables don't leak into the next.
-    (
-      source "$file"
-      [[ -d "${WS_TREE_DIR:-}" ]] || exit 0
-      for dir in "$WS_TREE_DIR"/*/; do
-        if [[ -d "$dir" ]]; then
-          printf "%-30s (profile: %s)\n" "$(basename "$dir")" "$(basename "$file" .sh)"
-        fi
-      done
-    )
-  done | sort -u
+  load_config
+  local dir
+  for dir in "$WS_TREE_DIR"/*/; do
+    [[ -d "$dir" ]] || continue
+    printf "%-30s %s\n" "$(basename "$dir")" "$(ls "$dir" | tr '\n' ' ')"
+  done
+}
+
+cmd_repos() {
+  load_config
+  local entry
+  for entry in "${WS_REPOS[@]}"; do
+    parse_repo "$entry" "{TASK}"
+    printf "%-12s %-40s from=%-10s branch=%s\n" "$REPO_ALIAS" "$REPO_PATH" "$REPO_FROM" "$REPO_BRANCH"
+  done
 }
 
 # ---------------------------------------------------------------------------
 
 case "${1:-}" in
-  create) shift; cmd_create "$@" ;;
+  add)    shift; cmd_add "$@" ;;
   delete) shift; cmd_delete "$@" ;;
   list)   shift; cmd_list "$@" ;;
+  repos)  shift; cmd_repos "$@" ;;
   *)      usage ;;
 esac
