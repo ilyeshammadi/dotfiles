@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -eu
+
+PROJECTS="$HOME/projects"
+
+pick() { fzf --prompt="  $1: " --height=100% --border=none; }
+
+# Every git repo under ~/projects, as a path relative to it.
+list_projects() {
+  find "$PROJECTS" -maxdepth 4 -name .git -prune |
+    sed "s|^$PROJECTS/||; s|/\.git$||" | sort
+}
+
+# open_session <name> <dir> <command...>
+# Run the command in its own tmux session; if it already exists, just switch to it.
+open_session() {
+  local session="${1//[.\/:]/_}" dir="$2" # tmux session names can't contain . or :
+  shift 2
+  tmux new-session -d -s "$session" -c "$dir" "$@" 2>/dev/null || true
+  tmux switch-client -t "=$session"
+}
+
+chosen=$(printf '%s\n' dotfiles notes infra projects git diff docker kubernetes monitor | pick Launch)
+[ -z "$chosen" ] && exit 0
+
+case "$chosen" in
+  dotfiles)   open_session dotfiles "$HOME/.local/share/chezmoi" chezmoi edit ;;
+  notes)      open_session notes    "$HOME/vaults/personal" nvim ;;
+  infra)      open_session infra    "$PROJECTS/infra" nvim ;;
+  monitor)    open_session monitor  "$HOME" btop ;;
+  git)        tmux new-window -n lazygit    -c "#{pane_current_path}" lazygit ;;
+  diff)       tmux new-window -n tuicr      -c "#{pane_current_path}" tuicr ;;
+  docker)     tmux new-window -n lazydocker lazydocker ;;
+  kubernetes) tmux new-window -n k9s        k9s ;;
+  projects)
+    repo=$(list_projects | pick Project) || exit 0
+    [ -n "$repo" ] && open_session "$repo" "$PROJECTS/$repo" nvim
+    ;;
+esac
