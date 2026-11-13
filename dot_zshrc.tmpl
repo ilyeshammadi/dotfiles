@@ -1,17 +1,52 @@
-# --- History ---
+# ── History ─────────────────────────────────────────────────────────────────
 HISTSIZE=50000
 SAVEHIST=50000
 setopt EXTENDED_HISTORY
 
-# --- Completion ---
+# ── Completion ──────────────────────────────────────────────────────────────
 {{ if eq .chezmoi.os "darwin" -}}
 autoload -Uz compinit && compinit  # plain macOS zsh doesn't run it; NixOS /etc/zshrc already does
 {{ end -}}
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-# --- Vi mode (zsh-vi-mode, from brew) ---
-# zvm_config runs after the plugin defines $ZVM_CURSOR_*; at top level they're still empty.
+# ── PATH ────────────────────────────────────────────────────────────────────
+typeset -U path
+path=(~/.local/bin ~/.scripts ~/.cargo/bin ~/go/bin ~/.local/share/pypoetry/bin $path)
+{{ if eq .chezmoi.os "darwin" -}}
+path=(/run/current-system/sw/bin /opt/homebrew/bin $path)
+{{ end }}
+# ── Environment ─────────────────────────────────────────────────────────────
+export EDITOR=nvim
+export VISUAL=nvim
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=bg+:#363646,gutter:-1'
+{{ if eq .chezmoi.os "darwin" }}
+# macOS SDK paths (cached — xcrun is slow, and the SDK path rarely changes)
+SDK_CACHE=~/.cache/macos-sdk-path
+[[ -f $SDK_CACHE ]] || xcrun --show-sdk-path > $SDK_CACHE
+export CPATH="$(<$SDK_CACHE)/usr/include:/usr/local/include"
+export LIBRARY_PATH=/usr/local/opt/openssl/lib/:/usr/local/lib
+{{ end }}
+# ── Aliases ─────────────────────────────────────────────────────────────────
+## Core
+alias cd="z"
+alias ls="eza --group-directories-first"
+alias ll="eza -l --icons --group-directories-first"
+alias cat="bat"
+alias vi="nvim"
+alias vim="nvim"
+alias v="nvim"
+alias c="clear"
+alias e="exit"
+
+## Docker
+alias dps="docker ps"
+alias dsrm='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker volume rm $(docker volume ls -q)'
+
+# ── Vi mode (zsh-vi-mode) ───────────────────────────────────────────────────
+# Block cursor in every mode. zvm_config runs after the plugin defines $ZVM_CURSOR_*;
+# at top level they're still empty on darwin.
 function zvm_config() {
   ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
   ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
@@ -19,6 +54,17 @@ function zvm_config() {
   ZVM_VISUAL_LINE_MODE_CURSOR=$ZVM_CURSOR_BLOCK
   ZVM_REPLACE_MODE_CURSOR=$ZVM_CURSOR_BLOCK
   ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+}
+{{ if eq .chezmoi.os "linux" -}}
+# NixOS's /etc/zshrc already loaded the plugin, which called zvm_config before it existed; call it now.
+zvm_config
+{{ end }}
+# Custom widget: pick an env var with fzf and insert its name as $NAME.
+fzf-env-widget() {
+  local line
+  line=$(env | sort | fzf --height 40% --reverse)
+  [[ -n $line ]] && LBUFFER+='$'${line%%=*}
+  zle reset-prompt
 }
 
 # zsh-vi-mode rebinds keys after init and clobbers anything bound earlier
@@ -32,82 +78,24 @@ function zvm_after_init() {
 
   zle -N fzf-env-widget
   bindkey '^V' fzf-env-widget
+{{- if eq .chezmoi.os "darwin" }}
 
-
-	{{ if eq .chezmoi.os "darwin" -}}
   # Loaded here (not at top level) so zsh-vi-mode doesn't clobber their widgets; highlighting must be last.
   source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   _zsh_autosuggest_start  # normally runs on next precmd, but zvm_after_init fires after the first one
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-	{{end}}
+{{- end }}
 }
-
-fzf-env-widget() {
-  local line
-  line=$(env | sort | fzf --height 40% --reverse)
-  [[ -n $line ]] && LBUFFER+='$'${line%%=*}
-  zle reset-prompt
-}
-
-{{ if eq .chezmoi.os "darwin" -}}
+{{ if eq .chezmoi.os "darwin" }}
+# Must come after the hooks above: the plugin reads them when it loads (brew; NixOS loads it in /etc/zshrc).
 source /opt/homebrew/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-{{ end -}}
-
-# --- PATH ---
-typeset -U path
-path=(~/.local/bin ~/.scripts ~/.cargo/bin ~/go/bin ~/.local/share/pypoetry/bin $path)
-
-{{ if eq .chezmoi.os "darwin" -}}
-path=(/opt/homebrew/bin $path)
-path=(/run/current-system/sw/bin $path)
-{{ end -}}
-
-# --- Environment ---
-export EDITOR=nvim
-export VISUAL=nvim
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=bg+:#363646,gutter:-1'
-# export FZF_TMUX_OPTS='-p'
-
-{{ if eq .chezmoi.os "darwin" -}}
-# macOS SDK paths (cached — xcrun is slow, and the SDK path rarely changes)
-SDK_CACHE=~/.cache/macos-sdk-path
-[[ -f $SDK_CACHE ]] || xcrun --show-sdk-path > $SDK_CACHE
-export CPATH="$(<$SDK_CACHE)/usr/include:/usr/local/include"
-export LIBRARY_PATH=/usr/local/opt/openssl/lib/:/usr/local/lib
-{{ end -}}
-
-# --- Aliases ---
-## Core
-alias cd="z"
-alias ls="eza --group-directories-first"
-alias ll="eza -l --icons --group-directories-first"
-alias cat="bat"
-alias vi="nvim"
-alias vim="nvim"
-
-## K8s
-alias k="kubectl"
-alias kctx="kubectx"
-alias kns="kubens"
-
-## Shortcuts
-alias v="nvim"
-alias c="clear"
-alias e="exit"
-alias po="poetry"
-alias lzg="lazygit"
-alias lzd="lazydocker"
-## Docker
-alias dps="docker ps"
-alias dsrm='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker volume rm $(docker volume ls -q)'
-
-# --- Tool init ---
+{{ end }}
+# ── Tool init ───────────────────────────────────────────────────────────────
 eval "$(mise activate zsh)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 
-# --- Local env files ---
+# ── Local env files (~/.zsh/*.zsh, e.g. decrypted secrets) ──────────────────
 for f in ~/.zsh/*.zsh(N); do
-    source "$f"
+  source "$f"
 done
