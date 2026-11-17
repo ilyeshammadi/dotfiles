@@ -4,6 +4,8 @@ require('dap-view').setup {
   winbar = {
     sections = { 'scopes', 'watches', 'exceptions', 'breakpoints', 'threads', 'repl' },
     default_section = 'scopes',
+    -- Clickable play/step/stop buttons in the winbar (needs mouse=a, already set).
+    controls = { enabled = true },
   },
   -- windows = {
   --   position = 'bottom',
