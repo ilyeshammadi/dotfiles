@@ -7,7 +7,7 @@ require('neotest').setup {
     open_on_run = false,
   },
   adapters = {
-    require 'neotest-golang',
+    require 'neotest-golang' {}, -- must be called: sets adapter options
     require 'neotest-python' {
       -- See https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for values
       dap = {
