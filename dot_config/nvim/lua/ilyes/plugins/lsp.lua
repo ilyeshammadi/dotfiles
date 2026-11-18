@@ -1,7 +1,51 @@
+-- Pinned hover: `K` shows LSP docs in one bottom split instead of a float
+-- that vanishes. Every `K` press rewrites that same split.
+local hover_buf -- the one docs buffer, created on the first `K`
+
+local function hover_split()
+  -- Ask every attached server for docs at the cursor. Each server can use a
+  -- different column encoding, so build the position per client.
+  local params = function(client)
+    return vim.lsp.util.make_position_params(0, client.offset_encoding)
+  end
+
+  vim.lsp.buf_request_all(0, 'textDocument/hover', params, function(results)
+    -- Use the first server that returned docs, converted to markdown lines.
+    local lines = {}
+    for _, res in pairs(results) do
+      if res.result then
+        lines = vim.lsp.util.convert_input_to_markdown_lines(res.result.contents)
+        break
+      end
+    end
+    if #lines == 0 then
+      return vim.notify 'No hover info'
+    end
+
+    -- Create the buffer once: unlisted scratch, markdown highlighting, and
+    -- `bufhidden=hide` so closing its window keeps it for the next `K`.
+    if not (hover_buf and vim.api.nvim_buf_is_valid(hover_buf)) then
+      hover_buf = vim.api.nvim_create_buf(false, true)
+      vim.bo[hover_buf].filetype = 'markdown'
+      vim.bo[hover_buf].bufhidden = 'hide'
+    end
+    vim.api.nvim_buf_set_lines(hover_buf, 0, -1, false, lines)
+
+    -- Reuse the split if it's open; otherwise open a full-width one at the
+    -- bottom (`win = -1`) without moving the cursor out of the code (`false`).
+    local win = vim.fn.bufwinid(hover_buf)
+    if win == -1 then
+      win = vim.api.nvim_open_win(hover_buf, false, { split = 'below', win = -1, height = 12 })
+    end
+    vim.api.nvim_win_set_cursor(win, { 1, 0 }) -- start each new doc at the top
+  end)
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('ilyes-lsp-attach', { clear = true }),
   callback = function(event)
     local client = vim.lsp.get_client_by_id(event.data.client_id)
+    vim.keymap.set('n', 'K', hover_split, { buffer = event.buf, desc = 'Hover (pinned split)' })
 
     if client and client:supports_method('textDocument/documentHighlight', event.buf) then
       local highlight_augroup = vim.api.nvim_create_augroup('ilyes-lsp-highlight', { clear = false })
