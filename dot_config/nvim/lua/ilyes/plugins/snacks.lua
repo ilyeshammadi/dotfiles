@@ -19,13 +19,6 @@ require('snacks').setup {
   statuscolumn = {
     enabled = true,
   },
-  zen = { enabled = true, toggles = { dim = false } },
-  styles = {
-    zen = {
-      relative = 'editor',
-      backdrop = { transparent = false },
-    },
-  },
 }
 
 _G.dd = function(...)
@@ -42,9 +35,6 @@ end
 
 local map = vim.keymap.set
 
-map('n', '<leader>z', function()
-  Snacks.zen()
-end, { desc = 'Zen' })
 map('n', '<leader>e', function()
   Snacks.explorer.open { auto_close = false }
 end, { desc = 'Explorer' })
