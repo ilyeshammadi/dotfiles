@@ -20,6 +20,9 @@ local filetypes = {
   'javascript',
   'typescript',
   'tsx',
+  'http',
+  'json',
+  'xml',
 }
 
 require('nvim-treesitter').install(vim.list_extend(vim.deepcopy(filetypes), { 'comment' }))
