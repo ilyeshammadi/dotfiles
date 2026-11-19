@@ -24,7 +24,11 @@ local function hover_split()
 
     -- Create the buffer once: unlisted scratch, markdown highlighting, and
     -- `bufhidden=hide` so closing its window keeps it for the next `K`.
-    if not (hover_buf and vim.api.nvim_buf_is_valid(hover_buf)) then
+    -- Check loaded, not just valid: `:bd` unloads it and resets its options.
+    if not (hover_buf and vim.api.nvim_buf_is_loaded(hover_buf)) then
+      if hover_buf and vim.api.nvim_buf_is_valid(hover_buf) then
+        vim.api.nvim_buf_delete(hover_buf, { force = true })
+      end
       hover_buf = vim.api.nvim_create_buf(false, true)
       vim.bo[hover_buf].filetype = 'markdown'
       vim.bo[hover_buf].bufhidden = 'hide'
