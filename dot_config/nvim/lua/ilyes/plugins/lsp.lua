@@ -35,7 +35,7 @@ local function hover_split()
     -- bottom (`win = -1`) without moving the cursor out of the code (`false`).
     local win = vim.fn.bufwinid(hover_buf)
     if win == -1 then
-      win = vim.api.nvim_open_win(hover_buf, false, { split = 'below', win = -1, height = 12 })
+      win = vim.api.nvim_open_win(hover_buf, false, { split = 'below', win = -1, height = 8 })
     end
     vim.api.nvim_win_set_cursor(win, { 1, 0 }) -- start each new doc at the top
   end)
