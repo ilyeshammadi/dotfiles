@@ -140,6 +140,7 @@ local servers = {
     },
   },
   ts_ls = {},
+  typos_lsp = {},
   yamlls = {},
 
   -- Self-contained: no nvim-lspconfig default needed for these three.
