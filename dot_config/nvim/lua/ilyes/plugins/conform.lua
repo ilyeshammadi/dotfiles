@@ -21,5 +21,6 @@ require('conform').setup {
     go = { 'golangci-lint' },
     htmldjango = { 'djlint' },
     nix = { 'nixfmt' },
+    http = { 'injected' }, -- formats embedded bodies (e.g. JSON) via their own ft formatter
   },
 }

@@ -7,11 +7,15 @@
 
 ; <!DOCTYPE html> or <html ...> (any case) is HTML, other markup is XML.
 ; Body: response bodies starting with `<` parse as xml_body, `{`/`[` as raw_body.
+; trim! drops trailing blank lines: a body at EOF otherwise ends past the last
+; line and conform's `injected` formatter fails with "Index out of bounds".
 ((json_body) @injection.content
+  (#trim! @injection.content)
   (#set! injection.language "json"))
 
 ((raw_body) @injection.content
   (#lua-match? @injection.content "^%s*[{[]")
+  (#trim! @injection.content)
   (#set! injection.language "json"))
 
 ((xml_body) @injection.content
