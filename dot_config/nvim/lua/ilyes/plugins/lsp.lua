@@ -7,7 +7,13 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts)
   local buf, win = open_floating_preview(contents, syntax, opts)
   if opts and opts.focus_id == 'textDocument/hover' then
     local row = vim.o.lines - vim.o.cmdheight - 1 -- just above the global statusline
-    vim.api.nvim_win_set_config(win, { relative = 'editor', anchor = 'SW', row = row, col = 0, width = vim.o.columns })
+    vim.api.nvim_win_set_config(win, {
+      relative = 'editor',
+      anchor = 'SW',
+      row = row,
+      col = 0,
+      width = vim.o.columns,
+    })
     -- Width changed, so re-fit the height to the wrapped text.
     vim.api.nvim_win_set_height(win, vim.api.nvim_win_text_height(win, { max_height = 20 }).all)
   end
@@ -20,7 +26,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'LSP hover docs' })
     vim.keymap.set('n', 'gK', function()
-      -- Stays open (`q` inside closes it); `focus = false` replaces an open one instead of jumping into it.
+      -- Stays open (`q` inside closes it); `focus = false` replaces an
+      -- open one instead of jumping into it.
       vim.lsp.buf.hover { close_events = {}, focus = false }
     end, { buffer = event.buf, desc = 'LSP Hover docs (pinned)' })
 
