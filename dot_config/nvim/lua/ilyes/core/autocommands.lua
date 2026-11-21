@@ -48,3 +48,12 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     end
   end,
 })
+
+-- Show the colorcolumn (right after textwidth) while any line in the buffer is longer than it.
+vim.api.nvim_create_autocmd({ 'TextChanged', 'TextChangedI', 'BufEnter', 'WinEnter' }, {
+  group = vim.api.nvim_create_augroup('ilyes-overlength', { clear = true }),
+  callback = function()
+    local tw = vim.bo.textwidth
+    vim.wo.colorcolumn = tw > 0 and vim.fn.search('\\%>' .. tw .. 'v.', 'nw') > 0 and '+1' or ''
+  end,
+})
