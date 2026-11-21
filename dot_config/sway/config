@@ -7,7 +7,7 @@ set $right l
 
 # Defaul terminal
 set $terminal ghostty
-set $browser vivaldi
+set $browser firefox
 set $chat discord
 
 # Default menu app

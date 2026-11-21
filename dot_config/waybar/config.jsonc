@@ -23,7 +23,7 @@
       "tmux": "",
       "ghostty": "",
       "(.*) - Discord": "$1",
-      "(.*) — Vivaldi": "$1",
+      "(.*) — Firefox": "$1",
     },
   },
   "tray": {
