@@ -1,8 +1,16 @@
 -- Pinned hover: `K` shows LSP docs in one bottom split instead of a float
--- that vanishes. Every `K` press rewrites that same split.
+-- that vanishes. Every `K` press rewrites that same split; pressing `K`
+-- again without moving the cursor closes it.
 local hover_buf -- the one docs buffer, created on the first `K`
+local hover_pos -- buffer + cursor position of the last `K` that opened docs
 
 local function hover_split()
+  local pos = vim.api.nvim_get_current_buf() .. ':' .. table.concat(vim.api.nvim_win_get_cursor(0), ':')
+  local open_win = hover_buf and vim.fn.bufwinid(hover_buf) or -1
+  if open_win ~= -1 and pos == hover_pos then
+    hover_pos = nil
+    return vim.api.nvim_win_close(open_win, false)
+  end
   -- Ask every attached server for docs at the cursor. Each server can use a
   -- different column encoding, so build the position per client.
   local params = function(client)
@@ -18,6 +26,8 @@ local function hover_split()
         break
       end
     end
+    -- Same cleanup the hover float does: trim/collapse blank lines, draw `---` as a rule.
+    lines = vim.lsp.util._normalize_markdown(lines, { width = vim.o.columns })
     if #lines == 0 then
       return vim.notify 'No hover info'
     end
@@ -32,16 +42,29 @@ local function hover_split()
       hover_buf = vim.api.nvim_create_buf(false, true)
       vim.bo[hover_buf].filetype = 'markdown'
       vim.bo[hover_buf].bufhidden = 'hide'
+      vim.treesitter.start(hover_buf, 'markdown') -- highlights code blocks like the float
     end
+    vim.bo[hover_buf].modifiable = true
     vim.api.nvim_buf_set_lines(hover_buf, 0, -1, false, lines)
+    vim.bo[hover_buf].modifiable = false
+    hover_pos = pos
 
     -- Reuse the split if it's open; otherwise open a full-width one at the
     -- bottom (`win = -1`) without moving the cursor out of the code (`false`).
     local win = vim.fn.bufwinid(hover_buf)
     if win == -1 then
       win = vim.api.nvim_open_win(hover_buf, false, { split = 'below', win = -1, height = 8 })
+      -- Window options the hover float uses: hide ``` fences and wrap nicely.
+      local wo = vim.wo[win]
+      wo.conceallevel, wo.concealcursor = 2, 'nc' -- keep hiding while the cursor is in the split
+      wo.wrap, wo.linebreak, wo.breakindent, wo.smoothscroll = true, true, true, true
+      wo.foldenable, wo.number, wo.relativenumber, wo.signcolumn = false, false, false, 'no'
+      wo.winfixheight = true -- terminal resizes (tmux splits) grow the code window, not this one
     end
     vim.api.nvim_win_set_cursor(win, { 1, 0 }) -- start each new doc at the top
+    -- Fit the split to the rendered text (concealed fences don't count), max 8 lines.
+    local h = vim.api.nvim_win_text_height(win, { max_height = 8 }).all
+    vim.api.nvim_win_set_height(win, math.max(h, 1))
   end)
 end
 
