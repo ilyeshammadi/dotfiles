@@ -1,24 +1,16 @@
--- Pinned hover: `K` shows LSP docs in one bottom split instead of a float
--- that vanishes. Every `K` press rewrites that same split; pressing `K`
--- again without moving the cursor closes it.
-local hover_buf -- the one docs buffer, created on the first `K`
-local hover_pos -- buffer + cursor position of the last `K` that opened docs
+-- Hover split: `K` shows LSP docs in a bottom split that closes when the
+-- cursor moves; `gK` keeps it open. Every press reuses the same split.
+local hover_win
+local hover_group = vim.api.nvim_create_augroup('ilyes-hover-split', { clear = true })
+local hover_max_height = 25
 
-local function hover_split()
-  local pos = vim.api.nvim_get_current_buf() .. ':' .. table.concat(vim.api.nvim_win_get_cursor(0), ':')
-  local open_win = hover_buf and vim.fn.bufwinid(hover_buf) or -1
-  if open_win ~= -1 and pos == hover_pos then
-    hover_pos = nil
-    return vim.api.nvim_win_close(open_win, false)
-  end
-  -- Ask every attached server for docs at the cursor. Each server can use a
-  -- different column encoding, so build the position per client.
+local function hover_split(pin)
+  -- Each server can use a different column encoding, so build params per client.
   local params = function(client)
     return vim.lsp.util.make_position_params(0, client.offset_encoding)
   end
 
   vim.lsp.buf_request_all(0, 'textDocument/hover', params, function(results)
-    -- Use the first server that returned docs, converted to markdown lines.
     local lines = {}
     for _, res in pairs(results) do
       if res.result then
@@ -32,39 +24,41 @@ local function hover_split()
       return vim.notify 'No hover info'
     end
 
-    -- Create the buffer once: unlisted scratch, markdown highlighting, and
-    -- `bufhidden=hide` so closing its window keeps it for the next `K`.
-    -- Check loaded, not just valid: `:bd` unloads it and resets its options.
-    if not (hover_buf and vim.api.nvim_buf_is_loaded(hover_buf)) then
-      if hover_buf and vim.api.nvim_buf_is_valid(hover_buf) then
-        vim.api.nvim_buf_delete(hover_buf, { force = true })
-      end
-      hover_buf = vim.api.nvim_create_buf(false, true)
-      vim.bo[hover_buf].filetype = 'markdown'
-      vim.bo[hover_buf].bufhidden = 'hide'
-      vim.treesitter.start(hover_buf, 'markdown') -- highlights code blocks like the float
-    end
-    vim.bo[hover_buf].modifiable = true
-    vim.api.nvim_buf_set_lines(hover_buf, 0, -1, false, lines)
-    vim.bo[hover_buf].modifiable = false
-    hover_pos = pos
+    -- Fresh scratch buffer per hover; `bufhidden=wipe` deletes it once replaced or closed.
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+    vim.bo[buf].filetype, vim.bo[buf].bufhidden, vim.bo[buf].modifiable = 'markdown', 'wipe', false
+    vim.treesitter.start(buf, 'markdown') -- highlights code blocks like the float
 
-    -- Reuse the split if it's open; otherwise open a full-width one at the
-    -- bottom (`win = -1`) without moving the cursor out of the code (`false`).
-    local win = vim.fn.bufwinid(hover_buf)
-    if win == -1 then
-      win = vim.api.nvim_open_win(hover_buf, false, { split = 'below', win = -1, height = 8 })
-      -- Window options the hover float uses: hide ``` fences and wrap nicely.
-      local wo = vim.wo[win]
-      wo.conceallevel, wo.concealcursor = 2, 'nc' -- keep hiding while the cursor is in the split
-      wo.wrap, wo.linebreak, wo.breakindent, wo.smoothscroll = true, true, true, true
-      wo.foldenable, wo.number, wo.relativenumber, wo.signcolumn = false, false, false, 'no'
-      wo.winfixheight = true -- terminal resizes (tmux splits) grow the code window, not this one
+    if hover_win and vim.api.nvim_win_is_valid(hover_win) then
+      vim.api.nvim_win_set_buf(hover_win, buf)
+    else -- full-width split at the bottom, cursor stays in the code
+      hover_win = vim.api.nvim_open_win(buf, false, { split = 'below', win = -1 })
     end
-    vim.api.nvim_win_set_cursor(win, { 1, 0 }) -- start each new doc at the top
-    -- Fit the split to the rendered text (concealed fences don't count), max 8 lines.
-    local h = vim.api.nvim_win_text_height(win, { max_height = 8 }).all
-    vim.api.nvim_win_set_height(win, math.max(h, 1))
+    local wo = vim.wo[hover_win] -- hover float's options: hide ``` fences, wrap nicely
+    wo.conceallevel, wo.concealcursor = 2, 'nc'
+    wo.wrap, wo.linebreak, wo.breakindent, wo.smoothscroll = true, true, true, true
+    wo.foldenable, wo.number, wo.relativenumber, wo.signcolumn = false, false, false, 'no'
+    wo.winfixheight = true -- tmux/terminal resizes don't grow the split
+    local h = vim.api.nvim_win_text_height(hover_win, { max_height = hover_max_height }).all
+    vim.api.nvim_win_set_height(hover_win, math.max(h, 1))
+
+    -- Drop any pending auto-close, then arm a one-shot one unless pinned.
+    vim.api.nvim_clear_autocmds { group = hover_group }
+    if not pin then
+      vim.api.nvim_create_autocmd('CursorMoved', {
+        group = hover_group,
+        callback = function()
+          if vim.api.nvim_get_current_win() == hover_win then
+            return -- scrolling inside the docs keeps them open
+          end
+          if vim.api.nvim_win_is_valid(hover_win) then
+            vim.api.nvim_win_close(hover_win, false)
+          end
+          return true
+        end,
+      })
+    end
   end)
 end
 
@@ -72,7 +66,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('ilyes-lsp-attach', { clear = true }),
   callback = function(event)
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    vim.keymap.set('n', 'K', hover_split, { buffer = event.buf, desc = 'Hover (pinned split)' })
+    vim.keymap.set('n', 'K', function()
+      hover_split(false)
+    end, { buffer = event.buf, desc = 'LSP hover docs' })
+    vim.keymap.set('n', 'gK', function()
+      hover_split(true)
+    end, { buffer = event.buf, desc = 'LSP Hover docs (pinned)' })
 
     if client and client:supports_method('textDocument/documentHighlight', event.buf) then
       local highlight_augroup = vim.api.nvim_create_augroup('ilyes-lsp-highlight', { clear = false })
