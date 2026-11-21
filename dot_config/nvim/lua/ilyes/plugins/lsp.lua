@@ -1,76 +1,27 @@
--- Hover split: `K` shows LSP docs in a bottom split that closes when the
--- cursor moves; `gK` keeps it open. Every press reuses the same split.
-local hover_win
-local hover_group = vim.api.nvim_create_augroup('ilyes-hover-split', { clear = true })
-local hover_max_height = 25
-
-local function hover_split(pin)
-  -- Each server can use a different column encoding, so build params per client.
-  local params = function(client)
-    return vim.lsp.util.make_position_params(0, client.offset_encoding)
+-- Hover at the bottom: Neovim's own hover float, moved to the bottom of the
+-- screen (full width, drawn over the code). Only `vim.lsp.buf.hover` passes
+-- focus_id 'textDocument/hover', so every other float is left untouched.
+local open_floating_preview = vim.lsp.util.open_floating_preview
+---@diagnostic disable-next-line: duplicate-set-field
+function vim.lsp.util.open_floating_preview(contents, syntax, opts)
+  local buf, win = open_floating_preview(contents, syntax, opts)
+  if opts and opts.focus_id == 'textDocument/hover' then
+    local row = vim.o.lines - vim.o.cmdheight - 1 -- just above the global statusline
+    vim.api.nvim_win_set_config(win, { relative = 'editor', anchor = 'SW', row = row, col = 0, width = vim.o.columns })
+    -- Width changed, so re-fit the height to the wrapped text.
+    vim.api.nvim_win_set_height(win, vim.api.nvim_win_text_height(win, { max_height = 20 }).all)
   end
-
-  vim.lsp.buf_request_all(0, 'textDocument/hover', params, function(results)
-    local lines = {}
-    for _, res in pairs(results) do
-      if res.result then
-        lines = vim.lsp.util.convert_input_to_markdown_lines(res.result.contents)
-        break
-      end
-    end
-    -- Same cleanup the hover float does: trim/collapse blank lines, draw `---` as a rule.
-    lines = vim.lsp.util._normalize_markdown(lines, { width = vim.o.columns })
-    if #lines == 0 then
-      return vim.notify 'No hover info'
-    end
-
-    -- Fresh scratch buffer per hover; `bufhidden=wipe` deletes it once replaced or closed.
-    local buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-    vim.bo[buf].filetype, vim.bo[buf].bufhidden, vim.bo[buf].modifiable = 'markdown', 'wipe', false
-    vim.treesitter.start(buf, 'markdown') -- highlights code blocks like the float
-
-    if hover_win and vim.api.nvim_win_is_valid(hover_win) then
-      vim.api.nvim_win_set_buf(hover_win, buf)
-    else -- full-width split at the bottom, cursor stays in the code
-      hover_win = vim.api.nvim_open_win(buf, false, { split = 'below', win = -1 })
-    end
-    local wo = vim.wo[hover_win] -- hover float's options: hide ``` fences, wrap nicely
-    wo.conceallevel, wo.concealcursor = 2, 'nc'
-    wo.wrap, wo.linebreak, wo.breakindent, wo.smoothscroll = true, true, true, true
-    wo.foldenable, wo.number, wo.relativenumber, wo.signcolumn = false, false, false, 'no'
-    wo.winfixheight = true -- tmux/terminal resizes don't grow the split
-    local h = vim.api.nvim_win_text_height(hover_win, { max_height = hover_max_height }).all
-    vim.api.nvim_win_set_height(hover_win, math.max(h, 1))
-
-    -- Drop any pending auto-close, then arm a one-shot one unless pinned.
-    vim.api.nvim_clear_autocmds { group = hover_group }
-    if not pin then
-      vim.api.nvim_create_autocmd('CursorMoved', {
-        group = hover_group,
-        callback = function()
-          if vim.api.nvim_get_current_win() == hover_win then
-            return -- scrolling inside the docs keeps them open
-          end
-          if vim.api.nvim_win_is_valid(hover_win) then
-            vim.api.nvim_win_close(hover_win, false)
-          end
-          return true
-        end,
-      })
-    end
-  end)
+  return buf, win
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('ilyes-lsp-attach', { clear = true }),
   callback = function(event)
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    vim.keymap.set('n', 'K', function()
-      hover_split(false)
-    end, { buffer = event.buf, desc = 'LSP hover docs' })
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'LSP hover docs' })
     vim.keymap.set('n', 'gK', function()
-      hover_split(true)
+      -- Stays open (`q` inside closes it); `focus = false` replaces an open one instead of jumping into it.
+      vim.lsp.buf.hover { close_events = {}, focus = false }
     end, { buffer = event.buf, desc = 'LSP Hover docs (pinned)' })
 
     if client and client:supports_method('textDocument/documentHighlight', event.buf) then
