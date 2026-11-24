@@ -47,6 +47,9 @@ alias e="exit"
 alias dps="docker ps"
 alias dsrm='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker volume rm $(docker volume ls -q)'
 
+## Kuberntes
+alias k="kubectl"
+
 # ── Vi mode (zsh-vi-mode) ───────────────────────────────────────────────────
 # Block cursor in every mode. zvm_config runs after the plugin defines $ZVM_CURSOR_*;
 # at top level they're still empty on darwin.
