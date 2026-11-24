@@ -121,7 +121,15 @@ local servers = {
   },
   ts_ls = {},
   typos_lsp = {},
-  yamlls = {},
+  yamlls = {
+    settings = {
+      yaml = {
+        schemas = {
+          kubernetes = { 'k8s/**/*.yaml', '*.k8s.yaml' }, -- adjust globs to your manifests
+        },
+      },
+    },
+  },
 
   -- Self-contained: no nvim-lspconfig default needed for these three.
   helm_ls = {
