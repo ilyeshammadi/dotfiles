@@ -2,6 +2,8 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.o.winborder = 'rounded' -- Border for all floating windows (hover, signature, etc.)
+
 vim.opt.number = true -- Make line numbers default
 vim.opt.relativenumber = true
 

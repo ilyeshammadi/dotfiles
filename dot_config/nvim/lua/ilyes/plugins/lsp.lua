@@ -5,6 +5,9 @@ local open_floating_preview = vim.lsp.util.open_floating_preview
 ---@diagnostic disable-next-line: duplicate-set-field
 function vim.lsp.util.open_floating_preview(contents, syntax, opts)
   local buf, win = open_floating_preview(contents, syntax, opts)
+  -- Left padding: a 1-col fold column inside the float (no real padding option exists).
+  vim.wo[win].foldcolumn = '1'
+  vim.api.nvim_win_set_width(win, vim.api.nvim_win_get_width(win) + 1)
   if opts and opts.focus_id == 'textDocument/hover' then
     local row = vim.o.lines - vim.o.cmdheight - 1 -- just above the global statusline
     vim.api.nvim_win_set_config(win, {
