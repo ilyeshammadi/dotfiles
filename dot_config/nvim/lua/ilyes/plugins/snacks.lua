@@ -38,39 +38,59 @@ local map = vim.keymap.set
 map('n', '<leader>e', function()
   Snacks.explorer.open { auto_close = false }
 end, { desc = 'Explorer' })
+
 map('n', '<leader>f', function()
   Snacks.picker.files(files_opts)
 end, { desc = 'Find Files' })
+
 map('n', '<leader>/', function()
   Snacks.picker.lines()
 end, { desc = 'Lines' })
+
 map('n', '<leader>gb', function()
   Snacks.git.blame_line()
 end, { desc = 'Git Blame Line' })
+
 map({ 'n', 'v' }, '<leader>gB', function()
   Snacks.gitbrowse()
 end, { desc = 'Git Browse' })
+
 map('n', '<leader>sG', function()
   Snacks.picker.grep_word { hidden = true }
 end, { desc = 'Grep Under Cursor' })
+
 map('n', '<leader>sg', function()
   Snacks.picker.grep { hidden = true }
 end, { desc = 'Grep' })
+
 map('n', '<leader>se', function()
   Snacks.picker.git_status()
 end, { desc = 'Edited Files' })
+
 map('n', '<leader>sl', function()
   Snacks.picker.resume()
 end, { desc = 'Resume' })
+
 map('n', '<leader>sr', function()
   Snacks.picker.recent(files_opts)
 end, { desc = 'Recent Files' })
+
 map('n', '<leader>ss', function()
   Snacks.picker.lsp_symbols()
 end, { desc = 'LSP Symbols' })
+
 map('n', '<leader>sS', function()
   Snacks.picker.lsp_workspace_symbols()
 end, { desc = 'LSP Workspace Symbols' })
+
+map('n', '<leader>sd', function()
+  Snacks.picker.diagnostics_buffer()
+end, { desc = 'Buffer Diagnostics' })
+
+map('n', '<leader>sq', function()
+  Snacks.picker.qflist()
+end, { desc = 'Quickfix list' })
+
 map('n', '<leader><leader>', function()
   Snacks.scratch { name = 'notes', file = './notes.md', ft = 'md' }
 end, { desc = 'Toggle Scratch Notes' })
